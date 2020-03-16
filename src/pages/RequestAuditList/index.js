@@ -1,0 +1,1 @@
+// lista de publicaciones denunciadas como abuso, para investigarlas y borrarlas de ser necesario
