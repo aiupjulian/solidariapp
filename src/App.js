@@ -2,23 +2,16 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
 import { Header } from "./components";
-import { Home, Login, Profile } from "./pages";
-import * as routeConstants from "./constants/routes";
+import routes from "./routes";
 
 function App() {
   return (
     <Router>
       <Header />
       <Switch>
-        <Route path={routeConstants.LOGIN}>
-          <Login />
-        </Route>
-        <Route path={routeConstants.PROFILE}>
-          <Profile />
-        </Route>
-        <Route path={routeConstants.HOME}>
-          <Home />
-        </Route>
+        {Object.values(routes).map(({ Component, exact, url }) => (
+          <Route key={url} component={Component} exact={exact} path={url} />
+        ))}
       </Switch>
     </Router>
   );
