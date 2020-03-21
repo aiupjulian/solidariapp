@@ -2,21 +2,9 @@ import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 
 import "./Header.css";
-import routes from "../../routes";
+import pages from "../../pages";
 import { createFilter, categories } from "../../utils/filters";
 import { Button, Navbar } from "react-bulma-components";
-
-const NavbarItem = props => {
-  const [active, setActive] = useState(false);
-  return (
-    <Navbar.Item
-      onMouseEnter={() => setActive(true)}
-      onMouseLeave={() => setActive(false)}
-      active={active}
-      {...props}
-    />
-  );
-};
 
 const Header = () => {
   const [burgerActive, setBurgerActive] = useState(false);
@@ -25,8 +13,8 @@ const Header = () => {
   return (
     <Navbar color="light" active={burgerActive}>
       <Navbar.Brand>
-        <Navbar.Item renderAs={Link} to={routes.Home.url}>
-          {routes.Home.name}
+        <Navbar.Item renderAs={Link} to={pages.Home.url}>
+          {pages.Home.name}
         </Navbar.Item>
         <Navbar.Burger onClick={onClickBurger} />
       </Navbar.Brand>
@@ -38,8 +26,8 @@ const Header = () => {
             onMouseEnter={() => setDropdownActive(true)}
             onMouseLeave={() => setDropdownActive(false)}
           >
-            <Navbar.Link renderAs={NavLink} to={routes.RequestList.url}>
-              {routes.RequestList.name}
+            <Navbar.Link renderAs={NavLink} to={pages.RequestList.url}>
+              {pages.RequestList.name}
             </Navbar.Link>
             <Navbar.Dropdown>
               {Object.values(categories).map(category => (
@@ -48,7 +36,7 @@ const Header = () => {
                   key={category.name}
                   onClick={() => setDropdownActive(false)}
                   to={{
-                    pathname: routes.RequestList.url,
+                    pathname: pages.RequestList.url,
                     search: createFilter({ category: category.url })
                   }}
                   isActive={(_, { search }) =>
@@ -62,15 +50,15 @@ const Header = () => {
           </Navbar.Item>
         </Navbar.Container>
         <Navbar.Container position="end">
-          <NavbarItem renderAs={NavLink} to={routes.RequestCreate.url}>
-            {routes.RequestCreate.name}
-          </NavbarItem>
-          <Navbar.Item renderAs={NavLink} to={routes.RequestAuditList.url}>
-            {routes.RequestAuditList.name}
+          <Navbar.Item renderAs={NavLink} to={pages.RequestCreate.url}>
+            {pages.RequestCreate.name}
+          </Navbar.Item>
+          <Navbar.Item renderAs={NavLink} to={pages.RequestAuditList.url}>
+            {pages.RequestAuditList.name}
           </Navbar.Item>
           <Navbar.Item renderAs="div">
-            <Button renderAs={Link} to={routes.Login.url} color="primary">
-              {routes.Login.name}
+            <Button renderAs={Link} to={pages.Login.url} color="primary">
+              {pages.Login.name}
             </Button>
           </Navbar.Item>
         </Navbar.Container>
