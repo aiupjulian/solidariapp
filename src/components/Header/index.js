@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { Navbar } from "react-bulma-components";
 
 import "./Header.css";
 import pages from "../../pages";
 import { createFilter, categories } from "../../utils/filters";
-import { Button, Navbar } from "react-bulma-components";
+import Auth from "./Auth";
 
 const NavbarItem = ({ to, name, ...props }) => (
   <Navbar.Item renderAs={NavLink} to={to} {...props}>
@@ -33,7 +34,7 @@ const Header = () => {
             <Navbar.Link renderAs={NavLink} to={pages.RequestList.url}>
               {pages.RequestList.name}
             </Navbar.Link>
-            <Navbar.Dropdown>
+            <Navbar.Dropdown boxed>
               {Object.values(categories).map(category => (
                 <NavbarItem
                   key={category.name}
@@ -60,11 +61,7 @@ const Header = () => {
             to={pages.RequestAuditList.url}
             name={pages.RequestAuditList.name}
           />
-          <Navbar.Item renderAs="div">
-            <Button renderAs={Link} to={pages.Login.url} color="primary">
-              {pages.Login.name}
-            </Button>
-          </Navbar.Item>
+          <Auth />
         </Navbar.Container>
       </Navbar.Menu>
     </Navbar>

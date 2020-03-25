@@ -1,0 +1,9 @@
+.userDropdown {
+  align-items: center;
+}
+.userPhoto {
+  border-radius: 50%;
+}
+.userName {
+  padding-left: 10px;
+}

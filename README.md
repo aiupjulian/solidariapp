@@ -9,8 +9,9 @@ $ yarn build
 $ firebase deploy
 ```
 
-- Dev
+- Dev with firebase
 
 ```
+$ yarn build
 $ firebase serve
 ```
