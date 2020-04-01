@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
-import { Button, Icon, Navbar } from "react-bulma-components";
-import * as firebase from "firebase";
-import {} from "react-bulma-components";
+import { NavLink, useLocation } from "react-router-dom";
+import { Button, Navbar } from "react-bulma-components";
+import firebase from "../../../utils/firebase";
 
 import "./Auth.css";
+import { Spinner } from "../../";
 import {
   useUserState,
   useUserDispatch,
   userStateObserver,
-  signIn,
   signOut
 } from "../../../contexts/UserContext";
 import pages from "../../../pages";
 
 const Auth = () => {
+  const location = useLocation();
   const [dropdownActive, setDropdownActive] = useState(false);
   const state = useUserState();
   const userDispatch = useUserDispatch();
@@ -26,14 +26,12 @@ const Auth = () => {
   if (state.isLoading)
     return (
       <Navbar.Item renderAs="div">
-        <Icon size="medium">
-          <span className="fas fa-spinner fa-pulse fa-2x" />
-        </Icon>
+        <Spinner />
       </Navbar.Item>
     );
   return (
     <>
-      {state.displayName ? (
+      {state.isAuthenticated ? (
         <Navbar.Item
           dropdown
           active={dropdownActive}
@@ -47,7 +45,7 @@ const Auth = () => {
             <span className="userName">{state.displayName}</span>
           </Navbar.Link>
           <Navbar.Dropdown boxed>
-            <Navbar.Item renderAs={NavLink} to={pages.Profile.url}>
+            <Navbar.Item renderAs={NavLink} to={pages.Profile.path}>
               {pages.Profile.name}
             </Navbar.Item>
             <Navbar.Item renderAs="div">
@@ -58,10 +56,14 @@ const Auth = () => {
           </Navbar.Dropdown>
         </Navbar.Item>
       ) : (
-        <Navbar.Item renderAs="div">
-          <Button onClick={() => signIn(userDispatch)} color="primary">
-            Sign In
-          </Button>
+        <Navbar.Item
+          renderAs={NavLink}
+          to={{
+            pathname: pages.SignIn.path,
+            state: { from: location }
+          }}
+        >
+          <Button color="primary">{pages.SignIn.name}</Button>
         </Navbar.Item>
       )}
     </>

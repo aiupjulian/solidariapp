@@ -1,5 +1,5 @@
 import Home from "./Home";
-import Login from "./Login";
+import SignIn from "./SignIn";
 import Profile from "./Profile";
 import Request from "./Request";
 import RequestAuditList from "./RequestAuditList";
@@ -10,43 +10,47 @@ import RequestList from "./RequestList";
 export default {
   Home: {
     name: "Inicio",
-    url: "/",
+    path: "/",
     Component: Home,
     exact: true
   },
-  Login: {
-    name: "Login",
-    url: "/login",
-    Component: Login
+  SignIn: {
+    name: "Sign In",
+    path: "/sign-in",
+    Component: SignIn
   },
   Profile: {
     name: "Perfil",
-    url: "/perfil",
-    Component: Profile
+    path: "/perfil",
+    Component: Profile,
+    protected: true
   },
   Request: {
     name: "Pedido",
-    url: "/pedido",
+    path: "/pedido",
     Component: Request
   },
   RequestAuditList: {
     name: "Auditar pedidos",
-    url: "/listado-pedidos-auditar",
-    Component: RequestAuditList
+    path: "/listado-pedidos-auditar",
+    Component: RequestAuditList,
+    protected: true
   },
   RequestCreate: {
     name: "Crear pedido",
-    url: "/crear-pedido",
-    Component: RequestCreate
+    path: "/crear-pedido",
+    Component: RequestCreate,
+    protected: true
   },
   RequestEdit: {
     name: "Editar pedido",
-    url: "/editar-pedido",
-    Component: RequestEdit
+    path: "/editar-pedido",
+    Component: RequestEdit,
+    protected: true
   },
   RequestList: {
     name: "Listado de pedidos",
-    url: "/listado-pedidos",
+    path: "/listado-pedidos",
     Component: RequestList
   }
 };

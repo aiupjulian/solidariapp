@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer } from "react";
-import * as firebase from "firebase";
+import firebase from "../utils/firebase";
 
 const UserStateContext = createContext();
 const UserDispatchContext = createContext();
@@ -11,6 +11,7 @@ function userReducer(state, action) {
     }
     case "SIGNED_IN": {
       return {
+        isAuthenticated: true,
         isLoading: false,
         displayName: action.displayName,
         photoURL: action.photoURL
@@ -55,16 +56,6 @@ function useUserDispatch() {
   return context;
 }
 
-async function signIn(dispatch) {
-  dispatch({ type: "LOADING" });
-  try {
-    const provider = new firebase.auth.FacebookAuthProvider();
-    firebase.auth().signInWithRedirect(provider);
-  } catch (error) {
-    dispatch({ type: "ERROR", error });
-  }
-}
-
 async function signOut(dispatch) {
   dispatch({ type: "LOADING" });
   try {
@@ -90,7 +81,6 @@ export {
   UserProvider,
   useUserState,
   useUserDispatch,
-  signIn,
   signOut,
   userStateObserver
 };

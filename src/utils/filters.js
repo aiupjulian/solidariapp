@@ -3,18 +3,18 @@ export const createFilter = ({ category }) => `?categoria=${category}`;
 export const categories = {
   Health: {
     name: "Salud",
-    url: "salud"
+    path: "salud"
   },
   Donations: {
     name: "Donaciones",
-    url: "donaciones"
+    path: "donaciones"
   },
   Missing: {
     name: "Desaparecidos",
-    url: "desaparecidos"
+    path: "desaparecidos"
   },
   Pets: {
     name: "Mascotas",
-    url: "mascotas"
+    path: "mascotas"
   }
 };
