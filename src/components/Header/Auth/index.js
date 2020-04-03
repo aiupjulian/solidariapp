@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Button, Navbar } from "react-bulma-components";
 import firebase from "../../../utils/firebase";
 
@@ -14,16 +14,16 @@ import {
 import pages from "../../../pages";
 
 const Auth = () => {
-  const location = useLocation();
   const [dropdownActive, setDropdownActive] = useState(false);
-  const state = useUserState();
+  const user = useUserState();
   const userDispatch = useUserDispatch();
   useEffect(() => {
-    firebase.auth().onAuthStateChanged(user => {
+    const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
       userStateObserver(userDispatch, user);
     });
+    return unregisterAuthObserver;
   }, [userDispatch]);
-  if (state.isLoading)
+  if (user.isLoading)
     return (
       <Navbar.Item renderAs="div">
         <Spinner />
@@ -31,7 +31,7 @@ const Auth = () => {
     );
   return (
     <>
-      {state.isAuthenticated ? (
+      {user.isAuthenticated ? (
         <Navbar.Item
           dropdown
           active={dropdownActive}
@@ -39,17 +39,22 @@ const Auth = () => {
           onMouseLeave={() => setDropdownActive(false)}
         >
           <Navbar.Link renderAs="div" className="userDropdown">
-            {state.photoURL && (
-              <img src={state.photoURL} alt="User" className="userPhoto" />
+            {user.photoURL && (
+              <img src={user.photoURL} alt="User" className="userPhoto" />
             )}
-            <span className="userName">{state.displayName}</span>
+            <span className="userName">{user.displayName}</span>
           </Navbar.Link>
           <Navbar.Dropdown boxed>
             <Navbar.Item renderAs={NavLink} to={pages.Profile.path}>
               {pages.Profile.name}
             </Navbar.Item>
             <Navbar.Item renderAs="div">
-              <Button onClick={() => signOut(userDispatch)} color="primary">
+              <Button
+                onClick={() => {
+                  signOut(userDispatch);
+                }}
+                color="primary"
+              >
                 Sign Out
               </Button>
             </Navbar.Item>
@@ -58,10 +63,10 @@ const Auth = () => {
       ) : (
         <Navbar.Item
           renderAs={NavLink}
-          to={{
+          to={location => ({
             pathname: pages.SignIn.path,
             state: { from: location }
-          }}
+          })}
         >
           <Button color="primary">{pages.SignIn.name}</Button>
         </Navbar.Item>

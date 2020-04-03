@@ -10,6 +10,7 @@ import { Container, Section } from "react-bulma-components";
 import pages from "./";
 import { Header } from "../components";
 import { useUserState } from "../contexts/UserContext";
+import { isAuthorized } from "../utils/roles";
 
 const NormalRoute = ({ Component, ...rest }) => (
   <Route>
@@ -17,17 +18,17 @@ const NormalRoute = ({ Component, ...rest }) => (
   </Route>
 );
 
-const PrivateRoute = ({ Component, ...rest }) => {
-  const state = useUserState();
+const AuthorizedRoute = ({ Component, authorization, ...rest }) => {
+  const user = useUserState();
   return (
     <Route
       render={({ location }) =>
-        state.isAuthenticated ? (
+        isAuthorized({ user, roles: authorization.roles }) ? (
           <Component {...rest} />
         ) : (
           <Redirect
             to={{
-              pathname: pages.SignIn.path,
+              pathname: authorization.redirect,
               state: { from: location }
             }}
           />
@@ -45,8 +46,8 @@ const Routes = () => {
         <Container>
           <Switch>
             {Object.values(pages).map(props =>
-              props.protected ? (
-                <PrivateRoute key={props.path} {...props} />
+              props.authorization && props.path !== "/sign-in" ? (
+                <AuthorizedRoute key={props.path} {...props} />
               ) : (
                 <NormalRoute key={props.path} {...props} />
               )

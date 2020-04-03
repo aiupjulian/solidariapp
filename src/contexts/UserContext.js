@@ -11,6 +11,7 @@ function userReducer(state, action) {
     }
     case "SIGNED_IN": {
       return {
+        isAdmin: action.isAdmin,
         isAuthenticated: true,
         isLoading: false,
         displayName: action.displayName,
@@ -60,17 +61,20 @@ async function signOut(dispatch) {
   dispatch({ type: "LOADING" });
   try {
     await firebase.auth().signOut();
+    dispatch({ type: "SIGNED_OUT" });
   } catch (error) {
     dispatch({ type: "ERROR", error });
   }
 }
 
-function userStateObserver(dispatch, user) {
+async function userStateObserver(dispatch, user) {
   if (user) {
+    const idTokenResult = await firebase.auth().currentUser.getIdTokenResult();
     dispatch({
       type: "SIGNED_IN",
       displayName: user.displayName,
-      photoURL: user.photoURL
+      photoURL: user.photoURL,
+      isAdmin: !!idTokenResult.claims.admin
     });
   } else {
     dispatch({ type: "SIGNED_OUT" });

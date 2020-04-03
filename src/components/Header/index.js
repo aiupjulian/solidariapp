@@ -7,15 +7,23 @@ import pages from "../../pages";
 import { createFilter, categories } from "../../utils/filters";
 import Auth from "./Auth";
 import { useUserState } from "../../contexts/UserContext";
+import { isAuthorized } from "../../utils/roles";
 
-const NavbarItem = ({ to, name, ...props }) => (
-  <Navbar.Item renderAs={NavLink} to={to} {...props}>
-    {name}
-  </Navbar.Item>
-);
+const NavbarItem = ({ page, search, ...props }) => {
+  const user = useUserState();
+  if (
+    page.authorization &&
+    !isAuthorized({ user, roles: page.authorization.roles })
+  )
+    return null;
+  return (
+    <Navbar.Item renderAs={NavLink} to={page.path} {...props}>
+      {page.name}
+    </Navbar.Item>
+  );
+};
 
 const Header = () => {
-  const { isAuthenticated } = useUserState();
   const [burgerActive, setBurgerActive] = useState(false);
   const [dropdownActive, setDropdownActive] = useState(false);
   const onClickBurger = () => setBurgerActive(!burgerActive);
@@ -27,7 +35,7 @@ const Header = () => {
       className="headerContainer"
     >
       <Navbar.Brand>
-        <NavbarItem to={pages.Home.path} name={pages.Home.name} exact />
+        <NavbarItem page={pages.Home} exact />
         <Navbar.Burger onClick={onClickBurger} />
       </Navbar.Brand>
       <Navbar.Menu onClick={() => setBurgerActive(false)}>
@@ -46,32 +54,25 @@ const Header = () => {
                 <NavbarItem
                   key={category.name}
                   onClick={() => setDropdownActive(false)}
-                  to={{
-                    pathname: pages.RequestList.path,
-                    search: createFilter({ category: category.path })
+                  page={{
+                    ...pages.RequestList,
+                    name: category.name,
+                    path: {
+                      pathname: pages.RequestList.path,
+                      search: createFilter({ category: category.path })
+                    }
                   }}
                   isActive={(_, { search }) =>
                     createFilter({ category: category.path }) === search
                   }
-                  name={category.name}
                 />
               ))}
             </Navbar.Dropdown>
           </Navbar.Item>
         </Navbar.Container>
         <Navbar.Container position="end">
-          {isAuthenticated && (
-            <>
-              <NavbarItem
-                to={pages.RequestCreate.path}
-                name={pages.RequestCreate.name}
-              />
-              <NavbarItem
-                to={pages.RequestAuditList.path}
-                name={pages.RequestAuditList.name}
-              />
-            </>
-          )}
+          <NavbarItem page={pages.RequestCreate} />
+          <NavbarItem page={pages.RequestAuditList} />
           <Auth />
         </Navbar.Container>
       </Navbar.Menu>
