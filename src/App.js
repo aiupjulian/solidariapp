@@ -1,7 +1,7 @@
 import React from "react";
 
 import "./App.css";
-import Routes from "./pages/routes";
+import Routes from "./pages/Routes";
 import { UserProvider } from "./contexts/UserContext";
 
 function App() {

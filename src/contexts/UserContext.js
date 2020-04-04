@@ -15,7 +15,7 @@ function userReducer(state, action) {
         isAuthenticated: true,
         isLoading: false,
         displayName: action.displayName,
-        photoURL: action.photoURL
+        photoURL: action.photoURL,
       };
     }
     case "SIGNED_OUT": {
@@ -74,7 +74,7 @@ async function userStateObserver(dispatch, user) {
       type: "SIGNED_IN",
       displayName: user.displayName,
       photoURL: user.photoURL,
-      isAdmin: !!idTokenResult.claims.admin
+      isAdmin: !!idTokenResult.claims.admin,
     });
   } else {
     dispatch({ type: "SIGNED_OUT" });
@@ -86,5 +86,5 @@ export {
   useUserState,
   useUserDispatch,
   signOut,
-  userStateObserver
+  userStateObserver,
 };

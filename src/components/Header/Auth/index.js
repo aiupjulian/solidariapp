@@ -55,7 +55,7 @@ const Auth = () => {
                 }}
                 color="primary"
               >
-                Sign Out
+                Salir
               </Button>
             </Navbar.Item>
           </Navbar.Dropdown>

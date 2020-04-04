@@ -1,5 +1,3 @@
-// fb login with firebase https://firebase.google.com/docs/auth/web/facebook-login
-// sign in y sign up
 import React, { useEffect, useState } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import { StyledFirebaseAuth } from "react-firebaseui";
@@ -31,12 +29,12 @@ const SignIn = () => {
             uiShown: () => {
               setIsLoading(false);
             },
-            signInSuccessWithAuthResult: user => {
+            signInSuccessWithAuthResult: () => {
               history.push(sessionStorage.getItem("signInSuccessUrl") || "/");
               sessionStorage.removeItem("signInSuccessUrl");
               return false;
-            }
-          }
+            },
+          },
         }}
         firebaseAuth={firebase.auth()}
       />

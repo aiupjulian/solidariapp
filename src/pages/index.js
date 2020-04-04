@@ -16,8 +16,8 @@ const Home = {
   exact: true
 };
 const SignIn = {
-  name: "Sign In",
-  path: "/sign-in",
+  name: "Ingresar",
+  path: "/ingresar",
   Component: SignInComponent,
   authorization: {
     roles: [ROLES.GUEST],

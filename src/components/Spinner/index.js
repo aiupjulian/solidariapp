@@ -1,8 +1,8 @@
 import React from "react";
 import { Icon } from "react-bulma-components";
 
-const Spinner = () => (
-  <Icon size="medium">
+const Spinner = props => (
+  <Icon size="medium" {...props}>
     <span className="fas fa-spinner fa-pulse fa-2x" />
   </Icon>
 );
