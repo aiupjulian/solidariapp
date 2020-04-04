@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Navbar } from "react-bulma-components";
+import { useLocation } from "react-router-dom";
 
 import "./Header.css";
 import pages from "../../pages";
@@ -9,7 +10,7 @@ import Auth from "./Auth";
 import { useUserState } from "../../contexts/UserContext";
 import { isAuthorized } from "../../utils/roles";
 
-const NavbarItem = ({ page, search, ...props }) => {
+const NavbarItem = ({ children, page, search, ...props }) => {
   const user = useUserState();
   if (
     page.authorization &&
@@ -18,12 +19,13 @@ const NavbarItem = ({ page, search, ...props }) => {
     return null;
   return (
     <Navbar.Item renderAs={NavLink} to={page.path} {...props}>
-      {page.name}
+      {children || page.name}
     </Navbar.Item>
   );
 };
 
 const Header = () => {
+  const { pathname } = useLocation();
   const [burgerActive, setBurgerActive] = useState(false);
   const [dropdownActive, setDropdownActive] = useState(false);
   const onClickBurger = () => setBurgerActive(!burgerActive);
@@ -46,11 +48,13 @@ const Header = () => {
             onMouseEnter={() => setDropdownActive(true)}
             onMouseLeave={() => setDropdownActive(false)}
           >
-            <Navbar.Link renderAs={NavLink} to={pages.RequestList.path}>
+            <Navbar.Link
+              className={pathname === pages.RequestList.path ? "active" : ""}
+            >
               {pages.RequestList.name}
             </Navbar.Link>
             <Navbar.Dropdown boxed>
-              {Object.values(categories).map(category => (
+              {Object.values(categories).map((category) => (
                 <NavbarItem
                   key={category.name}
                   onClick={() => setDropdownActive(false)}
@@ -59,14 +63,21 @@ const Header = () => {
                     name: category.name,
                     path: {
                       pathname: pages.RequestList.path,
-                      search: createFilter({ category: category.path })
-                    }
+                      search: createFilter({ category: category.path }),
+                    },
                   }}
                   isActive={(_, { search }) =>
                     createFilter({ category: category.path }) === search
                   }
                 />
               ))}
+              <Navbar.Divider />
+              <NavbarItem
+                isActive={(match, { search }) => match && !search}
+                page={pages.RequestList}
+              >
+                Ver todas
+              </NavbarItem>
             </Navbar.Dropdown>
           </Navbar.Item>
         </Navbar.Container>

@@ -13,7 +13,7 @@ const Home = {
   name: "Inicio",
   path: "/",
   Component: HomeComponent,
-  exact: true
+  exact: true,
 };
 const SignIn = {
   name: "Ingresar",
@@ -21,8 +21,8 @@ const SignIn = {
   Component: SignInComponent,
   authorization: {
     roles: [ROLES.GUEST],
-    redirect: Home.path
-  }
+    redirect: Home.path,
+  },
 };
 const Profile = {
   name: "Perfil",
@@ -30,13 +30,13 @@ const Profile = {
   Component: ProfileComponent,
   authorization: {
     roles: [ROLES.ADMIN, ROLES.USER],
-    redirect: SignIn.path
-  }
+    redirect: SignIn.path,
+  },
 };
 const Request = {
   name: "Pedido",
   path: "/pedido",
-  Component: RequestComponent
+  Component: RequestComponent,
 };
 const RequestAuditList = {
   name: "Auditar pedidos",
@@ -45,8 +45,8 @@ const RequestAuditList = {
   protected: true,
   authorization: {
     roles: [ROLES.ADMIN],
-    redirect: Home.path
-  }
+    redirect: Home.path,
+  },
 };
 const RequestCreate = {
   name: "Crear pedido",
@@ -55,8 +55,8 @@ const RequestCreate = {
   protected: true,
   authorization: {
     roles: [ROLES.ADMIN, ROLES.USER],
-    redirect: SignIn.path
-  }
+    redirect: SignIn.path,
+  },
 };
 const RequestEdit = {
   name: "Editar pedido",
@@ -65,13 +65,13 @@ const RequestEdit = {
   protected: true,
   authorization: {
     roles: [ROLES.ADMIN, ROLES.USER],
-    redirect: SignIn.path
-  }
+    redirect: SignIn.path,
+  },
 };
 const RequestList = {
   name: "Listado de pedidos",
   path: "/listado-pedidos",
-  Component: RequestListComponent
+  Component: RequestListComponent,
 };
 
 export default {
@@ -82,5 +82,5 @@ export default {
   RequestAuditList,
   RequestCreate,
   RequestEdit,
-  RequestList
+  RequestList,
 };
