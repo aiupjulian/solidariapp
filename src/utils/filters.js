@@ -3,18 +3,22 @@ export const createFilter = ({ category }) => `?categoria=${category}`;
 export const categories = {
   Health: {
     name: "Salud",
-    path: "salud"
+    path: "salud",
+    icon: "briefcase-medical",
   },
   Donations: {
     name: "Donaciones",
-    path: "donaciones"
+    path: "donaciones",
+    icon: "hand-holding-heart",
   },
   Missing: {
     name: "Desaparecidos",
-    path: "desaparecidos"
+    path: "desaparecidos",
+    icon: "question-circle",
   },
   Pets: {
     name: "Mascotas",
-    path: "mascotas"
-  }
+    path: "mascotas",
+    icon: "paw",
+  },
 };

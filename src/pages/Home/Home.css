@@ -1,0 +1,85 @@
+.HeroContainer {
+  margin-bottom: 10%;
+  position: relative;
+}
+
+.BackgroundImage {
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.4),
+      rgba(255, 255, 255, 1)
+    ),
+    url(https://images.unsplash.com/photo-1494386346843-e12284507169?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2800&q=80);
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  top: calc(0px - var(--section-vertical-padding));
+  left: calc(0px - var(--section-horizontal-padding));
+  width: 100vw;
+  height: 40vh;
+  z-index: -1;
+}
+
+.CategoriesContainer {
+  margin: 0 auto;
+}
+
+.CategoriesTitle {
+  text-align: center;
+}
+
+.CategoriesList {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.CategoryLink {
+  border-radius: 6px;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  min-width: 140px;
+  height: 100px;
+  margin: 20px;
+}
+
+.Salud {
+  background-color: #feecf0;
+  color: #cc0f35;
+}
+.Salud:hover {
+  background-color: #fde0e6;
+  color: #cc0f35;
+}
+.Donaciones {
+  background-color: #eef6fc;
+  color: #1d72aa;
+}
+.Donaciones:hover {
+  background-color: #e3f1fa;
+  color: #1d72aa;
+}
+.Desaparecidos {
+  background-color: #fffbeb;
+  color: #947600;
+}
+.Desaparecidos:hover {
+  background-color: #fff8de;
+  color: #947600;
+}
+.Mascotas {
+  background-color: #effaf3;
+  color: #257942;
+}
+.Mascotas:hover {
+  background-color: #e6f7ec;
+  color: #257942;
+}
+
+.CategoryName {
+  font-weight: bold;
+  margin-top: 12px;
+}

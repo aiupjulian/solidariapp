@@ -34,7 +34,8 @@ const Header = () => {
       color="light"
       transparent
       active={burgerActive}
-      className="headerContainer"
+      className="HeaderContainer"
+      fixed="top"
     >
       <Navbar.Brand>
         <NavbarItem page={pages.Home} exact />
@@ -73,6 +74,7 @@ const Header = () => {
               ))}
               <Navbar.Divider />
               <NavbarItem
+                onClick={() => setDropdownActive(false)}
                 isActive={(match, { search }) => match && !search}
                 page={pages.RequestList}
               >

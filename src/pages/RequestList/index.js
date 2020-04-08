@@ -10,7 +10,11 @@ function useQuery() {
 
 const RequestList = () => {
   let query = useQuery();
-  return <h1>RequestList: {query.get("categoria")}</h1>;
+  return (
+    <>
+      <h1>RequestList: {query.get("categoria")}</h1>
+    </>
+  );
 };
 
 export default RequestList;

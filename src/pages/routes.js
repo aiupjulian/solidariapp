@@ -5,7 +5,7 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import { Container, Section } from "react-bulma-components";
+import { Section } from "react-bulma-components";
 
 import pages from ".";
 import { Header, Spinner } from "../components";
@@ -49,18 +49,16 @@ const Routes = () => {
           <Spinner className="Spinner" />
         </div>
       ) : (
-        <Section size="medium">
-          <Container>
-            <Switch>
-              {Object.values(pages).map((props) =>
-                props.authorization ? (
-                  <AuthorizedRoute key={props.path} {...props} />
-                ) : (
-                  <NormalRoute key={props.path} {...props} />
-                )
-              )}
-            </Switch>
-          </Container>
+        <Section>
+          <Switch>
+            {Object.values(pages).map((props) =>
+              props.authorization ? (
+                <AuthorizedRoute key={props.path} {...props} />
+              ) : (
+                <NormalRoute key={props.path} {...props} />
+              )
+            )}
+          </Switch>
         </Section>
       )}
     </Router>
