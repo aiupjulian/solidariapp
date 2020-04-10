@@ -11,7 +11,7 @@ firebase.initializeApp({
   projectId: "solidariapp-93cdb",
   storageBucket: "solidariapp-93cdb.appspot.com",
   messagingSenderId: "742811527896",
-  appId: "1:742811527896:web:ecf99cd3b693a2f76d85ad"
+  appId: "1:742811527896:web:ecf99cd3b693a2f76d85ad",
 });
 
 export default firebase;
