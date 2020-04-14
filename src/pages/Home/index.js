@@ -26,12 +26,12 @@ const Home = () => (
         Categorias
       </Heading>
       <div className="CategoriesList">
-        {Object.values(categories).map((category) => (
+        {Object.values(categories).map(category => (
           <Link
             key={category.name}
             to={{
-              pathname: pages.RequestList.path,
-              search: createFilter({ category: category.path }),
+              pathname: pages.PostList.path,
+              search: createFilter({ category: category.path })
             }}
             className={`CategoryLink ${category.name}`}
             style={category.style}

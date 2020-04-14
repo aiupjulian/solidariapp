@@ -4,7 +4,7 @@ import places from "places.js";
 
 const { Field, Label, Control, Input } = Form;
 
-const TitleInput = () => {
+const CityInput = () => {
   const [city, setCity] = useState("");
   const cityInputElement = useRef(null);
   useEffect(() => {
@@ -33,4 +33,4 @@ const TitleInput = () => {
   );
 };
 
-export default TitleInput;
+export default CityInput;

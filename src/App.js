@@ -3,12 +3,15 @@ import React from "react";
 import "./App.css";
 import Routes from "./pages/Routes";
 import { UserProvider } from "./contexts/UserContext";
+import { LoadingProvider } from "./contexts/LoadingContext";
 
 function App() {
   return (
-    <UserProvider>
-      <Routes />
-    </UserProvider>
+    <LoadingProvider>
+      <UserProvider>
+        <Routes />
+      </UserProvider>
+    </LoadingProvider>
   );
 }
 

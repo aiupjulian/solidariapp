@@ -11,7 +11,7 @@
   margin: 10px 0;
 }
 
-input[type="radio"] {
+.CategoryRadio > input[type="radio"] {
   margin-right: 10px;
 }
 
@@ -21,7 +21,7 @@ input[type="radio"] {
 
 @media screen and (min-width: 769px) {
   .CategoriesRadiosContainer {
-    flex-wrap: no-wrap;
+    flex-wrap: nowrap;
   }
 
   .CategoriesRadiosContainer > .CategoryRadio {

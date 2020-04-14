@@ -50,22 +50,22 @@ const Header = () => {
             onMouseLeave={() => setDropdownActive(false)}
           >
             <Navbar.Link
-              className={pathname === pages.RequestList.path ? "active" : ""}
+              className={pathname === pages.PostList.path ? "active" : ""}
             >
-              {pages.RequestList.name}
+              {pages.PostList.name}
             </Navbar.Link>
             <Navbar.Dropdown boxed>
-              {Object.values(categories).map((category) => (
+              {Object.values(categories).map(category => (
                 <NavbarItem
                   key={category.name}
                   onClick={() => setDropdownActive(false)}
                   page={{
-                    ...pages.RequestList,
+                    ...pages.PostList,
                     name: category.name,
                     path: {
-                      pathname: pages.RequestList.path,
-                      search: createFilter({ category: category.path }),
-                    },
+                      pathname: pages.PostList.path,
+                      search: createFilter({ category: category.path })
+                    }
                   }}
                   isActive={(_, { search }) =>
                     createFilter({ category: category.path }) === search
@@ -76,7 +76,7 @@ const Header = () => {
               <NavbarItem
                 onClick={() => setDropdownActive(false)}
                 isActive={(match, { search }) => match && !search}
-                page={pages.RequestList}
+                page={pages.PostList}
               >
                 Ver todas
               </NavbarItem>
@@ -84,8 +84,8 @@ const Header = () => {
           </Navbar.Item>
         </Navbar.Container>
         <Navbar.Container position="end">
-          <NavbarItem page={pages.RequestCreate} />
-          <NavbarItem page={pages.RequestAuditList} />
+          <NavbarItem page={pages.PostCreate} />
+          <NavbarItem page={pages.PostAuditList} />
           <Auth />
         </Navbar.Container>
       </Navbar.Menu>

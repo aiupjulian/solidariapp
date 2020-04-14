@@ -7,7 +7,7 @@ const ImageInput = () => {
   return (
     <Field>
       <Label>Imagen</Label>
-      <InputFile />
+      <InputFile name="image" />
     </Field>
   );
 };

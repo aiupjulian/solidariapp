@@ -1,11 +1,11 @@
 import HomeComponent from "./Home";
 import SignInComponent from "./SignIn";
 import ProfileComponent from "./Profile";
-import RequestComponent from "./Request";
-import RequestAuditListComponent from "./RequestAuditList";
-import RequestCreateComponent from "./RequestCreate";
-import RequestEditComponent from "./RequestEdit";
-import RequestListComponent from "./RequestList";
+import PostComponent from "./Post";
+import PostAuditListComponent from "./PostAuditList";
+import PostCreateComponent from "./PostCreate";
+import PostEditComponent from "./PostEdit";
+import PostListComponent from "./PostList";
 
 import ROLES from "../utils/roles";
 
@@ -13,7 +13,7 @@ const Home = {
   name: "Inicio",
   path: "/",
   Component: HomeComponent,
-  exact: true,
+  exact: true
 };
 const SignIn = {
   name: "Ingresar",
@@ -21,8 +21,8 @@ const SignIn = {
   Component: SignInComponent,
   authorization: {
     roles: [ROLES.GUEST],
-    redirect: Home.path,
-  },
+    redirect: Home.path
+  }
 };
 const Profile = {
   name: "Perfil",
@@ -30,57 +30,57 @@ const Profile = {
   Component: ProfileComponent,
   authorization: {
     roles: [ROLES.ADMIN, ROLES.USER],
-    redirect: SignIn.path,
-  },
+    redirect: SignIn.path
+  }
 };
-const Request = {
-  name: "Pedido",
-  path: "/pedido",
-  Component: RequestComponent,
+const Post = {
+  name: "Publicacion",
+  path: "/publicacion",
+  Component: PostComponent
 };
-const RequestAuditList = {
-  name: "Auditar pedidos",
-  path: "/listado-pedidos-auditar",
-  Component: RequestAuditListComponent,
+const PostAuditList = {
+  name: "Auditar publicaciones",
+  path: "/listado-publicaciones-auditar",
+  Component: PostAuditListComponent,
   protected: true,
   authorization: {
     roles: [ROLES.ADMIN],
-    redirect: Home.path,
-  },
+    redirect: Home.path
+  }
 };
-const RequestCreate = {
-  name: "Crear pedido",
-  path: "/crear-pedido",
-  Component: RequestCreateComponent,
+const PostCreate = {
+  name: "Crear publicacion",
+  path: "/crear-publicacion",
+  Component: PostCreateComponent,
   protected: true,
   authorization: {
     roles: [ROLES.ADMIN, ROLES.USER],
-    redirect: SignIn.path,
-  },
+    redirect: SignIn.path
+  }
 };
-const RequestEdit = {
-  name: "Editar pedido",
-  path: "/editar-pedido",
-  Component: RequestEditComponent,
+const PostEdit = {
+  name: "Editar publicacion",
+  path: "/editar-publicacion",
+  Component: PostEditComponent,
   protected: true,
   authorization: {
     roles: [ROLES.ADMIN, ROLES.USER],
-    redirect: SignIn.path,
-  },
+    redirect: SignIn.path
+  }
 };
-const RequestList = {
-  name: "Listado de pedidos",
-  path: "/listado-pedidos",
-  Component: RequestListComponent,
+const PostList = {
+  name: "Listado de publicaciones",
+  path: "/listado-publicaciones",
+  Component: PostListComponent
 };
 
 export default {
   Home,
   SignIn,
   Profile,
-  Request,
-  RequestAuditList,
-  RequestCreate,
-  RequestEdit,
-  RequestList,
+  Post,
+  PostAuditList,
+  PostCreate,
+  PostEdit,
+  PostList
 };

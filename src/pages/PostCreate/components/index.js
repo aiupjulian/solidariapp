@@ -18,14 +18,14 @@ import TitleInput from "./TitleInput";
 
 const { Field, Control } = Form;
 
-const RequestCreate = () => {
+const PostCreate = () => {
   return (
     <>
       <TitleInput />
+      <DateInput />
       <CategoryInput />
       <DescriptionInput />
       <CityInput />
-      <DateInput />
       <ImageInput />
       <Field>
         <Control>
@@ -36,4 +36,4 @@ const RequestCreate = () => {
   );
 };
 
-export default RequestCreate;
+export default PostCreate;
