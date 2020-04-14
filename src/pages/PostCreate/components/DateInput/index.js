@@ -70,11 +70,11 @@ const DateInput = () => {
   return (
     <Field>
       <Label>Fecha</Label>
-      <Control className="CategoriesRadiosContainer">
+      <Control className="DateTypeRadiosContainer">
         {Object.entries(inputTypes).map(([inputType, inputData]) => (
           <Radio
             key={inputType}
-            className="CategoryRadio"
+            className="DateTypeRadio"
             name="dateInputType"
             value={inputType}
             checked={selectedInputType === inputType}

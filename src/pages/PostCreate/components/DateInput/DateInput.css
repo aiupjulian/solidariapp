@@ -1,0 +1,29 @@
+.DateTypeRadiosContainer {
+  flex-wrap: wrap;
+  display: flex;
+  justify-content: space-between;
+}
+
+.DateTypeRadiosContainer > .DateTypeRadio {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.DateTypeRadio > input[type="radio"] {
+  margin-right: 10px;
+}
+
+.DateTypeRadiosContainer > .radio + .radio {
+  margin-left: 0;
+}
+
+@media screen and (min-width: 769px) {
+  .DateTypeRadiosContainer {
+    flex-wrap: nowrap;
+  }
+
+  .DateTypeRadiosContainer > .DateTypeRadio {
+    flex-basis: auto;
+  }
+}
