@@ -5,13 +5,14 @@ import React from "react";
 
 import { useQuery } from "../../hooks/useQuery";
 import { useFirebase } from "../../hooks/useFirebase";
+import { FILTERS } from "../../utils/filters";
 
 const PostList = () => {
   const query = useQuery();
   const posts = useFirebase("posts");
   return (
     <>
-      <h1>PostList: {query.get("categoria")}</h1>
+      <h1>PostList: {query.get(FILTERS.CATEGORY)}</h1>
     </>
   );
 };

@@ -1,4 +1,14 @@
-export const createFilter = ({ category }) => `?categoria=${category}`;
+export const FILTERS = {
+  CATEGORY: "categoria",
+  ID: "id",
+};
+
+export const createSearch = (filters) =>
+  "?".concat(
+    ...Object.entries(filters).map(
+      ([filterKey, filterValue]) => `${filterKey}=${filterValue}`
+    )
+  );
 
 export const categories = {
   Health: {

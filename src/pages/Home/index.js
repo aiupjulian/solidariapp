@@ -4,7 +4,7 @@ import { Heading, Hero, Icon } from "react-bulma-components";
 import { Link } from "react-router-dom";
 
 import "./Home.css";
-import { categories, createFilter } from "../../utils/filters";
+import { categories, createSearch, FILTERS } from "../../utils/filters";
 import pages from "../../pages";
 
 const Home = () => (
@@ -26,12 +26,12 @@ const Home = () => (
         Categorias
       </Heading>
       <div className="CategoriesList">
-        {Object.values(categories).map(category => (
+        {Object.values(categories).map((category) => (
           <Link
             key={category.name}
             to={{
               pathname: pages.PostList.path,
-              search: createFilter({ category: category.path })
+              search: createSearch({ [FILTERS.CATEGORY]: category.path }),
             }}
             className={`CategoryLink ${category.name}`}
             style={category.style}

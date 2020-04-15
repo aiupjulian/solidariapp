@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 
 import "./Header.css";
 import pages from "../../pages";
-import { createFilter, categories } from "../../utils/filters";
+import { createSearch, categories, FILTERS } from "../../utils/filters";
 import Auth from "./Auth";
 import { useUserState } from "../../contexts/UserContext";
 import { isAuthorized } from "../../utils/roles";
@@ -55,7 +55,7 @@ const Header = () => {
               {pages.PostList.name}
             </Navbar.Link>
             <Navbar.Dropdown boxed>
-              {Object.values(categories).map(category => (
+              {Object.values(categories).map((category) => (
                 <NavbarItem
                   key={category.name}
                   onClick={() => setDropdownActive(false)}
@@ -64,11 +64,14 @@ const Header = () => {
                     name: category.name,
                     path: {
                       pathname: pages.PostList.path,
-                      search: createFilter({ category: category.path })
-                    }
+                      search: createSearch({
+                        [FILTERS.CATEGORY]: category.path,
+                      }),
+                    },
                   }}
                   isActive={(_, { search }) =>
-                    createFilter({ category: category.path }) === search
+                    createSearch({ [FILTERS.CATEGORY]: category.path }) ===
+                    search
                   }
                 />
               ))}
