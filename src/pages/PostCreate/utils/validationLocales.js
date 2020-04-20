@@ -12,4 +12,9 @@ setLocale({
     max: ({ path, max }) =>
       createMessage(path, `Debe tener hasta ${max} caracteres.`),
   },
+  date: {
+    min: ({ path, min }) =>
+      createMessage(path, `La fecha minima es el ${min}.`),
+    max: ({ path, max }) => createMessage(path, `La fecha maxima es el ${max}`),
+  },
 });

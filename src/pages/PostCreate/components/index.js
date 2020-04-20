@@ -20,7 +20,7 @@ const { Field, Control } = Form;
 
 const PostCreate = ({ errors }) => (
   <>
-    <Heading className="PostCreateTitle">Crear publicacion</Heading>
+    <Heading className="PostCreateTitle">Crear publicación</Heading>
     <InputContainer
       label="Titulo"
       name="title"

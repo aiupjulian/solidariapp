@@ -1,6 +1,5 @@
-import React, { createContext, useReducer } from "react";
+import React, { useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
-import * as yup from "yup";
 
 import "./PostCreate.css";
 import PostCreate from "./components/index";
@@ -8,79 +7,61 @@ import { useUserState } from "../../contexts/UserContext";
 import { savePost } from "../../utils/firebase";
 import { createSearch, FILTERS } from "../../utils/filters";
 import pages from "../";
-import "./validationLocales";
+import "./utils/validationLocales";
+import postSchema from "./utils/validation";
 
-function validationReducer(state, action) {
-  switch (action.type) {
-    case "SET_FIELD_VALIDATION_ERROR": {
-      return {
-        ...state,
-        [action.payload.fieldName]: action.payload.fieldErrorMessage,
-      };
-    }
-    case "SET_FIELDS_VALIDATION_ERRORS": {
-      return action.payload;
-    }
-    case "CLEAR_FIELD_VALIDATION_ERROR": {
-      const { [action.payload]: _, ...rest } = state;
-      return rest;
-    }
-    default: {
-      throw new Error(`Unhandled action type: ${action.type}`);
-    }
-  }
-}
+const getFormData = (form) => {
+  const formData = new FormData(form);
+  const postData = {};
+  formData.forEach((value, key) => {
+    postData[key] = value;
+  });
+  return postData;
+};
 
-const postSchema = yup.object().shape({
-  title: yup
-    .string()
-    .required()
-    .min(5)
-    .max(20),
-  description: yup
-    .string()
-    .required()
-    .min(5)
-    .max(100),
-});
+const getErrors = (errors) =>
+  errors.reduce(
+    (previousValue, value) => ({
+      ...previousValue,
+      [value.key]: previousValue[value.key]
+        ? previousValue[value.key]
+        : value.value,
+    }),
+    {}
+  );
 
 const PostCreateContainer = () => {
-  const [validationState, dispatch] = useReducer(validationReducer, {});
+  const formElement = useRef();
+  const [fieldsErrors, setFieldsErrors] = useState({});
   const history = useHistory();
   const user = useUserState();
   const validate = ({ target, type }) => {
-    if (type === "change" && !validationState[target.name]) {
+    console.log(target.name);
+    console.log(target.value);
+    console.log(type);
+
+    if (!target.name || (type === "change" && !fieldsErrors[target.name])) {
       return;
     }
+    // LA DATE LLEGA TARDE, llega siempre la anterior
+    const postData = getFormData(formElement.current);
+    console.log(postData);
+    console.log(target.name);
+
     postSchema
-      .validateAt(
-        target.name,
-        { [target.name]: target.value },
-        { abortEarly: false }
-      )
+      .validateAt(target.name, postData, { abortEarly: false })
       .then(() => {
-        dispatch({
-          type: "CLEAR_FIELD_VALIDATION_ERROR",
-          payload: target.name,
-        });
+        const { [target.name]: _, ...restFieldsErrors } = fieldsErrors;
+        setFieldsErrors(restFieldsErrors);
       })
       .catch(({ errors }) => {
-        dispatch({
-          type: "SET_FIELD_VALIDATION_ERROR",
-          payload: {
-            fieldName: target.name,
-            fieldErrorMessage: errors[0].value,
-          },
-        });
+        console.log(errors);
+        setFieldsErrors({ ...fieldsErrors, ...getErrors(errors) });
       });
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const postData = {};
-    formData.forEach((value, key) => {
-      postData[key] = value;
-    });
+    const postData = getFormData(formElement.current);
     postSchema
       .validate(postData, { abortEarly: false })
       .then(() => {
@@ -91,30 +72,20 @@ const PostCreateContainer = () => {
         // });
       })
       .catch(({ errors }) => {
-        dispatch({
-          type: "SET_FIELDS_VALIDATION_ERRORS",
-          payload: errors.reduce(
-            (previousValue, value) => ({
-              ...previousValue,
-              [value.key]: previousValue[value.key]
-                ? previousValue[value.key]
-                : value.value,
-            }),
-            {}
-          ),
-        });
+        setFieldsErrors(getErrors(errors));
       });
   };
-  console.log(validationState);
+  console.log(fieldsErrors);
 
   return (
     <form
+      ref={formElement}
       className="PostCreateContainer"
       onSubmit={handleSubmit}
       onBlur={validate}
       onChange={validate}
     >
-      <PostCreate errors={validationState} />
+      <PostCreate errors={fieldsErrors} />
     </form>
   );
 };
