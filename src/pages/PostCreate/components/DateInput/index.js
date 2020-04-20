@@ -3,55 +3,66 @@ import { Form } from "react-bulma-components";
 import { DateRangePicker, SingleDatePicker } from "react-dates";
 import "react-dates/initialize";
 import "react-dates/lib/css/_datepicker.css";
+import moment from "moment";
+import "moment/locale/es";
 
 import "./DateInput.css";
 import "./ReactDatesOverrides.css";
 
 const { Field, Label, Control, Radio } = Form;
 
-const today = new Date();
-const todayFormatted = new Date(
-  today.getTime() - today.getTimezoneOffset() * 60000
-)
-  .toISOString()
-  .split("T")[0];
+const minDate = moment().add(1, "d");
+const maxDate = moment().add(3, "M");
+
+const validationProps = {
+  minDate,
+  maxDate,
+};
+const sharedProps = {
+  displayFormat: "DD/MM/YYYY",
+  hideKeyboardShortcutsPanel: true,
+  numberOfMonths: 1,
+  readOnly: true,
+  verticalSpacing: 2,
+};
 
 const DateRangePickerContainer = () => {
-  const [startDate, setStartDate] = useState(null); //todayFormatted);
-  const [endDate, setEndDate] = useState(null); //todayFormatted);
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
   const [focusedInput, setFocusedInput] = useState(null);
   return (
     <DateRangePicker
-      verticalSpacing={2}
-      hideKeyboardShortcutsPanel
-      numberOfMonths={1}
-      startDate={startDate} // momentPropTypes.momentObj or null,
-      startDateId="startDate" // PropTypes.string.isRequired,
-      endDate={endDate} // momentPropTypes.momentObj or null,
-      endDateId="endDate" // PropTypes.string.isRequired,
+      startDate={startDate}
+      startDateId="startDate"
+      endDate={endDate}
+      endDateId="endDate"
       onDatesChange={({ startDate, endDate }) => {
         setStartDate(startDate);
         setEndDate(endDate);
-      }} // PropTypes.func.isRequired,
-      focusedInput={focusedInput} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
-      onFocusChange={focusedInput => setFocusedInput(focusedInput)} // PropTypes.func.isRequired,
+      }}
+      focusedInput={focusedInput}
+      onFocusChange={(focusedInput) => setFocusedInput(focusedInput)}
+      startDatePlaceholderText="Fecha inicio"
+      endDatePlaceholderText="Fecha fin"
+      {...sharedProps}
+      {...validationProps}
     />
   );
 };
 
 const SingleDatePickerContainer = () => {
-  const [date, setDate] = useState(null); //todayFormatted);
+  const [date, setDate] = useState(null);
   const [focused, setFocused] = useState(false);
   return (
     <SingleDatePicker
-      verticalSpacing={2}
-      hideKeyboardShortcutsPanel
-      numberOfMonths={1}
-      date={date} // momentPropTypes.momentObj or null
-      onDateChange={date => setDate(date)} // PropTypes.func.isRequired
-      focused={focused} // PropTypes.bool
-      onFocusChange={({ focused }) => setFocused(focused)} // PropTypes.func.isRequired
-      id="date" // PropTypes.string.isRequired,
+      date={date}
+      id="date"
+      onDateChange={(date) => setDate(date)}
+      focused={focused}
+      onFocusChange={({ focused }) => setFocused(focused)}
+      placeholder="Fecha"
+      {...sharedProps}
+      {...validationProps}
     />
   );
 };
@@ -59,7 +70,7 @@ const SingleDatePickerContainer = () => {
 const inputTypes = {
   noInput: { text: "Sin fecha" },
   singleDate: { text: "Dia particular", Component: SingleDatePickerContainer },
-  rangeDate: { text: "Rango de fechas", Component: DateRangePickerContainer }
+  rangeDate: { text: "Rango de fechas", Component: DateRangePickerContainer },
 };
 
 const DateInput = () => {

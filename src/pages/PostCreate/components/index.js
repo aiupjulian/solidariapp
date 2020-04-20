@@ -7,33 +7,42 @@
   - fecha?: date (dia o rango - si no pone fecha, hay que poner una igual de aca a dos meses)
 */
 import React from "react";
-import { Button, Form } from "react-bulma-components";
+import { Button, Form, Heading } from "react-bulma-components";
 
+import { TextareaInput, TextInput } from "../../../components";
 import CategoryInput from "./CategoryInput";
 import CityInput from "./CityInput";
 import DateInput from "./DateInput";
-import DescriptionInput from "./DescriptionInput";
 import ImageInput from "./ImageInput";
-import TitleInput from "./TitleInput";
+import InputContainer from "./InputContainer";
 
 const { Field, Control } = Form;
 
-const PostCreate = () => {
-  return (
-    <>
-      <TitleInput />
-      <DateInput />
-      <CategoryInput />
-      <DescriptionInput />
-      <CityInput />
-      <ImageInput />
-      <Field>
-        <Control>
-          <Button submit>Crear</Button>
-        </Control>
-      </Field>
-    </>
-  );
-};
+const PostCreate = ({ errors }) => (
+  <>
+    <Heading className="PostCreateTitle">Crear publicacion</Heading>
+    <InputContainer
+      label="Titulo"
+      name="title"
+      error={errors.title}
+      render={(props) => <TextInput {...props} />}
+    />
+    <DateInput />
+    <CategoryInput />
+    <InputContainer
+      label="Descripción"
+      name="description"
+      error={errors.description}
+      render={(props) => <TextareaInput {...props} maxLength={100} />}
+    />
+    <CityInput />
+    <ImageInput />
+    <Field>
+      <Control>
+        <Button submit>Crear</Button>
+      </Control>
+    </Field>
+  </>
+);
 
 export default PostCreate;
