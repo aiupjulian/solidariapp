@@ -1,68 +1,70 @@
-import React, { useState } from "react";
+import React, { useEffect, forwardRef, useState, useRef } from "react";
 import { Form } from "react-bulma-components";
-import { DateRangePicker, SingleDatePicker } from "react-dates";
-import "react-dates/initialize";
-import "react-dates/lib/css/_datepicker.css";
-import moment from "moment";
-import "moment/locale/es";
+import DatePicker, { registerLocale, setDefaultLocale } from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import es from "date-fns/locale/es";
 
 import "./DateInput.css";
-import "./ReactDatesOverrides.css";
 
-const { Field, Label, Control, Radio } = Form;
+const { Field, Label, Control, Radio, Input } = Form;
+registerLocale("es", es);
+setDefaultLocale("es");
 
-const minDate = moment().add(1, "d");
-const maxDate = moment().add(3, "M");
+function useShareForwardedRef(forwardedRef) {
+  const innerRef = useRef(null);
+  useEffect(() => {
+    if (!forwardedRef) {
+      return;
+    }
+    if (typeof forwardedRef === "function") {
+      forwardedRef(innerRef.current);
+      return;
+    } else {
+      forwardedRef.current = innerRef.current;
+    }
+  });
+  return innerRef;
+}
 
-const validationProps = {
-  minDate,
-  maxDate,
-};
-const sharedProps = {
-  displayFormat: "DD/MM/YYYY",
-  hideKeyboardShortcutsPanel: true,
-  numberOfMonths: 1,
-  readOnly: true,
-  verticalSpacing: 2,
-};
+const CustomInput = forwardRef(({ value, onClick }, ref) => {
+  const innerRef = useShareForwardedRef(ref);
+  console.log(innerRef);
 
-const DateRangePickerContainer = () => {
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
-  const [focusedInput, setFocusedInput] = useState(null);
+  console.log("recibo date", value);
+
   return (
-    <DateRangePicker
-      startDate={startDate}
-      startDateId="startDate"
-      endDate={endDate}
-      endDateId="endDate"
-      onDatesChange={({ startDate, endDate }) => {
-        setStartDate(startDate);
-        setEndDate(endDate);
+    <Input
+      autoComplete="off"
+      domRef={innerRef}
+      value={value}
+      onFocus={onClick}
+      onChange={(e) => {
+        console.log(e);
       }}
-      focusedInput={focusedInput}
-      onFocusChange={(focusedInput) => setFocusedInput(focusedInput)}
-      startDatePlaceholderText="Fecha inicio"
-      endDatePlaceholderText="Fecha fin"
-      {...sharedProps}
-      {...validationProps}
     />
   );
+});
+
+const DateRangePickerContainer = () => {
+  // const [startDate, setStartDate] = useState();
+  // const [endDate, setEndDate] = useState();
+  // const [focusedInput, setFocusedInput] = useState(null);
+  return <div>Range</div>;
 };
 
 const SingleDatePickerContainer = () => {
-  const [date, setDate] = useState(null);
-  const [focused, setFocused] = useState(false);
+  let ref = useRef(null);
+  console.log(ref);
+
+  const [startDate, setStartDate] = useState(null);
   return (
-    <SingleDatePicker
-      date={date}
-      id="date"
-      onDateChange={(date) => setDate(date)}
-      focused={focused}
-      onFocusChange={({ focused }) => setFocused(focused)}
-      placeholder="Fecha"
-      {...sharedProps}
-      {...validationProps}
+    <DatePicker
+      name="date"
+      dateFormat="dd/MM/yyyy"
+      selected={startDate}
+      customInput={<CustomInput ref={ref} />}
+      onSelect={(date) => setStartDate(date)}
+      onChange={(date) => setStartDate(date)}
     />
   );
 };

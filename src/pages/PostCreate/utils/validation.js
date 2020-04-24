@@ -1,24 +1,27 @@
 import * as yup from "yup";
-import moment from "moment";
+import { add, parse } from "date-fns";
 
 import { categories } from "../../../utils/filters";
 
-const minDate = moment().add(1, "d");
-const maxDate = moment().add(3, "M");
+const today = new Date();
+const minDate = add(today, { days: 1 });
+const maxDate = add(today, { months: 2 });
 const dateValidations = (dateInputType) =>
   yup
     .date()
     .nullable()
-    .transform((currentValue, originalValue) =>
-      originalValue === "" ? null : moment(originalValue, "DD/MM/YYYY")
+    .transform((_, originalValue) =>
+      originalValue === ""
+        ? null
+        : parse(originalValue, "dd/MM/yyyy", new Date())
     )
     .when("dateInputType", {
       is: dateInputType,
       then: yup
         .date()
         .required()
-        .min(minDate.toDate())
-        .max(maxDate.toDate()),
+        .min(minDate)
+        .max(maxDate),
     });
 
 const postSchema = yup.object().shape({
