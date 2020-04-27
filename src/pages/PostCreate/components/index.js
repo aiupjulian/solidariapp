@@ -18,6 +18,7 @@ import InputContainer from "./InputContainer";
 
 const { Field, Control, Input, Textarea } = Form;
 
+//https://codelabs.developers.google.com/codelabs/firebase-web/?authuser=0#11
 const PostCreate = () => {
   return (
     <>
