@@ -1,70 +1,120 @@
-import React, { useEffect, forwardRef, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { Form } from "react-bulma-components";
-import DatePicker, { registerLocale, setDefaultLocale } from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import es from "date-fns/locale/es";
+import { DateRangePicker, SingleDatePicker } from "react-dates";
+import "react-dates/initialize";
+import "react-dates/lib/css/_datepicker.css";
+import moment from "moment";
+import "moment/locale/es";
+import { useFormContext, Controller } from "react-hook-form";
 
 import "./DateInput.css";
+import "./ReactDatesOverrides.css";
+import InputContainer from "../InputContainer";
 
-const { Field, Label, Control, Radio, Input } = Form;
-registerLocale("es", es);
-setDefaultLocale("es");
+const { Field, Label, Control, Radio } = Form;
 
-function useShareForwardedRef(forwardedRef) {
-  const innerRef = useRef(null);
-  useEffect(() => {
-    if (!forwardedRef) {
-      return;
-    }
-    if (typeof forwardedRef === "function") {
-      forwardedRef(innerRef.current);
-      return;
-    } else {
-      forwardedRef.current = innerRef.current;
-    }
-  });
-  return innerRef;
-}
+const minDate = moment().add(1, "d");
+const maxDate = moment().add(3, "M");
 
-const CustomInput = forwardRef(({ value, onClick }, ref) => {
-  const innerRef = useShareForwardedRef(ref);
-  console.log(innerRef);
-
-  console.log("recibo date", value);
-
-  return (
-    <Input
-      autoComplete="off"
-      domRef={innerRef}
-      value={value}
-      onFocus={onClick}
-      onChange={(e) => {
-        console.log(e);
-      }}
-    />
-  );
-});
+const validationProps = {
+  minDate,
+  maxDate,
+};
+const sharedProps = {
+  displayFormat: "DD/MM/YYYY",
+  hideKeyboardShortcutsPanel: true,
+  numberOfMonths: 1,
+  readOnly: true,
+  verticalSpacing: 2,
+};
 
 const DateRangePickerContainer = () => {
-  // const [startDate, setStartDate] = useState();
-  // const [endDate, setEndDate] = useState();
-  // const [focusedInput, setFocusedInput] = useState(null);
-  return <div>Range</div>;
+  const {
+    setValue,
+    register,
+    unregister,
+    formState: { isSubmitted },
+  } = useFormContext();
+  useEffect(() => {
+    register({ name: "startDate" });
+    register({ name: "endDate" });
+    return () => {
+      unregister("startDate");
+      unregister("endDate");
+    };
+  }, [register, unregister]);
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
+  const [focusedInput, setFocusedInput] = useState(null);
+  return (
+    <InputContainer
+      name={["startDate", "endDate"]}
+      render={(props) => (
+        <DateRangePicker
+          startDate={startDate}
+          startDateId="startDate"
+          endDate={endDate}
+          endDateId="endDate"
+          onDatesChange={({ startDate, endDate }) => {
+            setStartDate(startDate);
+            setEndDate(endDate);
+            setValue(
+              "startDate",
+              startDate === null ? undefined : startDate,
+              isSubmitted
+            );
+            setValue(
+              "endDate",
+              endDate === null ? undefined : endDate,
+              isSubmitted
+            );
+          }}
+          focusedInput={focusedInput}
+          onFocusChange={(focusedInput) => setFocusedInput(focusedInput)}
+          startDatePlaceholderText="Fecha inicio"
+          endDatePlaceholderText="Fecha fin"
+          showClearDates
+          {...sharedProps}
+          {...validationProps}
+        />
+      )}
+    />
+  );
 };
 
 const SingleDatePickerContainer = () => {
-  let ref = useRef(null);
-  console.log(ref);
-
-  const [startDate, setStartDate] = useState(null);
+  const {
+    setValue,
+    register,
+    unregister,
+    formState: { isSubmitted },
+  } = useFormContext();
+  useEffect(() => {
+    register({ name: "date" });
+    return () => unregister("date");
+  }, [register, unregister]);
+  const [date, setDate] = useState(null);
+  const [focused, setFocused] = useState(false);
   return (
-    <DatePicker
+    <InputContainer
       name="date"
-      dateFormat="dd/MM/yyyy"
-      selected={startDate}
-      customInput={<CustomInput ref={ref} />}
-      onSelect={(date) => setStartDate(date)}
-      onChange={(date) => setStartDate(date)}
+      render={(props) => (
+        <SingleDatePicker
+          date={date}
+          id="date"
+          onDateChange={(date) => {
+            setDate(date);
+            setValue("date", date === null ? undefined : date, isSubmitted);
+          }}
+          focused={focused}
+          onFocusChange={({ focused }) => {
+            setFocused(focused);
+          }}
+          placeholder="Fecha"
+          {...sharedProps}
+          {...validationProps}
+        />
+      )}
     />
   );
 };
@@ -75,29 +125,39 @@ const inputTypes = {
   rangeDate: { text: "Rango de fechas", Component: DateRangePickerContainer },
 };
 
-const DateInput = () => {
+const renderDateInput = (inputType) => {
+  const { Component = null } = inputTypes[inputType];
+  return Component && <Component />;
+};
+
+const DateInput = (props) => {
   const [selectedInputType, setSelectedInputType] = useState(
     Object.keys(inputTypes)[0]
   );
-  const { Component = null } = inputTypes[selectedInputType];
   return (
     <Field>
       <Label>Fecha</Label>
       <Control className="DateTypeRadiosContainer">
         {Object.entries(inputTypes).map(([inputType, inputData]) => (
-          <Radio
-            key={inputType}
-            className="DateTypeRadio"
-            name="dateInputType"
-            value={inputType}
-            checked={selectedInputType === inputType}
-            onChange={() => setSelectedInputType(inputType)}
-          >
-            {inputData.text}
-          </Radio>
+          <div key={inputType} className="InputType">
+            <Controller
+              as={Radio}
+              className="DateTypeRadio"
+              name="dateInputType"
+              value={inputType}
+              checked={selectedInputType === inputType}
+              onChange={() => {
+                setSelectedInputType(inputType);
+                return inputType;
+              }}
+              {...props}
+            >
+              {inputData.text}
+            </Controller>
+            {selectedInputType === inputType && renderDateInput(inputType)}
+          </div>
         ))}
       </Control>
-      <Control>{Component && <Component />}</Control>
     </Field>
   );
 };

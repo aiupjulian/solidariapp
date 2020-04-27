@@ -1,30 +1,4 @@
 .CategoriesRadiosContainer {
-  flex-wrap: wrap;
   display: flex;
-  justify-content: space-between;
-}
-
-.CategoriesRadiosContainer > .CategoryRadio {
-  display: flex;
-  align-items: center;
-  flex-basis: 50%;
-  margin: 10px 0;
-}
-
-.CategoryRadio > input[type="radio"] {
-  margin-right: 10px;
-}
-
-.CategoriesRadiosContainer > .radio + .radio {
-  margin-left: 0;
-}
-
-@media screen and (min-width: 769px) {
-  .CategoriesRadiosContainer {
-    flex-wrap: nowrap;
-  }
-
-  .CategoriesRadiosContainer > .CategoryRadio {
-    flex-basis: auto;
-  }
+  flex-direction: column;
 }

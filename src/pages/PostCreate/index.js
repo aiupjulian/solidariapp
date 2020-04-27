@@ -1,6 +1,7 @@
 import React from "react";
 // import { useHistory } from "react-router-dom";
 import { useForm, FormContext } from "react-hook-form";
+import moment from "moment";
 
 import "./PostCreate.css";
 import PostCreate from "./components/index";
@@ -22,6 +23,14 @@ const PostCreateContainer = () => {
   const onSubmit = (data) => {
     console.log(data);
 
+    if (data.dateInputType === "singleDate") {
+      data.date = data.date.format("DD/MM/YYYY");
+    }
+    if (data.dateInputType === "rangeDate") {
+      data.startDate = data.startDate.format("DD/MM/YYYY");
+      data.endDate = data.endDate.format("DD/MM/YYYY");
+    }
+    console.log(data);
     // savePost(postData, user).then((res) => {
     //   history.push(
     //     pages.Post.path.concat(createSearch({ [FILTERS.ID]: res.id }))

@@ -6,12 +6,32 @@ const { Field, Label, Control, Help } = Form;
 
 const InputContainer = ({ render, label, name, controlClassName = "" }) => {
   const { errors } = useFormContext();
-  const error = errors[name]?.message;
+  let error = "";
+  let controlClassNames = controlClassName;
+  if (Array.isArray(name)) {
+    let errorArray = [];
+    Object.keys(errors)
+      .filter((errorField) => name.includes(errorField))
+      .forEach((errorField) => {
+        const message = errors[errorField].message;
+        controlClassNames = controlClassNames.concat(
+          ` InputContainerError-${errorField}`
+        );
+        if (!errorArray.includes(message)) errorArray.push(message);
+      });
+    error = errorArray.join(" ");
+  } else {
+    error = errors[name]?.message;
+    if (error)
+      controlClassNames = controlClassNames.concat(
+        `InputContainerError-${name}`
+      );
+  }
   const color = error ? "danger" : null;
   return (
     <Field>
       <Label>{label}</Label>
-      <Control className={controlClassName}>{render({ color, name })}</Control>
+      <Control className={controlClassNames}>{render({ color, name })}</Control>
       {error && <Help color={color}>{error}</Help>}
     </Field>
   );

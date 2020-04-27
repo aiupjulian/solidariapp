@@ -9,15 +9,13 @@ const CityInput = (props) => {
   const {
     setValue,
     register,
+    unregister,
     triggerValidation,
     formState: { isSubmitted },
-    getValues,
   } = useFormContext();
   const [city, setCity] = useState("");
   const cityInputElement = useRef(null);
   const placesAutocomplete = useRef(null);
-  console.log(getValues("city"));
-
   useEffect(() => {
     register({ name: "city" });
     placesAutocomplete.current = places({
@@ -28,6 +26,7 @@ const CityInput = (props) => {
       language: "es",
       countries: ["AR"],
     });
+    return () => unregister("city");
   }, []);
   useEffect(() => {
     placesAutocomplete.current.on("change", (e) => {

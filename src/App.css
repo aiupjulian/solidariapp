@@ -2,3 +2,17 @@
   --section-vertical-padding: 3rem;
   --section-horizontal-padding: 1.5rem;
 }
+
+.radio > input[type="radio"] {
+  margin-right: 10px;
+}
+
+label.radio {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.control > .radio + .radio {
+  margin-left: 0;
+}

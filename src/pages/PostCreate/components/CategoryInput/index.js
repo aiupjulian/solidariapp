@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Form } from "react-bulma-components";
+import { Controller } from "react-hook-form";
 
 import "./CategoryInput.css";
 import { categories } from "../../../../utils/filters";
@@ -11,16 +12,20 @@ const CategoryInput = (props) => {
   return (
     <>
       {Object.values(categories).map((categoryRadio) => (
-        <Radio
+        <Controller
+          as={Radio}
           key={categoryRadio.path}
           className="CategoryRadio"
           value={categoryRadio.path}
           checked={category === categoryRadio.path}
-          onChange={() => setCategory(categoryRadio.path)}
+          onChange={() => {
+            setCategory(categoryRadio.path);
+            return categoryRadio.path;
+          }}
           {...props}
         >
           {categoryRadio.name}
-        </Radio>
+        </Controller>
       ))}
     </>
   );

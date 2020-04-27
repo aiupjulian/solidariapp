@@ -21,6 +21,11 @@ const { Field, Control, Input, Textarea } = Form;
 const PostCreate = () => {
   return (
     <>
+      <h1>Poner un stepper, primero elegir categoria</h1>
+      <p>
+        No tiene sentido elegir fecha/rango de fechas para mascotas por ejemplo,
+        pero si para donaciones
+      </p>
       <Heading className="PostCreateTitle">Crear publicación</Heading>
       <InputContainer
         label="Titulo"
@@ -30,7 +35,7 @@ const PostCreate = () => {
             as={Input}
             autoComplete="off"
             defaultValue=""
-            maxLength={20}
+            maxLength={50}
             {...props}
           />
         )}
@@ -40,14 +45,7 @@ const PostCreate = () => {
         label="Categoría"
         name="category"
         controlClassName="CategoriesRadiosContainer"
-        render={(props) => (
-          <Controller
-            as={CategoryInput}
-            defaultValue=""
-            maxLength={100}
-            {...props}
-          />
-        )}
+        render={(props) => <CategoryInput {...props} />}
       />
       <InputContainer
         label="Descripción"
@@ -57,7 +55,7 @@ const PostCreate = () => {
             autoComplete="off"
             as={Textarea}
             defaultValue=""
-            maxLength={100}
+            maxLength={200}
             {...props}
           />
         )}
