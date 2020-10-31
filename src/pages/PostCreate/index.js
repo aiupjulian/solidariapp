@@ -1,6 +1,6 @@
 import React from "react";
 // import { useHistory } from "react-router-dom";
-import { useForm, FormContext } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import moment from "moment";
 
 import "./PostCreate.css";
@@ -39,11 +39,11 @@ const PostCreateContainer = () => {
   };
   console.log(methods.errors);
   return (
-    <FormContext {...methods}>
+    <FormProvider {...methods}>
       <form className="PostCreateContainer" onSubmit={handleSubmit(onSubmit)}>
         <PostCreate />
       </form>
-    </FormContext>
+    </FormProvider>
   );
 };
 
