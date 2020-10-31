@@ -3,7 +3,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect
+  Redirect,
 } from "react-router-dom";
 import { Section } from "react-bulma-components";
 
@@ -31,7 +31,7 @@ const AuthorizedRoute = ({ Component, authorization, ...rest }) => {
           <Redirect
             to={{
               pathname: authorization.redirect,
-              state: { from: location }
+              state: { from: location },
             }}
           />
         )
@@ -53,7 +53,7 @@ const Routes = () => {
       )}
       <Section>
         <Switch>
-          {Object.values(pages).map(props =>
+          {Object.values(pages).map((props) =>
             props.authorization ? (
               <AuthorizedRoute key={props.path} {...props} />
             ) : (

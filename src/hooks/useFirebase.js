@@ -12,13 +12,13 @@ export function useFirebase(collection, doc) {
   const setIsLoading = useLoadingSet();
   useEffect(() => {
     setIsLoading(true);
-    getData(collection, doc).then(data => {
+    getData(collection, doc).then((data) => {
       if (doc) {
         if (data.exists) {
           setData(data.data());
         }
       } else {
-        setData(data.docs.map(dataItem => dataItem.data()));
+        setData(data.docs.map((dataItem) => dataItem.data()));
       }
       setIsLoading(false);
     });

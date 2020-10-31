@@ -40,7 +40,7 @@ export const savePost = ({ image, ...postData }, userData) =>
           )
         );
     })
-    .catch(function(error) {
+    .catch(function (error) {
       console.error(
         "There was an error uploading a file to Cloud Storage:",
         error

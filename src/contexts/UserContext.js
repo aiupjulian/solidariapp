@@ -16,7 +16,7 @@ function userReducer(state, action) {
         isAdmin: action.isAdmin,
         displayName: action.displayName,
         photoURL: action.photoURL,
-        uid: action.uid
+        uid: action.uid,
       };
     }
     case "SIGNED_OUT": {
@@ -76,7 +76,7 @@ async function userStateObserver(dispatch, user) {
       displayName: user.displayName,
       photoURL: user.photoURL,
       isAdmin: !!idTokenResult.claims.admin,
-      uid: user.uid
+      uid: user.uid,
     });
   } else {
     dispatch({ type: "SIGNED_OUT" });
@@ -88,5 +88,5 @@ export {
   useUserState,
   useUserDispatch,
   signOut,
-  userStateObserver
+  userStateObserver,
 };

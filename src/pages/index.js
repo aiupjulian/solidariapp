@@ -13,7 +13,7 @@ const Home = {
   name: "Inicio",
   path: "/",
   Component: HomeComponent,
-  exact: true
+  exact: true,
 };
 const SignIn = {
   name: "Ingresar",
@@ -21,8 +21,8 @@ const SignIn = {
   Component: SignInComponent,
   authorization: {
     roles: [ROLES.GUEST],
-    redirect: Home.path
-  }
+    redirect: Home.path,
+  },
 };
 const Profile = {
   name: "Perfil",
@@ -30,13 +30,13 @@ const Profile = {
   Component: ProfileComponent,
   authorization: {
     roles: [ROLES.ADMIN, ROLES.USER],
-    redirect: SignIn.path
-  }
+    redirect: SignIn.path,
+  },
 };
 const Post = {
   name: "Publicacion",
   path: "/publicacion",
-  Component: PostComponent
+  Component: PostComponent,
 };
 const PostAuditList = {
   name: "Auditar publicaciones",
@@ -45,8 +45,8 @@ const PostAuditList = {
   protected: true,
   authorization: {
     roles: [ROLES.ADMIN],
-    redirect: Home.path
-  }
+    redirect: Home.path,
+  },
 };
 const PostCreate = {
   name: "Crear publicacion",
@@ -55,8 +55,8 @@ const PostCreate = {
   protected: true,
   authorization: {
     roles: [ROLES.ADMIN, ROLES.USER],
-    redirect: SignIn.path
-  }
+    redirect: SignIn.path,
+  },
 };
 const PostEdit = {
   name: "Editar publicacion",
@@ -65,13 +65,13 @@ const PostEdit = {
   protected: true,
   authorization: {
     roles: [ROLES.ADMIN, ROLES.USER],
-    redirect: SignIn.path
-  }
+    redirect: SignIn.path,
+  },
 };
 const PostList = {
   name: "Listado de publicaciones",
   path: "/listado-publicaciones",
-  Component: PostListComponent
+  Component: PostListComponent,
 };
 
 export default {
@@ -82,5 +82,5 @@ export default {
   PostAuditList,
   PostCreate,
   PostEdit,
-  PostList
+  PostList,
 };

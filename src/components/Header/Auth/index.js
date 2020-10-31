@@ -9,7 +9,7 @@ import {
   useUserState,
   useUserDispatch,
   userStateObserver,
-  signOut
+  signOut,
 } from "../../../contexts/UserContext";
 import pages from "../../../pages";
 
@@ -18,9 +18,11 @@ const Auth = () => {
   const user = useUserState();
   const userDispatch = useUserDispatch();
   useEffect(() => {
-    const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
-      userStateObserver(userDispatch, user);
-    });
+    const unregisterAuthObserver = firebase
+      .auth()
+      .onAuthStateChanged((user) => {
+        userStateObserver(userDispatch, user);
+      });
     return unregisterAuthObserver;
   }, [userDispatch]);
   if (user.isLoading)
@@ -63,9 +65,9 @@ const Auth = () => {
       ) : (
         <Navbar.Item
           renderAs={NavLink}
-          to={location => ({
+          to={(location) => ({
             pathname: pages.SignIn.path,
-            state: { from: location }
+            state: { from: location },
           })}
         >
           <Button color="primary">{pages.SignIn.name}</Button>
