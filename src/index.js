@@ -6,6 +6,7 @@ import * as serviceWorker from "./serviceWorker";
 import "react-bulma-components/dist/react-bulma-components.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./utils/firebase";
+import "fontsource-roboto";
 
 ReactDOM.render(<App />, document.getElementById("root"));
 
