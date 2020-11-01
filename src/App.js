@@ -1,22 +1,21 @@
 import React from "react";
-import { StylesProvider } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
-
+// https://www.flaticon.com/packs/charity-145?word=charity
 import "./App.css";
 import Routes from "./pages/Routes";
 import { UserProvider } from "./contexts/UserContext";
 import { LoadingProvider } from "./contexts/LoadingContext";
+import { ThemeProvider } from "styled-components";
+import theme from "./theme";
 
 function App() {
   return (
-    <StylesProvider injectFirst>
+    <ThemeProvider theme={theme}>
       <LoadingProvider>
         <UserProvider>
-          <CssBaseline />
           <Routes />
         </UserProvider>
       </LoadingProvider>
-    </StylesProvider>
+    </ThemeProvider>
   );
 }
 
