@@ -1,4 +1,6 @@
 import React from "react";
+import { StylesProvider } from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
 
 import "./App.css";
 import Routes from "./pages/Routes";
@@ -7,11 +9,14 @@ import { LoadingProvider } from "./contexts/LoadingContext";
 
 function App() {
   return (
-    <LoadingProvider>
-      <UserProvider>
-        <Routes />
-      </UserProvider>
-    </LoadingProvider>
+    <StylesProvider injectFirst>
+      <LoadingProvider>
+        <UserProvider>
+          <CssBaseline />
+          <Routes />
+        </UserProvider>
+      </LoadingProvider>
+    </StylesProvider>
   );
 }
 
