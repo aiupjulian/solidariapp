@@ -5,7 +5,6 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import { Section } from "react-bulma-components";
 
 import pages from ".";
 import { Header, Spinner } from "../components";
@@ -46,12 +45,12 @@ const Routes = () => {
   return (
     <Router>
       <Header />
-      {(user.isLoading || isLoading) && (
+      {/* {(user.isLoading || isLoading) && (
         <div className="SpinnerContainer">
           <Spinner className="Spinner" />
         </div>
-      )}
-      <Section>
+      )} */}
+      <>
         <Switch>
           {Object.values(pages).map((props) =>
             props.authorization ? (
@@ -61,7 +60,7 @@ const Routes = () => {
             )
           )}
         </Switch>
-      </Section>
+      </>
     </Router>
   );
 };
