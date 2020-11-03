@@ -4,6 +4,10 @@ import { LogoSimple, Menu } from "../../assets/icons";
 import Button from "../Button";
 import useIsDesktop from "../../hooks/useIsDesktop";
 
+import pages from "../../pages";
+import { createSearch, categories, FILTERS } from "../../utils/filters";
+// import { isAuthorized } from "../../utils/roles";
+
 const Header = () => {
   const isDesktop = useIsDesktop();
   const userActions = (

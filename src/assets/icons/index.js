@@ -7,3 +7,5 @@ export { ReactComponent as Volunteer } from "./volunteer.svg";
 export { ReactComponent as Logo } from "./logo.svg";
 export { ReactComponent as LogoSimple } from "./logoSimple.svg";
 export { ReactComponent as Menu } from "./menu.svg";
+
+// https://www.flaticon.com/packs/charity-145?word=charity

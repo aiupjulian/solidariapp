@@ -1,14 +1,25 @@
-import React from "react";
+import React, { StrictMode } from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
-import App from "./App";
-import * as serviceWorker from "./serviceWorker";
-import "./utils/firebase";
+import { FirebaseAppProvider } from "reactfire";
 import "fontsource-roboto";
 
-ReactDOM.render(<App />, document.getElementById("root"));
+import "./index.css";
+import App from "./App";
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+const firebaseConfig = {
+  apiKey: "AIzaSyDhGPu3R2zrXsocYOaBGtUJ2PNaTGLX-wY",
+  authDomain: "solidariapp-93cdb.firebaseapp.com",
+  databaseURL: "https://solidariapp-93cdb.firebaseio.com",
+  projectId: "solidariapp-93cdb",
+  storageBucket: "solidariapp-93cdb.appspot.com",
+  messagingSenderId: "742811527896",
+  appId: "1:742811527896:web:ecf99cd3b693a2f76d85ad",
+};
+
+ReactDOM.unstable_createRoot(document.getElementById("root")).render(
+  <StrictMode>
+    <FirebaseAppProvider firebaseConfig={firebaseConfig}>
+      <App />
+    </FirebaseAppProvider>
+  </StrictMode>
+);

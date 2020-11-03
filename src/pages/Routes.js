@@ -8,7 +8,6 @@ import {
 
 import pages from ".";
 import { Header, Spinner } from "../components";
-import { useUserState } from "../contexts/UserContext";
 import { useLoadingState } from "../contexts/LoadingContext";
 import { isAuthorized } from "../utils/roles";
 import "./Routes.css";
@@ -20,11 +19,10 @@ const NormalRoute = ({ Component, ...rest }) => (
 );
 
 const AuthorizedRoute = ({ Component, authorization, ...rest }) => {
-  const user = useUserState();
   return (
     <Route
       render={({ location }) =>
-        isAuthorized({ user, roles: authorization.roles }) ? (
+        isAuthorized({ roles: authorization.roles }) ? (
           <Component {...rest} />
         ) : (
           <Redirect
@@ -40,12 +38,11 @@ const AuthorizedRoute = ({ Component, authorization, ...rest }) => {
 };
 
 const Routes = () => {
-  const user = useUserState();
   const isLoading = useLoadingState();
   return (
     <Router>
       <Header />
-      {/* {(user.isLoading || isLoading) && (
+      {/* {isLoading && (
         <div className="SpinnerContainer">
           <Spinner className="Spinner" />
         </div>

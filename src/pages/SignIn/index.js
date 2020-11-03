@@ -1,44 +1,45 @@
-import React, { useEffect, useState } from "react";
-import { useLocation, useHistory } from "react-router-dom";
-import { StyledFirebaseAuth } from "react-firebaseui";
+import React, { Suspense } from "react";
+import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
+import { SuspenseWithPerf, useUser, useAuth } from "reactfire";
 
-import "./SignIn.css";
-import { Spinner } from "../../components";
-import firebase from "../../utils/firebase";
+import FacebookButton from "./components/FacebookButton";
+
+const signOut = (auth) => auth.signOut().then(() => console.log("signed out"));
+
+const UserDetails = ({ user }) => {
+  const auth = useAuth();
+
+  return (
+    <>
+      <h3>Displayname: {user.displayName}</h3>
+      <h3>Providers:</h3>
+      <ul>
+        {user.providerData.map((profile) => (
+          <li key={profile.providerId}>{profile.providerId}</li>
+        ))}
+      </ul>
+      <button onClick={() => signOut(auth)}>Sign Out</button>
+    </>
+  );
+};
+
+const SignInForm = () => {
+  return <FacebookButton />;
+};
+
+const FirebaseAuthStateButton = () => {
+  const user = useUser();
+  return user ? <UserDetails user={user} /> : <SignInForm />;
+};
 
 const SignIn = () => {
-  const history = useHistory();
-  const location = useLocation();
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    if (location.state) {
-      const { from } = location.state;
-      const signInSuccessUrl = from.pathname + (from.search || "");
-      sessionStorage.setItem("signInSuccessUrl", signInSuccessUrl);
-    }
-  }, [location.state]);
   return (
-    <div className="SignInContainer">
-      <h1 className="SignInTitle">Sign in to continue to Solidariapp</h1>
-      {isLoading && <Spinner />}
-      <StyledFirebaseAuth
-        uiConfig={{
-          signInFlow: "redirect",
-          signInOptions: [firebase.auth.FacebookAuthProvider.PROVIDER_ID],
-          callbacks: {
-            uiShown: () => {
-              setIsLoading(false);
-            },
-            signInSuccessWithAuthResult: () => {
-              history.push(sessionStorage.getItem("signInSuccessUrl") || "/");
-              sessionStorage.removeItem("signInSuccessUrl");
-              return false;
-            },
-          },
-        }}
-        firebaseAuth={firebase.auth()}
-      />
-    </div>
+    <>
+      <h1>Ingresar</h1>
+      <Suspense fallback="loading...">
+        <FirebaseAuthStateButton />
+      </Suspense>
+    </>
   );
 };
 

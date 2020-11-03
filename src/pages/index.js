@@ -19,10 +19,10 @@ const SignIn = {
   name: "Ingresar",
   path: "/ingresar",
   Component: SignInComponent,
-  authorization: {
-    roles: [ROLES.GUEST],
-    redirect: Home.path,
-  },
+  // authorization: {
+  //   roles: [ROLES.GUEST],
+  //   redirect: Home.path,
+  // },
 };
 const Profile = {
   name: "Perfil",

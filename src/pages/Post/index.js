@@ -6,17 +6,15 @@
 // compartir en facebook?
 import React from "react";
 
-import { useQuery } from "../../hooks/useQuery";
-import { useFirebase } from "../../hooks/useFirebase";
 import { useLoadingState } from "../../contexts/LoadingContext";
 
 const Post = () => {
-  const query = useQuery();
-  const post = useFirebase("posts", query.get("id"));
+  // const post = useFirebase("posts", query.get("id"));
   const isLoading = useLoadingState();
   if (isLoading) return null;
   return (
-    <>{post ? <h1>{post.title}</h1> : <h1>No post encontrado con ese id</h1>}</>
+    <h1>post</h1>
+    // <>{post ? <h1>{post.title}</h1> : <h1>No post encontrado con ese id</h1>}</>
   );
 };
 
