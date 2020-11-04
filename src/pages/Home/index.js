@@ -5,37 +5,26 @@ import {Link} from 'react-router-dom';
 import {categories, createSearch, FILTERS} from '../../utils/filters';
 import pages from '../../pages';
 import {Hero} from '../../components';
-import {BloodDonation, Charity, PetHouse, Solidarity} from '../../assets/icons';
 import Card from '../../components/Card';
 import styled from 'styled-components';
 import OurMision from './components/OurMision';
 import useIsDesktop from '../../hooks/useIsDesktop';
 
-const Icons = {
-  Salud: <BloodDonation />,
-  Donaciones: <Charity />,
-  Desaparecidos: <Solidarity />,
-  Mascotas: <PetHouse />,
-};
-
 const Home = () => {
-  const getIcon = (key) => Icons[key];
   const isDesktop = useIsDesktop();
-  const cate = (
+  const categoriesLinks = (
     <CategoriesList>
-      {Object.values(categories).map((category) => (
+      {Object.values(categories).map(({name, path, Icon}) => (
         <Link
-          key={category.name}
+          key={name}
           to={{
             pathname: pages.PostList.path,
-            search: createSearch({[FILTERS.CATEGORY]: category.path}),
+            search: createSearch({[FILTERS.CATEGORY]: path}),
           }}
-          className={`CategoryLink ${category.name}`}
-          style={category.style}
         >
           <StyledCard>
-            {getIcon(category.name)}
-            <span>{category.name}</span>
+            <Icon />
+            <span>{name}</span>
           </StyledCard>
         </Link>
       ))}
@@ -47,13 +36,13 @@ const Home = () => {
         <Hero image="https://images.unsplash.com/photo-1518914781460-a3ada465edec?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80">
           <HeroContent>
             <h1>Solidariapp</h1>
-            {cate}
+            {categoriesLinks}
           </HeroContent>
         </Hero>
       ) : (
         <MobileCategories>
           <h2>Categorías</h2>
-          {cate}
+          {categoriesLinks}
         </MobileCategories>
       )}
       <OurMision />

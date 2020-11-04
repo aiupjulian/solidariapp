@@ -1,3 +1,5 @@
+import {BloodDonation, Charity, PetHouse, Solidarity} from '../assets/icons';
+
 export const FILTERS = {
   CATEGORY: 'categoria',
   ID: 'id',
@@ -14,21 +16,21 @@ export const categories = {
   Health: {
     name: 'Salud',
     path: 'salud',
-    icon: 'briefcase-medical',
+    Icon: BloodDonation,
   },
   Donations: {
     name: 'Donaciones',
     path: 'donaciones',
-    icon: 'hand-holding-heart',
+    Icon: Charity,
   },
   Missing: {
     name: 'Desaparecidos',
     path: 'desaparecidos',
-    icon: 'question-circle',
+    Icon: Solidarity,
   },
   Pets: {
     name: 'Mascotas',
     path: 'mascotas',
-    icon: 'paw',
+    Icon: PetHouse,
   },
 };
