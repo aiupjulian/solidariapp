@@ -8,45 +8,6 @@ import pages from '../../pages';
 import {createSearch, categories, FILTERS} from '../../utils/filters';
 // import { isAuthorized } from "../../utils/roles";
 
-const Header = () => {
-  const isDesktop = useIsDesktop();
-  const userActions = (
-    <Actions>
-      <StyledButton>Log in</StyledButton>
-      <Button variant="secondaryWhite">Register</Button>
-    </Actions>
-  );
-  const links = (
-    <ul>
-      <li>Home</li>
-      <li>Test</li>
-    </ul>
-  );
-  return (
-    <Navbar>
-      {isDesktop ? (
-        <DesktopNav>
-          <DesktopLeft>
-            <Logo />
-            {links}
-          </DesktopLeft>
-          {userActions}
-        </DesktopNav>
-      ) : (
-        <MobileNav>
-          <StyledMenu />
-          <LogoContent>
-            <h2>Solidariapp</h2>
-            <Logo />
-          </LogoContent>
-        </MobileNav>
-      )}
-    </Navbar>
-  );
-};
-
-export default Header;
-
 const Navbar = styled.nav`
   position: fixed;
   box-sizing: border-box;
@@ -120,3 +81,42 @@ const DesktopLeft = styled.div`
     padding: ${({theme}) => theme.spacing.md};
   }
 `;
+
+const Header = () => {
+  const isDesktop = useIsDesktop();
+  const userActions = (
+    <Actions>
+      <StyledButton>Log in</StyledButton>
+      <Button variant="secondaryWhite">Register</Button>
+    </Actions>
+  );
+  const links = (
+    <ul>
+      <li>Home</li>
+      <li>Test</li>
+    </ul>
+  );
+  return (
+    <Navbar>
+      {isDesktop ? (
+        <DesktopNav>
+          <DesktopLeft>
+            <Logo />
+            {links}
+          </DesktopLeft>
+          {userActions}
+        </DesktopNav>
+      ) : (
+        <MobileNav>
+          <StyledMenu />
+          <LogoContent>
+            <h2>Solidariapp</h2>
+            <Logo />
+          </LogoContent>
+        </MobileNav>
+      )}
+    </Navbar>
+  );
+};
+
+export default Header;

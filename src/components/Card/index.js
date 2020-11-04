@@ -1,12 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Card = ({children, ...props}) => {
-  return <CardContent {...props}>{children}</CardContent>;
-};
-
-export default Card;
-
 const CardContent = styled.div`
   border-radius: 12px;
   width: 200px;
@@ -25,3 +19,9 @@ const CardContent = styled.div`
     box-shadow: 0 7px 16px 0 rgb(0 0 0 / 0.6), 0 1px 3px 0 rgba(0, 0, 0, 0.1);
   }
 `;
+
+const Card = ({children, ...props}) => (
+  <CardContent {...props}>{children}</CardContent>
+);
+
+export default Card;

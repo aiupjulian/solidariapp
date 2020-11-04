@@ -5,11 +5,10 @@ body {
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 16px;
 }
 
 code {
@@ -21,25 +20,6 @@ code {
   height: 100%;
   display: flex;
   flex-direction: column;
-}
-
-:root {
-  --section-vertical-padding: 3rem;
-  --section-horizontal-padding: 1.5rem;
-}
-
-.radio > input[type='radio'] {
-  margin-right: 10px;
-}
-
-label.radio {
-  display: flex;
-  align-items: center;
-  margin: 10px 0;
-}
-
-.control > .radio + .radio {
-  margin-left: 0;
 }
 
 a {

@@ -1,17 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Hero = ({height = '500px', image, children}) => {
-  return (
-    <HeroImage height={height} image={image}>
-      <Backdrop />
-      {children && <Content>{children}</Content>}
-    </HeroImage>
-  );
-};
-
-export default Hero;
-
 const HeroImage = styled.div`
   width: 100vw;
   background-repeat: no-repeat;
@@ -37,3 +26,14 @@ const Backdrop = styled.div`
   height: 100%;
   background: #00000036;
 `;
+
+const Hero = ({height = '500px', image, children}) => {
+  return (
+    <HeroImage height={height} image={image}>
+      <Backdrop />
+      {children && <Content>{children}</Content>}
+    </HeroImage>
+  );
+};
+
+export default Hero;
