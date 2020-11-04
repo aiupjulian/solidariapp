@@ -1,12 +1,12 @@
-import React, { Suspense } from "react";
-import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
-import { SuspenseWithPerf, useUser, useAuth } from "reactfire";
+import React, {Suspense} from 'react';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import {SuspenseWithPerf, useUser, useAuth} from 'reactfire';
 
-import FacebookButton from "./components/FacebookButton";
+import FacebookButton from './components/FacebookButton';
 
-const signOut = (auth) => auth.signOut().then(() => console.log("signed out"));
+const signOut = (auth) => auth.signOut().then(() => console.log('signed out'));
 
-const UserDetails = ({ user }) => {
+const UserDetails = ({user}) => {
   const auth = useAuth();
 
   return (

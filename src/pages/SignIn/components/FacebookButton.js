@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { useAuth, useUser, AuthCheck } from "reactfire";
+import React from 'react';
+import styled from 'styled-components';
+import {useAuth, useUser, AuthCheck} from 'reactfire';
 
 const ButtonContainer = styled.div`
   display: inline-flex;
@@ -28,7 +28,7 @@ const FacebookButton = () => {
   const auth = useAuth();
   const user = useUser();
   console.log(user);
-  auth.languageCode = "es_LA";
+  auth.languageCode = 'es_LA';
 
   const handleClick = () => {
     const provider = new FacebookAuthProvider();

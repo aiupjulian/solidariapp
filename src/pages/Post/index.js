@@ -4,9 +4,9 @@
 // posibilidad para el usuario que publica que pueda agradecer a los que elija de los que se sumaron
 // reportar publicacion
 // compartir en facebook?
-import React from "react";
+import React from 'react';
 
-import { useLoadingState } from "../../contexts/LoadingContext";
+import {useLoadingState} from '../../contexts/LoadingContext';
 
 const Post = () => {
   // const post = useFirebase("posts", query.get("id"));

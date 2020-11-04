@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { Form } from "react-bulma-components";
-import { Controller } from "react-hook-form";
+import React, {useState} from 'react';
+import {Form} from 'react-bulma-components';
+import {Controller} from 'react-hook-form';
 
-import "./CategoryInput.css";
-import { categories } from "../../../../utils/filters";
+import './CategoryInput.css';
+import {categories} from '../../../../utils/filters';
 
-const { Radio } = Form;
+const {Radio} = Form;
 
 const CategoryInput = (props) => {
   const [category, setCategory] = useState();

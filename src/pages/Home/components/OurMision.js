@@ -1,9 +1,9 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import {Link} from 'react-router-dom';
 
-import styled from "styled-components";
-import { Love } from "../../../assets/icons";
-import Button from "../../../components/Button";
+import styled from 'styled-components';
+import {Love} from '../../../assets/icons';
+import Button from '../../../components/Button';
 
 const OurMision = () => (
   <Section>
@@ -33,9 +33,9 @@ const Section = styled.div`
   > svg {
     width: 300px;
     height: 300px;
-    padding: ${({ theme }) => theme.spacing.md};
+    padding: ${({theme}) => theme.spacing.md};
   }
-  ${({ theme }) => theme.breakpoints.sm} {
+  ${({theme}) => theme.mediaQueries.sm} {
     flex-direction: column;
     > svg {
       width: 150px;
@@ -45,9 +45,9 @@ const Section = styled.div`
 `;
 const Content = styled.div`
   max-width: 800px;
-  padding: ${({ theme }) => theme.spacing.md};
+  padding: ${({theme}) => theme.spacing.md};
   > h2 {
     text-align: center;
-    color: ${({ theme }) => theme.colors.secondary};
+    color: ${({theme}) => theme.colors.secondary};
   }
 `;

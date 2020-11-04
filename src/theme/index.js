@@ -1,13 +1,13 @@
-import breakpoints from "./breakpoints";
-import colors from "./colors";
-import constants from "./constants";
-import containers from "./containers";
-import fontSizes from "./fontSizes";
-import zIndex from "./zIndex";
-import spacing from "./spacing";
+import mediaQueries from './mediaQueries';
+import colors from './colors';
+import constants from './constants';
+import containers from './containers';
+import fontSizes from './fontSizes';
+import zIndex from './zIndex';
+import spacing from './spacing';
 
-export default {
-  breakpoints,
+const theme = {
+  mediaQueries,
   colors,
   constants,
   containers,
@@ -15,3 +15,5 @@ export default {
   zIndex,
   spacing,
 };
+
+export default theme;

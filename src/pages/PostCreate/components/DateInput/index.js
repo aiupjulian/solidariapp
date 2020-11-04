@@ -1,27 +1,27 @@
-import React, { useEffect, useState } from "react";
-import { Form } from "react-bulma-components";
-import { DateRangePicker, SingleDatePicker } from "react-dates";
-import "react-dates/initialize";
-import "react-dates/lib/css/_datepicker.css";
-import moment from "moment";
-import "moment/locale/es";
-import { useFormContext, Controller } from "react-hook-form";
+import React, {useEffect, useState} from 'react';
+import {Form} from 'react-bulma-components';
+import {DateRangePicker, SingleDatePicker} from 'react-dates';
+import 'react-dates/initialize';
+import 'react-dates/lib/css/_datepicker.css';
+import moment from 'moment';
+import 'moment/locale/es';
+import {useFormContext, Controller} from 'react-hook-form';
 
-import "./DateInput.css";
-import "./ReactDatesOverrides.css";
-import InputContainer from "../InputContainer";
+import './DateInput.css';
+import './ReactDatesOverrides.css';
+import InputContainer from '../InputContainer';
 
-const { Field, Label, Control, Radio } = Form;
+const {Field, Label, Control, Radio} = Form;
 
-const minDate = moment().add(1, "d");
-const maxDate = moment().add(3, "M");
+const minDate = moment().add(1, 'd');
+const maxDate = moment().add(3, 'M');
 
 const validationProps = {
   minDate,
   maxDate,
 };
 const sharedProps = {
-  displayFormat: "DD/MM/YYYY",
+  displayFormat: 'DD/MM/YYYY',
   hideKeyboardShortcutsPanel: true,
   numberOfMonths: 1,
   readOnly: true,
@@ -33,14 +33,14 @@ const DateRangePickerContainer = () => {
     setValue,
     register,
     unregister,
-    formState: { isSubmitted },
+    formState: {isSubmitted},
   } = useFormContext();
   useEffect(() => {
-    register({ name: "startDate" });
-    register({ name: "endDate" });
+    register({name: 'startDate'});
+    register({name: 'endDate'});
     return () => {
-      unregister("startDate");
-      unregister("endDate");
+      unregister('startDate');
+      unregister('endDate');
     };
   }, [register, unregister]);
   const [startDate, setStartDate] = useState();
@@ -48,25 +48,25 @@ const DateRangePickerContainer = () => {
   const [focusedInput, setFocusedInput] = useState(null);
   return (
     <InputContainer
-      name={["startDate", "endDate"]}
+      name={['startDate', 'endDate']}
       render={(props) => (
         <DateRangePicker
           startDate={startDate}
           startDateId="startDate"
           endDate={endDate}
           endDateId="endDate"
-          onDatesChange={({ startDate, endDate }) => {
+          onDatesChange={({startDate, endDate}) => {
             setStartDate(startDate);
             setEndDate(endDate);
             setValue(
-              "startDate",
+              'startDate',
               startDate === null ? undefined : startDate,
-              isSubmitted
+              isSubmitted,
             );
             setValue(
-              "endDate",
+              'endDate',
               endDate === null ? undefined : endDate,
-              isSubmitted
+              isSubmitted,
             );
           }}
           focusedInput={focusedInput}
@@ -87,11 +87,11 @@ const SingleDatePickerContainer = () => {
     setValue,
     register,
     unregister,
-    formState: { isSubmitted },
+    formState: {isSubmitted},
   } = useFormContext();
   useEffect(() => {
-    register({ name: "date" });
-    return () => unregister("date");
+    register({name: 'date'});
+    return () => unregister('date');
   }, [register, unregister]);
   const [date, setDate] = useState(null);
   const [focused, setFocused] = useState(false);
@@ -104,10 +104,10 @@ const SingleDatePickerContainer = () => {
           id="date"
           onDateChange={(date) => {
             setDate(date);
-            setValue("date", date === null ? undefined : date, isSubmitted);
+            setValue('date', date === null ? undefined : date, isSubmitted);
           }}
           focused={focused}
-          onFocusChange={({ focused }) => {
+          onFocusChange={({focused}) => {
             setFocused(focused);
           }}
           placeholder="Fecha"
@@ -120,19 +120,19 @@ const SingleDatePickerContainer = () => {
 };
 
 const inputTypes = {
-  noInput: { text: "Sin fecha" },
-  singleDate: { text: "Dia particular", Component: SingleDatePickerContainer },
-  rangeDate: { text: "Rango de fechas", Component: DateRangePickerContainer },
+  noInput: {text: 'Sin fecha'},
+  singleDate: {text: 'Dia particular', Component: SingleDatePickerContainer},
+  rangeDate: {text: 'Rango de fechas', Component: DateRangePickerContainer},
 };
 
 const renderDateInput = (inputType) => {
-  const { Component = null } = inputTypes[inputType];
+  const {Component = null} = inputTypes[inputType];
   return Component && <Component />;
 };
 
 const DateInput = (props) => {
   const [selectedInputType, setSelectedInputType] = useState(
-    Object.keys(inputTypes)[0]
+    Object.keys(inputTypes)[0],
   );
   return (
     <Field>

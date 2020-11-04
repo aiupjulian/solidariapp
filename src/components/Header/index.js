@@ -1,11 +1,11 @@
-import React from "react";
-import styled from "styled-components";
-import { LogoSimple, Menu } from "../../assets/icons";
-import Button from "../Button";
-import useIsDesktop from "../../hooks/useIsDesktop";
+import React from 'react';
+import styled from 'styled-components';
+import {LogoSimple, Menu} from '../../assets/icons';
+import Button from '../Button';
+import useIsDesktop from '../../hooks/useIsDesktop';
 
-import pages from "../../pages";
-import { createSearch, categories, FILTERS } from "../../utils/filters";
+import pages from '../../pages';
+import {createSearch, categories, FILTERS} from '../../utils/filters';
 // import { isAuthorized } from "../../utils/roles";
 
 const Header = () => {
@@ -58,7 +58,7 @@ const Navbar = styled.nav`
 const Actions = styled.div``;
 
 const StyledButton = styled(Button)`
-  margin-right: ${({ theme }) => theme.spacing.md};
+  margin-right: ${({theme}) => theme.spacing.md};
 `;
 
 const Logo = styled(LogoSimple)`
@@ -73,17 +73,17 @@ const DesktopNav = styled.div`
   align-items: center;
   justify-content: space-between;
   box-sizing: border-box;
-  padding: ${({ theme }) => theme.spacing.md};
+  padding: ${({theme}) => theme.spacing.md};
 `;
 
 const MobileNav = styled.div`
   display: flex;
-  padding: ${({ theme }) => theme.spacing.md};
+  padding: ${({theme}) => theme.spacing.md};
   width: 100%;
   justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
-  background-color: ${({ theme }) => theme.colors.primary};
+  background-color: ${({theme}) => theme.colors.primary};
 `;
 
 const StyledMenu = styled(Menu)`
@@ -103,7 +103,7 @@ const LogoContent = styled.div`
   > h2 {
     margin: 0;
     color: white;
-    padding-right: ${({ theme }) => theme.spacing.sm};
+    padding-right: ${({theme}) => theme.spacing.sm};
   }
 `;
 
@@ -117,6 +117,6 @@ const DesktopLeft = styled.div`
     padding: 0;
   }
   > ul > li {
-    padding: ${({ theme }) => theme.spacing.md};
+    padding: ${({theme}) => theme.spacing.md};
   }
 `;

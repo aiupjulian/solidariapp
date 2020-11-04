@@ -1,16 +1,16 @@
-import * as firebase from "firebase/app";
+import * as firebase from 'firebase/app';
 
-export const savePost = ({ image, ...postData }, userData) =>
+export const savePost = ({image, ...postData}, userData) =>
   firebase
     .firestore()
-    .collection("posts")
+    .collection('posts')
     .add({
       ...postData,
       ...userData,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     })
     .then((postRef) => {
-      const imagePath = userData.uid + "/" + postRef.id + "/" + image.name;
+      const imagePath = userData.uid + '/' + postRef.id + '/' + image.name;
       return firebase
         .storage()
         .ref(imagePath)
@@ -22,13 +22,13 @@ export const savePost = ({ image, ...postData }, userData) =>
                 imageUrl: url,
                 storageUri: imageSnapshot.metadata.fullPath,
               })
-              .then(() => postRef)
-          )
+              .then(() => postRef),
+          ),
         );
     })
     .catch(function (error) {
       console.error(
-        "There was an error uploading a file to Cloud Storage:",
-        error
+        'There was an error uploading a file to Cloud Storage:',
+        error,
       );
     });

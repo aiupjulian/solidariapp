@@ -1,23 +1,23 @@
-import HomeComponent from "./Home";
-import SignInComponent from "./SignIn";
-import ProfileComponent from "./Profile";
-import PostComponent from "./Post";
-import PostAuditListComponent from "./PostAuditList";
-import PostCreateComponent from "./PostCreate";
-import PostEditComponent from "./PostEdit";
-import PostListComponent from "./PostList";
+import HomeComponent from './Home';
+import SignInComponent from './SignIn';
+import ProfileComponent from './Profile';
+import PostComponent from './Post';
+import PostAuditListComponent from './PostAuditList';
+import PostCreateComponent from './PostCreate';
+import PostEditComponent from './PostEdit';
+import PostListComponent from './PostList';
 
-import ROLES from "../utils/roles";
+import ROLES from '../utils/roles';
 
 const Home = {
-  name: "Inicio",
-  path: "/",
+  name: 'Inicio',
+  path: '/',
   Component: HomeComponent,
   exact: true,
 };
 const SignIn = {
-  name: "Ingresar",
-  path: "/ingresar",
+  name: 'Ingresar',
+  path: '/ingresar',
   Component: SignInComponent,
   // authorization: {
   //   roles: [ROLES.GUEST],
@@ -25,8 +25,8 @@ const SignIn = {
   // },
 };
 const Profile = {
-  name: "Perfil",
-  path: "/perfil",
+  name: 'Perfil',
+  path: '/perfil',
   Component: ProfileComponent,
   authorization: {
     roles: [ROLES.ADMIN, ROLES.USER],
@@ -34,13 +34,13 @@ const Profile = {
   },
 };
 const Post = {
-  name: "Publicacion",
-  path: "/publicacion",
+  name: 'Publicacion',
+  path: '/publicacion',
   Component: PostComponent,
 };
 const PostAuditList = {
-  name: "Auditar publicaciones",
-  path: "/listado-publicaciones-auditar",
+  name: 'Auditar publicaciones',
+  path: '/listado-publicaciones-auditar',
   Component: PostAuditListComponent,
   protected: true,
   authorization: {
@@ -49,8 +49,8 @@ const PostAuditList = {
   },
 };
 const PostCreate = {
-  name: "Crear publicacion",
-  path: "/crear-publicacion",
+  name: 'Crear publicacion',
+  path: '/crear-publicacion',
   Component: PostCreateComponent,
   protected: true,
   authorization: {
@@ -59,8 +59,8 @@ const PostCreate = {
   },
 };
 const PostEdit = {
-  name: "Editar publicacion",
-  path: "/editar-publicacion",
+  name: 'Editar publicacion',
+  path: '/editar-publicacion',
   Component: PostEditComponent,
   protected: true,
   authorization: {
@@ -69,8 +69,8 @@ const PostEdit = {
   },
 };
 const PostList = {
-  name: "Listado de publicaciones",
-  path: "/listado-publicaciones",
+  name: 'Listado de publicaciones',
+  path: '/listado-publicaciones',
   Component: PostListComponent,
 };
 

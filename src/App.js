@@ -1,19 +1,16 @@
-import React from "react";
-import "./App.css";
+import React from 'react';
 
-import Routes from "./pages/Routes";
-import { LoadingProvider } from "./contexts/LoadingContext";
-import { ThemeProvider } from "styled-components";
-import theme from "./theme";
+import Routes from './pages/Routes';
+import {LoadingProvider} from './contexts/LoadingContext';
+import {ThemeProvider} from 'styled-components';
+import theme from './theme';
 
-function App() {
-  return (
-    <ThemeProvider theme={theme}>
-      <LoadingProvider>
-        <Routes />
-      </LoadingProvider>
-    </ThemeProvider>
-  );
-}
+const App = () => (
+  <ThemeProvider theme={theme}>
+    <LoadingProvider>
+      <Routes />
+    </LoadingProvider>
+  </ThemeProvider>
+);
 
 export default App;

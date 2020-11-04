@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
-const Hero = ({ height = "500px", image, children }) => {
+const Hero = ({height = '500px', image, children}) => {
   return (
     <HeroImage height={height} image={image}>
       <Backdrop />
@@ -17,8 +17,8 @@ const HeroImage = styled.div`
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
-  height: ${({ height }) => height};
-  background-image: url(${({ image }) => image});
+  height: ${({height}) => height};
+  background-image: url(${({image}) => image});
   position: relative;
 `;
 

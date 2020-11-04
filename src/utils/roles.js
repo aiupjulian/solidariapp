@@ -1,7 +1,7 @@
 const ROLES = {
-  ADMIN: "admin",
-  USER: "user",
-  GUEST: "guest",
+  ADMIN: 'admin',
+  USER: 'user',
+  GUEST: 'guest',
 };
 
 const isRole = {
@@ -10,7 +10,7 @@ const isRole = {
   [ROLES.GUEST]: (user) => !user.isAuthenticated,
 };
 
-export const isAuthorized = ({ user, roles }) =>
+export const isAuthorized = ({user, roles}) =>
   roles.some((role) => isRole[role](user));
 
 export default ROLES;

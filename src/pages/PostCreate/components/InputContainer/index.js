@@ -1,12 +1,12 @@
-import React from "react";
-import { Form } from "react-bulma-components";
-import { useFormContext } from "react-hook-form";
+import React from 'react';
+import {Form} from 'react-bulma-components';
+import {useFormContext} from 'react-hook-form';
 
-const { Field, Label, Control, Help } = Form;
+const {Field, Label, Control, Help} = Form;
 
-const InputContainer = ({ render, label, name, controlClassName = "" }) => {
-  const { errors } = useFormContext();
-  let error = "";
+const InputContainer = ({render, label, name, controlClassName = ''}) => {
+  const {errors} = useFormContext();
+  let error = '';
   let controlClassNames = controlClassName;
   if (Array.isArray(name)) {
     let errorArray = [];
@@ -15,23 +15,23 @@ const InputContainer = ({ render, label, name, controlClassName = "" }) => {
       .forEach((errorField) => {
         const message = errors[errorField].message;
         controlClassNames = controlClassNames.concat(
-          ` InputContainerError-${errorField}`
+          ` InputContainerError-${errorField}`,
         );
         if (!errorArray.includes(message)) errorArray.push(message);
       });
-    error = errorArray.join(" ");
+    error = errorArray.join(' ');
   } else {
     error = errors[name]?.message;
     if (error)
       controlClassNames = controlClassNames.concat(
-        `InputContainerError-${name}`
+        `InputContainerError-${name}`,
       );
   }
-  const color = error ? "danger" : null;
+  const color = error ? 'danger' : null;
   return (
     <Field>
       <Label>{label}</Label>
-      <Control className={controlClassNames}>{render({ color, name })}</Control>
+      <Control className={controlClassNames}>{render({color, name})}</Control>
       {error && <Help color={color}>{error}</Help>}
     </Field>
   );

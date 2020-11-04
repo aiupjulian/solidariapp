@@ -6,17 +6,17 @@
   - categoria: 'salud' | 'donaciones' | 'desaparecidos' | 'mascotas'
   - fecha?: date (dia o rango - si no pone fecha, hay que poner una igual de aca a dos meses)
 */
-import React from "react";
-import { Button, Form, Heading } from "react-bulma-components";
-import { Controller } from "react-hook-form";
+import React from 'react';
+import {Button, Form, Heading} from 'react-bulma-components';
+import {Controller} from 'react-hook-form';
 
-import CategoryInput from "./CategoryInput";
-import CityInput from "./CityInput";
-import DateInput from "./DateInput";
-import ImageInput from "./ImageInput";
-import InputContainer from "./InputContainer";
+import CategoryInput from './CategoryInput';
+import CityInput from './CityInput';
+import DateInput from './DateInput';
+import ImageInput from './ImageInput';
+import InputContainer from './InputContainer';
 
-const { Field, Control, Input, Textarea } = Form;
+const {Field, Control, Input, Textarea} = Form;
 
 //https://codelabs.developers.google.com/codelabs/firebase-web/?authuser=0#11
 const PostCreate = () => {

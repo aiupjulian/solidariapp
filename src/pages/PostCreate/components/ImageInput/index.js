@@ -1,7 +1,7 @@
-import React from "react";
-import { Form } from "react-bulma-components";
+import React from 'react';
+import {Form} from 'react-bulma-components';
 
-const { Field, Label, InputFile } = Form;
+const {Field, Label, InputFile} = Form;
 
 const ImageInput = () => {
   return (

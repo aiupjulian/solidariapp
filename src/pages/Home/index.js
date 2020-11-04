@@ -1,20 +1,15 @@
 // listado de usuarios mas solidarios (top 10)
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import {Link} from 'react-router-dom';
 
-import { categories, createSearch, FILTERS } from "../../utils/filters";
-import pages from "../../pages";
-import { Hero } from "../../components";
-import {
-  BloodDonation,
-  Charity,
-  PetHouse,
-  Solidarity,
-} from "../../assets/icons";
-import Card from "../../components/Card";
-import styled from "styled-components";
-import OurMision from "./components/OurMision";
-import useIsDesktop from "../../hooks/useIsDesktop";
+import {categories, createSearch, FILTERS} from '../../utils/filters';
+import pages from '../../pages';
+import {Hero} from '../../components';
+import {BloodDonation, Charity, PetHouse, Solidarity} from '../../assets/icons';
+import Card from '../../components/Card';
+import styled from 'styled-components';
+import OurMision from './components/OurMision';
+import useIsDesktop from '../../hooks/useIsDesktop';
 
 const Icons = {
   Salud: <BloodDonation />,
@@ -33,7 +28,7 @@ const Home = () => {
           key={category.name}
           to={{
             pathname: pages.PostList.path,
-            search: createSearch({ [FILTERS.CATEGORY]: category.path }),
+            search: createSearch({[FILTERS.CATEGORY]: category.path}),
           }}
           className={`CategoryLink ${category.name}`}
           style={category.style}
@@ -91,10 +86,10 @@ const StyledCard = styled(Card)`
     height: 100px;
   }
   > span {
-    margin-top: ${({ theme }) => theme.spacing.sm};
+    margin-top: ${({theme}) => theme.spacing.sm};
     color: white;
   }
-  ${({ theme }) => theme.breakpoints.md} {
+  ${({theme}) => theme.mediaQueries.md} {
     width: 100px;
     height: 100px;
     > svg {
@@ -102,19 +97,19 @@ const StyledCard = styled(Card)`
       height: 50px;
     }
     > span {
-      color: ${({ theme }) => theme.colors.gray1};
+      color: ${({theme}) => theme.colors.gray1};
     }
   }
 `;
 
 const MobileCategories = styled.div`
   margin-top: 60px;
-  padding: ${({ theme }) => theme.spacing.sm};
+  padding: ${({theme}) => theme.spacing.sm};
   display: flex;
   justify-content: center;
   flex-direction: column;
   > h2 {
     text-align: center;
-    color: ${({ theme }) => theme.colors.gray2};
+    color: ${({theme}) => theme.colors.gray2};
   }
 `;

@@ -1,5 +1,5 @@
-import React from "react";
-import { Icon } from "react-bulma-components";
+import React from 'react';
+import {Icon} from 'react-bulma-components';
 
 const Spinner = (props) => (
   <Icon size="medium" {...props}>

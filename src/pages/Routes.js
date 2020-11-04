@@ -1,34 +1,34 @@
-import React from "react";
+import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
-} from "react-router-dom";
+} from 'react-router-dom';
 
-import pages from ".";
-import { Header, Spinner } from "../components";
-import { useLoadingState } from "../contexts/LoadingContext";
-import { isAuthorized } from "../utils/roles";
-import "./Routes.css";
+import pages from '.';
+import {Header, Spinner} from '../components';
+import {useLoadingState} from '../contexts/LoadingContext';
+import {isAuthorized} from '../utils/roles';
+import './Routes.css';
 
-const NormalRoute = ({ Component, ...rest }) => (
+const NormalRoute = ({Component, ...rest}) => (
   <Route>
     <Component {...rest} />
   </Route>
 );
 
-const AuthorizedRoute = ({ Component, authorization, ...rest }) => {
+const AuthorizedRoute = ({Component, authorization, ...rest}) => {
   return (
     <Route
-      render={({ location }) =>
-        isAuthorized({ roles: authorization.roles }) ? (
+      render={({location}) =>
+        isAuthorized({roles: authorization.roles}) ? (
           <Component {...rest} />
         ) : (
           <Redirect
             to={{
               pathname: authorization.redirect,
-              state: { from: location },
+              state: {from: location},
             }}
           />
         )
@@ -54,7 +54,7 @@ const Routes = () => {
               <AuthorizedRoute key={props.path} {...props} />
             ) : (
               <NormalRoute key={props.path} {...props} />
-            )
+            ),
           )}
         </Switch>
       </>

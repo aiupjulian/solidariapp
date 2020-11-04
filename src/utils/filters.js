@@ -1,34 +1,34 @@
 export const FILTERS = {
-  CATEGORY: "categoria",
-  ID: "id",
+  CATEGORY: 'categoria',
+  ID: 'id',
 };
 
 export const createSearch = (filters) =>
-  "?".concat(
+  '?'.concat(
     ...Object.entries(filters).map(
-      ([filterKey, filterValue]) => `${filterKey}=${filterValue}`
-    )
+      ([filterKey, filterValue]) => `${filterKey}=${filterValue}`,
+    ),
   );
 
 export const categories = {
   Health: {
-    name: "Salud",
-    path: "salud",
-    icon: "briefcase-medical",
+    name: 'Salud',
+    path: 'salud',
+    icon: 'briefcase-medical',
   },
   Donations: {
-    name: "Donaciones",
-    path: "donaciones",
-    icon: "hand-holding-heart",
+    name: 'Donaciones',
+    path: 'donaciones',
+    icon: 'hand-holding-heart',
   },
   Missing: {
-    name: "Desaparecidos",
-    path: "desaparecidos",
-    icon: "question-circle",
+    name: 'Desaparecidos',
+    path: 'desaparecidos',
+    icon: 'question-circle',
   },
   Pets: {
-    name: "Mascotas",
-    path: "mascotas",
-    icon: "paw",
+    name: 'Mascotas',
+    path: 'mascotas',
+    icon: 'paw',
   },
 };

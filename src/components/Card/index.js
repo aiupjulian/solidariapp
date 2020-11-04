@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
-const Card = ({ children, ...props }) => {
+const Card = ({children, ...props}) => {
   return <CardContent {...props}>{children}</CardContent>;
 };
 
@@ -15,9 +15,9 @@ const CardContent = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding: ${({ theme }) => theme.spacing.md};
+  padding: ${({theme}) => theme.spacing.md};
   border: 1px solid #dedede;
-  margin: ${({ theme }) => theme.spacing.md};
+  margin: ${({theme}) => theme.spacing.md};
   transition: box-shadow 0.1s ease-out;
   box-shadow: 0 7px 16px 0 rgba(0, 0, 0, 0.2), 0 1px 3px 0 rgba(0, 0, 0, 0.1);
 

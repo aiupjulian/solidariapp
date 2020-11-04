@@ -1,4 +1,3 @@
-export default {
-  modal: 3,
-  header: 2,
-};
+const zIndex = {modal: 3, header: 2};
+
+export default zIndex;

@@ -1,9 +1,9 @@
 // filtros: categoria, ciudad
 // order by: fecha, cantidad sumados
 // listado: ciudad, imagen, cantidad sumados, sumarse, creador, denunciar
-import React from "react";
+import React from 'react';
 
-import { FILTERS } from "../../utils/filters";
+import {FILTERS} from '../../utils/filters';
 
 const PostList = () => {
   // const posts = useFirebase("posts");

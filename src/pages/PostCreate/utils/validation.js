@@ -1,18 +1,18 @@
-import * as yup from "yup";
-import moment from "moment";
+import * as yup from 'yup';
+import moment from 'moment';
 
-import { categories } from "../../../utils/filters";
+import {categories} from '../../../utils/filters';
 
-const minDate = moment().add(1, "d").startOf("day");
-const maxDate = moment().add(3, "M").endOf("day");
+const minDate = moment().add(1, 'd').startOf('day');
+const maxDate = moment().add(3, 'M').endOf('day');
 const dateValidations = (dateInputType) =>
   yup
     .date()
     .nullable()
     .transform((_, originalValue) =>
-      originalValue === "" ? null : moment(originalValue).toDate()
+      originalValue === '' ? null : moment(originalValue).toDate(),
     )
-    .when("dateInputType", {
+    .when('dateInputType', {
       is: dateInputType,
       then: yup.date().required().min(minDate.toDate()).max(maxDate.toDate()),
     });
@@ -22,10 +22,10 @@ const postSchema = yup.object().shape({
   dateInputType: yup
     .string()
     .required()
-    .oneOf(["noInput", "singleDate", "rangeDate"]),
-  date: dateValidations("singleDate"),
-  startDate: dateValidations("rangeDate"),
-  endDate: dateValidations("rangeDate"),
+    .oneOf(['noInput', 'singleDate', 'rangeDate']),
+  date: dateValidations('singleDate'),
+  startDate: dateValidations('rangeDate'),
+  endDate: dateValidations('rangeDate'),
   category: yup
     .string()
     .required()

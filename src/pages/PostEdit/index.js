@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const PostEdit = () => <h1>PostEdit</h1>;
 
