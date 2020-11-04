@@ -92,8 +92,12 @@ const Header = () => {
   );
   const links = (
     <ul>
-      <li>Home</li>
-      <li>Test</li>
+      <li>
+        <Button variant="link">Home</Button>
+      </li>
+      <li>
+        <Button variant="link">Test</Button>
+      </li>
     </ul>
   );
   return (

@@ -7,7 +7,7 @@ const primary = css`
 
 const secondaryWhite = css`
   background: transparent;
-  border: 1px solid white;
+  border: 1px solid ${({theme}) => theme.colors.white};
 `;
 
 const secondary = css`
@@ -16,20 +16,34 @@ const secondary = css`
   border: 1px solid ${({theme}) => theme.colors.secondary};
 `;
 
+const link = css`
+  background-color: transparent;
+
+  &:hover {
+    box-shadow: none;
+  }
+`;
+
 const variants = {
   primary,
   secondaryWhite,
   secondary,
+  link,
 };
 
 const StyledButton = styled.button`
-  color: white;
+  color: ${({theme}) => theme.colors.white};
   padding: ${({theme}) => theme.spacing.md};
   border: none;
   border-radius: 4px;
   min-width: 100px;
   font-size: ${({theme}) => theme.fontSizes.md};
-  cursor: pointer;
+
+  ${({disabled}) =>
+    !disabled &&
+    css`
+      cursor: pointer;
+    `}
 
   :focus {
     outline: 0;
