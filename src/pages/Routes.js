@@ -5,12 +5,12 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
+import {AuthCheck} from 'reactfire';
+
+import Container from '@material-ui/core/Container';
 
 import pages from '.';
-import {Header, Spinner} from '../components';
-import {useLoadingState} from '../contexts/LoadingContext';
-import {isAuthorized} from '../utils/roles';
-import './Routes.css';
+import {Header} from '../components';
 
 const NormalRoute = ({Component, ...rest}) => (
   <Route>
@@ -18,48 +18,41 @@ const NormalRoute = ({Component, ...rest}) => (
   </Route>
 );
 
-const AuthorizedRoute = ({Component, authorization, ...rest}) => {
-  return (
-    <Route
-      render={({location}) =>
-        isAuthorized({roles: authorization.roles}) ? (
-          <Component {...rest} />
-        ) : (
+const AuthorizedRoute = ({Component, redirect, requiredClaims, ...rest}) => (
+  <Route
+    render={({location}) => (
+      <AuthCheck
+        requiredClaims={requiredClaims}
+        fallback={
           <Redirect
             to={{
-              pathname: authorization.redirect,
+              pathname: redirect,
               state: {from: location},
             }}
           />
-        )
-      }
-    />
-  );
-};
+        }
+      >
+        <Component {...rest} />
+      </AuthCheck>
+    )}
+  />
+);
 
-const Routes = () => {
-  const isLoading = useLoadingState();
-  return (
-    <Router>
-      <Header />
-      {/* {isLoading && (
-        <div className="SpinnerContainer">
-          <Spinner className="Spinner" />
-        </div>
-      )} */}
-      <>
-        <Switch>
-          {Object.values(pages).map((props) =>
-            props.authorization ? (
-              <AuthorizedRoute key={props.path} {...props} />
-            ) : (
-              <NormalRoute key={props.path} {...props} />
-            ),
-          )}
-        </Switch>
-      </>
-    </Router>
-  );
-};
+const Routes = () => (
+  <Router>
+    <Header />
+    <Container fixed>
+      <Switch>
+        {Object.values(pages).map((props) =>
+          props.redirect ? (
+            <AuthorizedRoute key={props.path} {...props} />
+          ) : (
+            <NormalRoute key={props.path} {...props} />
+          ),
+        )}
+      </Switch>
+    </Container>
+  </Router>
+);
 
 export default Routes;

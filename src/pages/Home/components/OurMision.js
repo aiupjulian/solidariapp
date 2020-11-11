@@ -1,9 +1,38 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
-
 import styled from 'styled-components';
+
+import Button from '@material-ui/core/Button';
+
 import {Love} from '../../../assets/icons';
-import Button from '../../../components/Button';
+
+const Section = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 1200px;
+  margin: auto;
+  > svg {
+    width: 300px;
+    height: 300px;
+    /* padding: ${({theme}) => theme.spacing.md}; */
+  }
+  ${({theme}) => theme.breakpoints.down('md')} {
+    flex-direction: column;
+    > svg {
+      width: 150px;
+      height: 150px;
+    }
+  }
+`;
+
+const Content = styled.div`
+  max-width: 800px;
+  /* padding: ${({theme}) => theme.spacing.md}; */
+  > h2 {
+    text-align: center;
+    color: ${({theme}) => theme.palette.secondary};
+  }
+`;
 
 const OurMision = () => (
   <Section>
@@ -17,37 +46,9 @@ const OurMision = () => (
         suscipit lacus facilisis sed. Ut scelerisque dolor a vulputate rutrum.
         Praesent nulla lorem, convallis eu justo gravida, volutpat rutrum augue.
       </p>
-      <Button variant="secondary"> See all </Button>
+      <Button>See all</Button>
     </Content>
   </Section>
 );
 
 export default OurMision;
-
-const Section = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 1200px;
-  margin: auto;
-  > svg {
-    width: 300px;
-    height: 300px;
-    padding: ${({theme}) => theme.spacing.md};
-  }
-  ${({theme}) => theme.mediaQueries.sm} {
-    flex-direction: column;
-    > svg {
-      width: 150px;
-      height: 150px;
-    }
-  }
-`;
-const Content = styled.div`
-  max-width: 800px;
-  padding: ${({theme}) => theme.spacing.md};
-  > h2 {
-    text-align: center;
-    color: ${({theme}) => theme.colors.secondary};
-  }
-`;

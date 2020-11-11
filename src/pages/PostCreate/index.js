@@ -2,8 +2,8 @@ import React from 'react';
 // import { useHistory } from "react-router-dom";
 import {useForm, FormProvider} from 'react-hook-form';
 import moment from 'moment';
+import styled from 'styled-components';
 
-import './PostCreate.css';
 import PostCreate from './components/index';
 // import { useUserState } from "../../contexts/UserContext";
 // import { savePost } from "../../utils/firebase";
@@ -11,6 +11,16 @@ import PostCreate from './components/index';
 // import pages from "../";
 import './utils/validationLocales';
 import postSchema from './utils/validation';
+
+const StyledForm = styled.form`
+  ${({theme}) => theme.mediaQueries.md} {
+    width: 500px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 10px;
+    margin: 0 auto;
+    padding: 32px;
+    border-radius: 3px;
+  }
+`;
 
 const PostCreateContainer = () => {
   const {handleSubmit, ...methods} = useForm({
@@ -40,9 +50,9 @@ const PostCreateContainer = () => {
   console.log(methods.errors);
   return (
     <FormProvider {...methods}>
-      <form className="PostCreateContainer" onSubmit={handleSubmit(onSubmit)}>
+      <StyledForm onSubmit={handleSubmit(onSubmit)}>
         <PostCreate />
-      </form>
+      </StyledForm>
     </FormProvider>
   );
 };

@@ -1,18 +1,18 @@
 import React, {useState} from 'react';
-import {Form} from 'react-bulma-components';
+// import {Form} from 'react-bulma-components';
 import {Controller} from 'react-hook-form';
 
 import './CategoryInput.css';
 import {categories} from '../../../../utils/filters';
 
-const {Radio} = Form;
+// const {Radio} = Form;
 
 const CategoryInput = (props) => {
   const [category, setCategory] = useState();
   return (
     <>
-      {Object.values(categories).map((categoryRadio) => (
-        <Controller
+      {Object.values(categories).map((categoryRadio) => ({
+        /* <Controller
           as={Radio}
           key={categoryRadio.path}
           className="CategoryRadio"
@@ -25,8 +25,8 @@ const CategoryInput = (props) => {
           {...props}
         >
           {categoryRadio.name}
-        </Controller>
-      ))}
+        </Controller> */
+      }))}
     </>
   );
 };

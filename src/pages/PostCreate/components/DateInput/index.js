@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Form} from 'react-bulma-components';
+// import {Form} from 'react-bulma-components';
 import {DateRangePicker, SingleDatePicker} from 'react-dates';
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
@@ -11,7 +11,7 @@ import './DateInput.css';
 import './ReactDatesOverrides.css';
 import InputContainer from '../InputContainer';
 
-const {Field, Label, Control, Radio} = Form;
+// const {Field, Label, Control, Radio} = Form;
 
 const minDate = moment().add(1, 'd');
 const maxDate = moment().add(3, 'M');
@@ -135,30 +135,31 @@ const DateInput = (props) => {
     Object.keys(inputTypes)[0],
   );
   return (
-    <Field>
-      <Label>Fecha</Label>
-      <Control className="DateTypeRadiosContainer">
-        {Object.entries(inputTypes).map(([inputType, inputData]) => (
-          <div key={inputType} className="InputType">
-            <Controller
-              as={Radio}
-              className="DateTypeRadio"
-              name="dateInputType"
-              value={inputType}
-              checked={selectedInputType === inputType}
-              onChange={() => {
-                setSelectedInputType(inputType);
-                return inputType;
-              }}
-              {...props}
-            >
-              {inputData.text}
-            </Controller>
-            {selectedInputType === inputType && renderDateInput(inputType)}
-          </div>
-        ))}
-      </Control>
-    </Field>
+    // <Field>
+    //   <Label>Fecha</Label>
+    //   <Control className="DateTypeRadiosContainer">
+    //     {Object.entries(inputTypes).map(([inputType, inputData]) => (
+    //       <div key={inputType} className="InputType">
+    //         <Controller
+    //           as={Radio}
+    //           className="DateTypeRadio"
+    //           name="dateInputType"
+    //           value={inputType}
+    //           checked={selectedInputType === inputType}
+    //           onChange={() => {
+    //             setSelectedInputType(inputType);
+    //             return inputType;
+    //           }}
+    //           {...props}
+    //         >
+    //           {inputData.text}
+    //         </Controller>
+    //         {selectedInputType === inputType && renderDateInput(inputType)}
+    //       </div>
+    //     ))}
+    //   </Control>
+    // </Field>
+    <a>asd</a>
   );
 };
 

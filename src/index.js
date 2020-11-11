@@ -1,7 +1,8 @@
-import React, {StrictMode} from 'react';
+import React, {Suspense} from 'react';
 import ReactDOM from 'react-dom';
 import {FirebaseAppProvider} from 'reactfire';
 import 'fontsource-roboto';
+import 'fontsource-roboto/500.css';
 
 import './index.css';
 import App from './App';
@@ -17,9 +18,9 @@ const firebaseConfig = {
 };
 
 ReactDOM.unstable_createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  <Suspense fallback={<></>}>
     <FirebaseAppProvider firebaseConfig={firebaseConfig}>
       <App />
     </FirebaseAppProvider>
-  </StrictMode>,
+  </Suspense>,
 );

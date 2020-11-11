@@ -1,8 +1,8 @@
 import React from 'react';
-import {Form} from 'react-bulma-components';
+// import {Form} from 'react-bulma-components';
 import {useFormContext} from 'react-hook-form';
 
-const {Field, Label, Control, Help} = Form;
+// const {Field, Label, Control, Help} = Form;
 
 const InputContainer = ({render, label, name, controlClassName = ''}) => {
   const {errors} = useFormContext();
@@ -29,11 +29,12 @@ const InputContainer = ({render, label, name, controlClassName = ''}) => {
   }
   const color = error ? 'danger' : null;
   return (
-    <Field>
-      <Label>{label}</Label>
-      <Control className={controlClassNames}>{render({color, name})}</Control>
-      {error && <Help color={color}>{error}</Help>}
-    </Field>
+    // <Field>
+    //   <Label>{label}</Label>
+    //   <Control className={controlClassNames}>{render({color, name})}</Control>
+    //   {error && <Help color={color}>{error}</Help>}
+    // </Field>
+    <a>asd</a>
   );
 };
 

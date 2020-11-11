@@ -7,8 +7,9 @@
   - fecha?: date (dia o rango - si no pone fecha, hay que poner una igual de aca a dos meses)
 */
 import React from 'react';
-import {Button, Form, Heading} from 'react-bulma-components';
-import {Controller} from 'react-hook-form';
+// import {Controller} from 'react-hook-form';
+import styled from 'styled-components';
+// import {Button, Form} from 'react-bulma-components';
 
 import CategoryInput from './CategoryInput';
 import CityInput from './CityInput';
@@ -16,7 +17,12 @@ import DateInput from './DateInput';
 import ImageInput from './ImageInput';
 import InputContainer from './InputContainer';
 
-const {Field, Control, Input, Textarea} = Form;
+// const {Field, Control, Input, Textarea} = Form;
+
+const Title = styled.h2`
+  text-align: center;
+  margin-bottom: 25px;
+`;
 
 //https://codelabs.developers.google.com/codelabs/firebase-web/?authuser=0#11
 const PostCreate = () => {
@@ -27,8 +33,8 @@ const PostCreate = () => {
         No tiene sentido elegir fecha/rango de fechas para mascotas por ejemplo,
         pero si para donaciones
       </p>
-      <Heading className="PostCreateTitle">Crear publicación</Heading>
-      <InputContainer
+      <Title className="PostCreateTitle">Crear publicación</Title>
+      {/* <InputContainer
         label="Titulo"
         name="title"
         render={(props) => (
@@ -40,7 +46,7 @@ const PostCreate = () => {
             {...props}
           />
         )}
-      />
+      /> */}
       <DateInput />
       <InputContainer
         label="Categoría"
@@ -48,7 +54,7 @@ const PostCreate = () => {
         controlClassName="CategoriesRadiosContainer"
         render={(props) => <CategoryInput {...props} />}
       />
-      <InputContainer
+      {/* <InputContainer
         label="Descripción"
         name="description"
         render={(props) => (
@@ -60,18 +66,18 @@ const PostCreate = () => {
             {...props}
           />
         )}
-      />
+      /> */}
       <InputContainer
         label="Ciudad"
         name="city"
         render={(props) => <CityInput {...props} />}
       />
       <ImageInput />
-      <Field>
+      {/* <Field>
         <Control>
           <Button submit>Crear</Button>
         </Control>
-      </Field>
+      </Field> */}
     </>
   );
 };

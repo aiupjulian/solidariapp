@@ -1,6 +1,5 @@
-import React, {Suspense} from 'react';
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import {SuspenseWithPerf, useUser, useAuth} from 'reactfire';
+import React from 'react';
+import {useUser, useAuth} from 'reactfire';
 
 import FacebookButton from './components/FacebookButton';
 
@@ -36,9 +35,7 @@ const SignIn = () => {
   return (
     <>
       <h1>Ingresar</h1>
-      <Suspense fallback="loading...">
-        <FirebaseAuthStateButton />
-      </Suspense>
+      <FirebaseAuthStateButton />
     </>
   );
 };

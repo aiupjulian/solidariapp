@@ -1,9 +1,9 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Form} from 'react-bulma-components';
+// import {Form} from 'react-bulma-components';
 import places from 'places.js';
 import {useFormContext} from 'react-hook-form';
 
-const {Input} = Form;
+// const {Input} = Form;
 
 const CityInput = (props) => {
   const {
@@ -43,22 +43,23 @@ const CityInput = (props) => {
     };
   }, [setValue, isSubmitted]);
   return (
-    <Input
-      onChange={(e) => {
-        setCity(e.target.value);
-        setValue('city', '', isSubmitted);
-      }}
-      onFocus={() => {
-        placesAutocomplete.current.open();
-      }}
-      onBlur={() => {
-        placesAutocomplete.current.close();
-        if (isSubmitted) triggerValidation('city');
-      }}
-      value={city}
-      domRef={cityInputElement}
-      {...props}
-    />
+    // <Input
+    //   onChange={(e) => {
+    //     setCity(e.target.value);
+    //     setValue('city', '', isSubmitted);
+    //   }}
+    //   onFocus={() => {
+    //     placesAutocomplete.current.open();
+    //   }}
+    //   onBlur={() => {
+    //     placesAutocomplete.current.close();
+    //     if (isSubmitted) triggerValidation('city');
+    //   }}
+    //   value={city}
+    //   domRef={cityInputElement}
+    //   {...props}
+    // />
+    <input />
   );
 };
 
