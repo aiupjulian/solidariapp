@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {Link} from 'react-router-dom';
 import {AuthCheck, useUser, useAuth} from 'reactfire';
 import styled from 'styled-components';
 
@@ -9,6 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 
 import JoinModal from '../JoinModal';
+import routes from '../../../../pages';
 
 const StyledIconButton = styled(IconButton)`
   padding-top: 0;
@@ -107,8 +109,14 @@ const Auth = () => {
           open={open}
           onClose={handleClose}
         >
-          <MenuItem onClick={handleClose}>Profile</MenuItem>
-          <MenuItem onClick={handleLogout}>Logout</MenuItem>
+          <MenuItem
+            component={Link}
+            to={routes.Profile.path}
+            onClick={handleClose}
+          >
+            {routes.Profile.name}
+          </MenuItem>
+          <MenuItem onClick={handleLogout}>Cerrar sesión</MenuItem>
         </Menu>
       </div>
     </AuthCheck>
