@@ -1,5 +1,4 @@
 import HomeComponent from './Home';
-import SignInComponent from './SignIn';
 import ProfileComponent from './Profile';
 import PostComponent from './Post';
 import PostAuditListComponent from './PostAuditList';
@@ -16,16 +15,11 @@ const Home = {
   Component: HomeComponent,
   exact: true,
 };
-const SignIn = {
-  name: 'Ingresar',
-  path: '/ingresar',
-  Component: SignInComponent,
-};
 const Profile = {
   name: 'Perfil',
   path: '/perfil',
   Component: ProfileComponent,
-  redirect: SignIn.path,
+  redirect: Home.path,
 };
 const Post = {
   name: 'Publicacion',
@@ -43,13 +37,13 @@ const PostCreate = {
   name: 'Crear publicacion',
   path: '/crear-publicacion',
   Component: PostCreateComponent,
-  redirect: SignIn.path,
+  redirect: Home.path,
 };
 const PostEdit = {
   name: 'Editar publicacion',
   path: '/editar-publicacion',
   Component: PostEditComponent,
-  redirect: SignIn.path,
+  redirect: Home.path,
 };
 const PostList = {
   name: 'Listado de publicaciones',
@@ -64,7 +58,6 @@ const TopUsers = {
 
 const routes = {
   Home,
-  SignIn,
   Profile,
   Post,
   PostAuditList,

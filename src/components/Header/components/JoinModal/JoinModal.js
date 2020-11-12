@@ -1,4 +1,6 @@
 import React from 'react';
+import styled from 'styled-components';
+
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -7,6 +9,14 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {useTheme} from '@material-ui/core/styles';
+
+import FacebookButton from '../FacebookButton';
+
+const FacebookButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: ${({theme}) => theme.spacing(3)}px;
+`;
 
 const JoinModal = ({open, handleClose}) => {
   const theme = useTheme();
@@ -20,20 +30,21 @@ const JoinModal = ({open, handleClose}) => {
       aria-labelledby="responsive-dialog-title"
     >
       <DialogTitle id="responsive-dialog-title">
-        {"Use Google's location service?"}
+        Ingresar a Solidariapp
       </DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Let Google help apps determine location. This means sending anonymous
-          location data to Google, even when no apps are running.
+          Para ingresar a Solidariapp podes utilizar Facebook. Esto te va a
+          permitir crear publicaciones y participar en las publicaciones de
+          otros usuarios!
         </DialogContentText>
+        <FacebookButtonWrapper>
+          <FacebookButton />
+        </FacebookButtonWrapper>
       </DialogContent>
       <DialogActions>
         <Button autoFocus onClick={handleClose} color="primary">
-          Disagree
-        </Button>
-        <Button onClick={handleClose} color="primary" autoFocus>
-          Agree
+          Cerrar
         </Button>
       </DialogActions>
     </Dialog>

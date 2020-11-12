@@ -23,7 +23,7 @@ const Text = styled.span`
   margin-right: 12px;
 `;
 
-const FacebookButton = () => {
+const FacebookButton = ({className}) => {
   const FacebookAuthProvider = useAuth.FacebookAuthProvider;
   const auth = useAuth();
   auth.languageCode = 'es_LA';
@@ -34,7 +34,7 @@ const FacebookButton = () => {
   };
 
   return (
-    <ButtonContainer role="button" onClick={handleClick}>
+    <ButtonContainer className={className} role="button" onClick={handleClick}>
       <Logo
         src="https://static.xx.fbcdn.net/rsrc.php/v3/y9/r/OF6ddsGKpeB.png"
         alt="Facebook"

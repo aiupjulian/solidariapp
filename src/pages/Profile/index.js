@@ -3,7 +3,22 @@
 // listado de publicaciones creadas (para editar/borrar/cerrar)
 // listado de publicaciones a las que te sumaste (?)
 import React from 'react';
+import {useUser} from 'reactfire';
 
-const Profile = () => <h1>Profile</h1>;
+const Profile = () => {
+  const user = useUser();
+
+  return (
+    <>
+      <h3>Displayname: {user.displayName}</h3>
+      <h3>Providers:</h3>
+      <ul>
+        {user.providerData.map((profile) => (
+          <li key={profile.providerId}>{profile.providerId}</li>
+        ))}
+      </ul>
+    </>
+  );
+};
 
 export default Profile;
