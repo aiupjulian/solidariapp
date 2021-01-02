@@ -6,19 +6,32 @@ import {
   Redirect,
 } from 'react-router-dom';
 import {AuthCheck} from 'reactfire';
+import styled from 'styled-components';
 
 import Container from '@material-ui/core/Container';
+import Paper from '@material-ui/core/Paper';
 
 import pages from '.';
 import {Header} from '../components';
 
-const NormalRoute = ({Component, ...rest}) => (
+const StyledPaper = styled(Paper)`
+  margin-top: ${({theme}) => theme.spacing(5)}px;
+  padding: ${({theme}) => theme.spacing(3)}px;
+`;
+
+const PageWrapper = ({Component, hasPaperWrapper, ...rest}) => {
+  const Page = <Component {...rest} />;
+  if (hasPaperWrapper) return <StyledPaper elevation={2}>{Page}</StyledPaper>;
+  return Page;
+};
+
+const NormalRoute = (props) => (
   <Route>
-    <Component {...rest} />
+    <PageWrapper {...props} />
   </Route>
 );
 
-const AuthorizedRoute = ({Component, redirect, requiredClaims, ...rest}) => (
+const AuthorizedRoute = ({redirect, requiredClaims, ...rest}) => (
   <Route
     render={({location}) => (
       <AuthCheck
@@ -32,7 +45,7 @@ const AuthorizedRoute = ({Component, redirect, requiredClaims, ...rest}) => (
           />
         }
       >
-        <Component {...rest} />
+        <PageWrapper {...rest} />
       </AuthCheck>
     )}
   />

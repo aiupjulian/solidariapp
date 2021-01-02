@@ -38,6 +38,7 @@ const PostCreate = {
   path: '/crear-publicacion',
   Component: PostCreateComponent,
   redirect: Home.path,
+  hasPaperWrapper: true,
 };
 const PostEdit = {
   name: 'Editar publicacion',

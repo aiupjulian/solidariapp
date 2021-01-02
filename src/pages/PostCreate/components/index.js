@@ -1,83 +1,88 @@
 /* fields:
+  - categoria: 'salud' | 'donaciones' | 'desaparecidos' | 'mascotas'
   - titulo: string(20)
   - descripcion: string(300)
   - ciudad: string(100)
   - imagen?: file
-  - categoria: 'salud' | 'donaciones' | 'desaparecidos' | 'mascotas'
   - fecha?: date (dia o rango - si no pone fecha, hay que poner una igual de aca a dos meses)
 */
 import React from 'react';
-// import {Controller} from 'react-hook-form';
 import styled from 'styled-components';
-// import {Button, Form} from 'react-bulma-components';
 
-import CategoryInput from './CategoryInput';
-import CityInput from './CityInput';
-import DateInput from './DateInput';
-import ImageInput from './ImageInput';
-import InputContainer from './InputContainer';
+import Typography from '@material-ui/core/Typography';
+import Stepper from '@material-ui/core/Stepper';
+import Step from '@material-ui/core/Step';
+import StepLabel from '@material-ui/core/StepLabel';
+import Box from '@material-ui/core/Box';
 
-// const {Field, Control, Input, Textarea} = Form;
+import {
+  firstStepSchema,
+  secondStepSchema,
+  thirdStepSchema,
+} from '../utils/validation';
+import StepContainer from './Steps/StepContainer';
+import FirstStep from './Steps/FirstStep';
+import SecondStep from './Steps/SecondStep';
+import ThirdStep from './Steps/ThirdStep';
 
-const Title = styled.h2`
-  text-align: center;
-  margin-bottom: 25px;
+const StyledStepper = styled(Stepper)`
+  ${({theme}) => theme.breakpoints.down('sm')} {
+    padding-left: 0;
+    padding-right: 0;
+  }
 `;
 
-//https://codelabs.developers.google.com/codelabs/firebase-web/?authuser=0#11
+const StyledBox = styled(Box)`
+  ${({theme}) => theme.breakpoints.up('sm')} {
+    width: 75%;
+    margin: 0 auto;
+  }
+`;
+
+const steps = ['Categoría', 'Descripción', 'Información adicional'];
+
+const stepsContent = [
+  {StepContent: FirstStep, schema: firstStepSchema},
+  {StepContent: SecondStep, schema: secondStepSchema},
+  {StepContent: ThirdStep, schema: thirdStepSchema},
+  {StepContent: () => <div>Terminaron los pasos.</div>, schema: {}},
+];
+
 const PostCreate = () => {
+  const [activeStep, setActiveStep] = React.useState(0);
+
+  const handleNext = () => setActiveStep(activeStep + 1);
+  const handleBack = () => setActiveStep(activeStep - 1);
+
   return (
     <>
-      <h1>Poner un stepper, primero elegir categoria</h1>
-      <p>
-        No tiene sentido elegir fecha/rango de fechas para mascotas por ejemplo,
-        pero si para donaciones
-      </p>
-      <Title className="PostCreateTitle">Crear publicación</Title>
-      {/* <InputContainer
-        label="Titulo"
-        name="title"
-        render={(props) => (
-          <Controller
-            as={Input}
-            autoComplete="off"
-            defaultValue=""
-            maxLength={50}
-            {...props}
-          />
-        )}
-      /> */}
-      <DateInput />
-      <InputContainer
-        label="Categoría"
-        name="category"
-        controlClassName="CategoriesRadiosContainer"
-        render={(props) => <CategoryInput {...props} />}
-      />
-      {/* <InputContainer
-        label="Descripción"
-        name="description"
-        render={(props) => (
-          <Controller
-            autoComplete="off"
-            as={Textarea}
-            defaultValue=""
-            maxLength={200}
-            {...props}
-          />
-        )}
-      /> */}
-      <InputContainer
-        label="Ciudad"
-        name="city"
-        render={(props) => <CityInput {...props} />}
-      />
-      <ImageInput />
-      {/* <Field>
-        <Control>
-          <Button submit>Crear</Button>
-        </Control>
-      </Field> */}
+      <Typography variant="h4" align="center">
+        Crear publicación
+      </Typography>
+      <StyledStepper activeStep={activeStep} alternativeLabel>
+        {steps.map((label) => {
+          return (
+            <Step key={label}>
+              <StepLabel>{label}</StepLabel>
+            </Step>
+          );
+        })}
+      </StyledStepper>
+      <StyledBox>
+        {stepsContent.map(({StepContent, schema}, index) => (
+          <div key={index} hidden={activeStep !== index}>
+            <StepContainer
+              activeStep={activeStep}
+              handleNext={handleNext}
+              handleBack={handleBack}
+              isLastStep={index === steps.length - 1}
+              schema={schema}
+            >
+              <StepContent />
+            </StepContainer>
+          </div>
+        ))}
+      </StyledBox>
     </>
   );
 };
