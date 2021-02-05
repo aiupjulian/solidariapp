@@ -25,7 +25,11 @@ const StepContainer = (props) => {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)}>
+      <form
+        onSubmit={methods.handleSubmit(onSubmit)}
+        noValidate
+        autoComplete="off"
+      >
         {children}
         <ButtonsContainer>
           <Button disabled={activeStep === 0} onClick={handleBack}>

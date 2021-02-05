@@ -1,10 +1,7 @@
 import React from 'react';
 import {Controller, useFormContext} from 'react-hook-form';
 
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
+import TextField from '@material-ui/core/TextField';
 
 const TITLE_INPUT_NAME = 'title';
 const DESCRIPTION_INPUT_NAME = 'description';
@@ -14,50 +11,47 @@ const SecondStep = () => {
 
   return (
     <>
-      <FormControl
-        error={TITLE_INPUT_NAME in errors}
-        fullWidth
-        variant="outlined"
-        margin="normal"
-      >
-        <InputLabel htmlFor={TITLE_INPUT_NAME}>Título</InputLabel>
-        <Controller
-          as={OutlinedInput}
-          defaultValue=""
-          name={TITLE_INPUT_NAME}
-          id={TITLE_INPUT_NAME}
-          aria-describedby="title-helper"
-          label="Título"
-        />
-        {errors[TITLE_INPUT_NAME] && (
-          <FormHelperText id="title-helper">
-            {errors[TITLE_INPUT_NAME].message}
-          </FormHelperText>
+      <Controller
+        render={(props, {invalid}) => (
+          <TextField
+            {...props}
+            id={TITLE_INPUT_NAME}
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            label="Título"
+            required
+            error={invalid}
+            helperText={
+              TITLE_INPUT_NAME in errors && errors[TITLE_INPUT_NAME].message
+            }
+          />
         )}
-      </FormControl>
-      <FormControl
-        error={DESCRIPTION_INPUT_NAME in errors}
-        fullWidth
-        variant="outlined"
-        margin="normal"
-      >
-        <InputLabel htmlFor={DESCRIPTION_INPUT_NAME}>Descripción</InputLabel>
-        <Controller
-          as={OutlinedInput}
-          defaultValue=""
-          name={DESCRIPTION_INPUT_NAME}
-          id={DESCRIPTION_INPUT_NAME}
-          aria-describedby="description-helper"
-          multiline
-          rows={3}
-          label="Descripción"
-        />
-        {errors[DESCRIPTION_INPUT_NAME] && (
-          <FormHelperText id="description-helper">
-            {errors[DESCRIPTION_INPUT_NAME].message}
-          </FormHelperText>
+        defaultValue=""
+        name={TITLE_INPUT_NAME}
+      />
+      <Controller
+        render={(props, {invalid}) => (
+          <TextField
+            {...props}
+            id={DESCRIPTION_INPUT_NAME}
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            label="Descripción"
+            required
+            multiline
+            rows={3}
+            error={invalid}
+            helperText={
+              DESCRIPTION_INPUT_NAME in errors &&
+              errors[DESCRIPTION_INPUT_NAME].message
+            }
+          />
         )}
-      </FormControl>
+        defaultValue=""
+        name={DESCRIPTION_INPUT_NAME}
+      />
     </>
   );
 };

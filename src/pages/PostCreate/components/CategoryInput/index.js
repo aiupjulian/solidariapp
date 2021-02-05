@@ -61,6 +61,7 @@ const CategoryInput = () => {
       component="fieldset"
       error={CATEGORY_INPUT_NAME in errors}
       variant="outlined"
+      required
     >
       <FormLabel component="legend">Seleccioná la categoria</FormLabel>
       <Controller
