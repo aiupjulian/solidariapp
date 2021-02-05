@@ -1,86 +1,153 @@
-import React, {useEffect, useRef, useState} from 'react';
-import places from 'places.js';
+import React, {useEffect, useState, useMemo} from 'react';
 import {Controller, useFormContext} from 'react-hook-form';
+import styled from 'styled-components';
+import algoliasearch from 'algoliasearch/src/browser/builds/algoliasearchLite';
+import debounce from 'lodash/debounce';
 
 import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
 const CITY_INPUT_NAME = 'city';
 
+const client = algoliasearch.initPlaces(
+  'plN14EG00UY5',
+  '9552417a96aa49685c37a4c20846da15',
+);
+
+const getPlacePredictions = (query, callback) =>
+  client
+    .search({query, type: 'city', language: 'es', countries: ['ar']})
+    .then((content) => callback(content.hits))
+    .catch((e) => console.log(e));
+
+const StyledLocationOnIcon = styled(LocationOnIcon)`
+  color: ${({theme}) => theme.palette.text.secondary};
+  margin-right: ${({theme}) => theme.spacing(2)}px;
+`;
+
 const CityInput = () => {
-  const {
-    setValue,
-    register,
-    unregister,
-    triggerValidation,
-    errors,
-    formState: {isSubmitted},
-  } = useFormContext();
-  const [city, setCity] = useState('');
-  const cityInputElement = useRef(null);
-  const placesAutocomplete = useRef(null);
+  const {errors} = useFormContext();
+  const [value, setValue] = useState(null);
+  const [inputValue, setInputValue] = useState('');
+  const [options, setOptions] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const fetch = useMemo(
+    () =>
+      debounce((request, callback) => {
+        setIsLoading(true);
+        getPlacePredictions(request, callback);
+      }, 800),
+    [],
+  );
 
   useEffect(() => {
-    register({name: 'city'});
-    placesAutocomplete.current = places({
-      appId: 'plN14EG00UY5',
-      apiKey: '545521c135e551ef2d973e5a991311b1',
-      container: cityInputElement.current,
-      type: 'city',
-      language: 'es',
-      countries: ['AR'],
-      style: false,
-    });
+    let active = true;
 
-    return () => unregister('city');
-  }, []);
+    if (inputValue === '') {
+      setOptions(value ? [value] : []);
+      return undefined;
+    }
 
-  useEffect(() => {
-    placesAutocomplete.current.on('change', (e) => {
-      setValue('city', e.suggestion.value, isSubmitted);
-      setCity(e.suggestion.value);
-    });
-    placesAutocomplete.current.on('clear', (e) => {
-      setValue('city', '', isSubmitted);
-      setCity('');
+    fetch(inputValue, (results) => {
+      if (active) {
+        setIsLoading(false);
+        let newOptions = [];
+
+        if (value) {
+          newOptions = [value];
+        }
+
+        if (results) {
+          newOptions = [...newOptions, ...results];
+        }
+
+        setOptions(newOptions);
+      }
     });
 
     return () => {
-      placesAutocomplete.current.removeAllListeners('change');
-      placesAutocomplete.current.removeAllListeners('clear');
+      active = false;
     };
-  }, [setValue, isSubmitted]);
+  }, [value, inputValue, fetch]);
 
   return (
-    <FormControl
-      error={CITY_INPUT_NAME in errors}
-      fullWidth
-      variant="outlined"
-      margin="normal"
-    >
-      <InputLabel htmlFor={CITY_INPUT_NAME}>Ciudad</InputLabel>
+    <FormControl error={CITY_INPUT_NAME in errors} fullWidth>
       <Controller
-        as={OutlinedInput}
+        render={({onChange, onBlur, value}, {invalid}) => (
+          <Autocomplete
+            id="google-map-demo"
+            getOptionLabel={(option) => {
+              return typeof option === 'string'
+                ? option
+                : `${option.locale_names[0]}, ${option.administrative[0]}`;
+            }}
+            getOptionSelected={(option, value) =>
+              option.objectID === value.objectID
+            }
+            filterOptions={(x) => x}
+            options={options}
+            autoComplete
+            includeInputInList
+            filterSelectedOptions
+            fullWidth
+            value={value}
+            loading={isLoading}
+            noOptionsText="No hay opciones"
+            loadingText="Cargando..."
+            onBlur={onBlur}
+            onChange={(event, newValue) => {
+              // I have to store newValue.objectID
+              // client.getObject(newValue.objectID, (city) => {
+              //   console.log(city);
+              // });
+              setOptions(newValue ? [newValue, ...options] : options);
+              onChange(newValue);
+            }}
+            onInputChange={(event, newInputValue) => {
+              setInputValue(newInputValue);
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Ciudad"
+                variant="outlined"
+                fullWidth
+                error={invalid}
+              />
+            )}
+            renderOption={(option) => (
+              <Grid container alignItems="center">
+                <Grid item>
+                  <StyledLocationOnIcon />
+                </Grid>
+                <Grid item xs>
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: option._highlightResult?.locale_names[0].value.replaceAll(
+                        'em>',
+                        'strong>',
+                      ),
+                    }}
+                  ></span>
+                  <Typography variant="body2" color="textSecondary">
+                    {option.administrative?.[0]}
+                  </Typography>
+                </Grid>
+              </Grid>
+            )}
+          />
+        )}
         defaultValue=""
         name={CITY_INPUT_NAME}
         id={CITY_INPUT_NAME}
         aria-describedby="city-helper"
         label="Ciudad"
-        onChange={(e) => {
-          setCity(e.target.value);
-          setValue('city', '', isSubmitted);
-        }}
-        onFocus={() => {
-          placesAutocomplete.current.open();
-        }}
-        onBlur={() => {
-          placesAutocomplete.current.close();
-          if (isSubmitted) triggerValidation('city');
-        }}
-        value={city}
-        inputRef={cityInputElement}
       />
       {errors[CITY_INPUT_NAME] && (
         <FormHelperText id="city-helper">

@@ -10,7 +10,6 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
 
 import {categories} from '../../../../utils/filters';
 

@@ -32,7 +32,9 @@ const secondStepSchema = yup.object().shape({
 });
 
 const thirdStepSchema = yup.object().shape({
-  city: yup.string().required().min(5),
+  city: yup.object().required().nullable().shape({
+    objectID: yup.string().required().nullable(),
+  }),
   // dateInputType: yup
   //   .string()
   //   .required()

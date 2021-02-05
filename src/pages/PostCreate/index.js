@@ -2,7 +2,6 @@ import React from 'react';
 // import { useHistory } from "react-router-dom";
 
 import PostCreate from './components/index';
-// import { useUserState } from "../../contexts/UserContext";
 // import { savePost } from "../../utils/firebase";
 // import { createSearch, FILTERS } from "../../utils/filters";
 // import pages from "../";
