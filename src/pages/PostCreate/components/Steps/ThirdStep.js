@@ -1,15 +1,15 @@
 import React from 'react';
 
 import CityInput from '../CityInput';
+import ImageInput from '../ImageInput';
 // import DateInput from '../DateInput';
-// import ImageInput from '../ImageInput';
 
 const ThirdStep = () => {
   return (
     <>
       <CityInput />
-      {/* <DateInput />
-      <ImageInput /> */}
+      <ImageInput />
+      {/* <DateInput /> */}
     </>
   );
 };

@@ -29,11 +29,12 @@ const StyledLocationOnIcon = styled(LocationOnIcon)`
 `;
 
 const CityInput = () => {
-  const {errors} = useFormContext();
-  const [value, setValue] = useState(null);
+  const {errors, getValues} = useFormContext();
   const [inputValue, setInputValue] = useState('');
   const [options, setOptions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  const {[CITY_INPUT_NAME]: value} = getValues();
 
   const fetch = useMemo(
     () =>
@@ -55,17 +56,7 @@ const CityInput = () => {
     fetch(inputValue, (results) => {
       if (active) {
         setIsLoading(false);
-        let newOptions = [];
-
-        if (value) {
-          newOptions = [value];
-        }
-
-        if (results) {
-          newOptions = [...newOptions, ...results];
-        }
-
-        setOptions(newOptions);
+        setOptions(results || []);
       }
     });
 
@@ -76,6 +67,8 @@ const CityInput = () => {
 
   return (
     <Controller
+      defaultValue=""
+      name={CITY_INPUT_NAME}
       render={({onChange, onBlur, value}, {invalid}) => (
         <Autocomplete
           id="google-map-demo"
@@ -115,6 +108,7 @@ const CityInput = () => {
               id={CITY_INPUT_NAME}
               variant="outlined"
               fullWidth
+              margin="normal"
               label="Ciudad"
               required
               error={invalid}
@@ -145,8 +139,6 @@ const CityInput = () => {
           )}
         />
       )}
-      defaultValue=""
-      name={CITY_INPUT_NAME}
     />
   );
 };

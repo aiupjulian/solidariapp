@@ -60,7 +60,6 @@ const CategoryInput = () => {
     <StyledFormControl
       component="fieldset"
       error={CATEGORY_INPUT_NAME in errors}
-      variant="outlined"
       required
     >
       <FormLabel component="legend">Seleccioná la categoria</FormLabel>
