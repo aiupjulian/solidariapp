@@ -56,18 +56,16 @@ const Category = ({name, path, Icon, className}) => (
   </StyledCard>
 );
 
-const Home = () => {
-  return (
-    <>
-      <h2>Categorías</h2>
-      <CategoriesList>
-        {Object.values(categories).map(({name, path, Icon}) => (
-          <Category key={path} name={name} path={path} Icon={Icon} />
-        ))}
-      </CategoriesList>
-      <OurMision />
-    </>
-  );
-};
+const Home = () => (
+  <>
+    <h2>Categorías</h2>
+    <CategoriesList>
+      {Object.values(categories).map(({name, path, Icon}) => (
+        <Category key={path} name={name} path={path} Icon={Icon} />
+      ))}
+    </CategoriesList>
+    <OurMision />
+  </>
+);
 
 export default Home;

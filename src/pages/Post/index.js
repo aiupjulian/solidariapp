@@ -5,16 +5,24 @@
 // reportar publicacion
 // compartir en facebook?
 import React from 'react';
+import {useFirestore, useFirestoreDocDataOnce} from 'reactfire';
 
-import {useLoadingState} from '../../contexts/LoadingContext';
+import useQuery from '../../hooks/useQuery';
+import {FILTERS} from '../../utils/filters';
 
 const Post = () => {
-  // const post = useFirebase("posts", query.get("id"));
-  const isLoading = useLoadingState();
-  if (isLoading) return null;
+  const query = useQuery();
+  const postRef = useFirestore().collection('posts').doc(query.get(FILTERS.ID));
+  const post = useFirestoreDocDataOnce(postRef);
+
   return (
-    <h1>post</h1>
-    // <>{post ? <h1>{post.title}</h1> : <h1>No post encontrado con ese id</h1>}</>
+    <>
+      {post ? (
+        <h1>{post.title}</h1>
+      ) : (
+        <h1>Ninguna publicacion encontrada con ese id.</h1>
+      )}
+    </>
   );
 };
 

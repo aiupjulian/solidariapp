@@ -6,7 +6,7 @@
   - imagen?: file
   - fecha?: date (dia o rango - si no pone fecha, hay que poner una igual de aca a dos meses)
 */
-import React from 'react';
+import React, {useEffect} from 'react';
 import styled from 'styled-components';
 
 import Typography from '@material-ui/core/Typography';
@@ -24,6 +24,7 @@ import StepContainer from './Steps/StepContainer';
 import FirstStep from './Steps/FirstStep';
 import SecondStep from './Steps/SecondStep';
 import ThirdStep from './Steps/ThirdStep';
+import {useFormContext} from '../PostContext';
 
 const StyledStepper = styled(Stepper)`
   ${({theme}) => theme.breakpoints.down('sm')} {
@@ -45,14 +46,21 @@ const stepsContent = [
   {StepContent: FirstStep, schema: firstStepSchema},
   {StepContent: SecondStep, schema: secondStepSchema},
   {StepContent: ThirdStep, schema: thirdStepSchema},
-  {StepContent: () => <div>Terminaron los pasos.</div>, schema: {}},
+  {StepContent: () => <div>Creando publicacion...</div>, schema: {}},
 ];
 
-const PostCreate = () => {
+const PostCreate = ({onSubmit}) => {
   const [activeStep, setActiveStep] = React.useState(0);
+  const [formValues] = useFormContext();
 
   const handleNext = () => setActiveStep(activeStep + 1);
   const handleBack = () => setActiveStep(activeStep - 1);
+
+  useEffect(() => {
+    if (activeStep === steps.length) {
+      onSubmit(formValues);
+    }
+  }, [activeStep, onSubmit, formValues]);
 
   return (
     <>
@@ -75,7 +83,8 @@ const PostCreate = () => {
               activeStep={activeStep}
               handleNext={handleNext}
               handleBack={handleBack}
-              isLastStep={index === steps.length - 1}
+              stepsLength={steps.length}
+              stepIndex={index}
               schema={schema}
             >
               <StepContent />

@@ -8,7 +8,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import {ThemeProvider} from 'styled-components';
 
 import Routes from './pages/Routes';
-import {LoadingProvider} from './contexts/LoadingContext';
 
 const customTheme = createMuiTheme();
 
@@ -16,10 +15,8 @@ const App = () => (
   <StylesProvider injectFirst>
     <MuiThemeProvider theme={customTheme}>
       <ThemeProvider theme={customTheme}>
-        <LoadingProvider>
-          <CssBaseline />
-          <Routes />
-        </LoadingProvider>
+        <CssBaseline />
+        <Routes />
       </ThemeProvider>
     </MuiThemeProvider>
   </StylesProvider>

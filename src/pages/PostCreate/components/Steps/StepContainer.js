@@ -5,6 +5,8 @@ import styled from 'styled-components';
 
 import Button from '@material-ui/core/Button';
 
+import {useFormContext} from '../../PostContext';
+
 const ButtonsContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -12,16 +14,24 @@ const ButtonsContainer = styled.div`
 `;
 
 const StepContainer = (props) => {
-  const {schema, children, activeStep, handleBack, isLastStep} = props;
+  const {
+    schema,
+    children,
+    activeStep,
+    handleBack,
+    handleNext,
+    stepsLength,
+    stepIndex,
+  } = props;
   const methods = useForm({resolver: yupResolver(schema)});
+  const [formValues, setFormValues] = useFormContext();
+  const isLastStep = stepIndex === stepsLength - 1;
+  const finishedSteps = stepIndex === stepsLength;
 
   const onSubmit = (data) => {
-    console.log('Submit: ', data);
-    props.handleNext();
+    setFormValues({...formValues, ...data});
+    handleNext();
   };
-
-  console.log('Values: ', methods.getValues());
-  console.log('Errors: ', methods.errors);
 
   return (
     <FormProvider {...methods}>
@@ -31,14 +41,16 @@ const StepContainer = (props) => {
         autoComplete="off"
       >
         {children}
-        <ButtonsContainer>
-          <Button disabled={activeStep === 0} onClick={handleBack}>
-            Anterior
-          </Button>
-          <Button variant="contained" color="primary" type="submit">
-            {isLastStep ? 'Crear' : 'Siguiente'}
-          </Button>
-        </ButtonsContainer>
+        {!finishedSteps && (
+          <ButtonsContainer>
+            <Button disabled={activeStep === 0} onClick={handleBack}>
+              Anterior
+            </Button>
+            <Button variant="contained" color="primary" type="submit">
+              {isLastStep ? 'Crear' : 'Siguiente'}
+            </Button>
+          </ButtonsContainer>
+        )}
       </form>
     </FormProvider>
   );
