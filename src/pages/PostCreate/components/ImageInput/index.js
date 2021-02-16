@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Controller, useFormContext} from 'react-hook-form';
+import React, {useMemo} from 'react';
+import {useFormContext} from 'react-hook-form';
 import styled from 'styled-components';
 
 import Button from '@material-ui/core/Button';
@@ -20,49 +20,43 @@ const Image = styled.div`
 `;
 
 const ImageInput = () => {
-  const {errors} = useFormContext();
-  const [image, setImage] = useState();
+  const {errors, register, watch, setValue} = useFormContext();
+  const watchImage = watch('image', false);
 
-  const handleImageChange = (event) => {
-    setImage(URL.createObjectURL(event.target.files[0]));
-  };
+  const imageURL = useMemo(
+    () => watchImage?.[0] && URL.createObjectURL(watchImage[0]),
+    [watchImage],
+  );
 
   return (
     <FormControl error={IMAGE_INPUT_NAME in errors} margin="normal">
       <FormLabel component="legend">Imagen de la publicacion</FormLabel>
-      <Controller
-        defaultValue={null}
+      <input
         name={IMAGE_INPUT_NAME}
-        render={() => (
-          <>
-            <input
-              accept="image/*"
-              id="contained-button-file"
-              type="file"
-              hidden
-              onChange={handleImageChange}
-            />
-            <label htmlFor="contained-button-file">
-              <Button variant="contained" color="primary" component="span">
-                Cargar imagen
-              </Button>
-            </label>
-          </>
-        )}
+        accept="image/*"
+        id="contained-button-file"
+        type="file"
+        hidden
+        ref={register}
       />
+      <label htmlFor="contained-button-file">
+        <Button variant="contained" color="primary" component="span">
+          Cargar imagen
+        </Button>
+      </label>
       {errors[IMAGE_INPUT_NAME] && (
         <FormHelperText>{errors[IMAGE_INPUT_NAME].message}</FormHelperText>
       )}
-      {image && (
+      {imageURL && (
         <>
           <Button
             variant="contained"
             color="primary"
-            onClick={() => setImage(null)}
+            onClick={() => setValue('image', null)}
           >
             Eliminar imagen
           </Button>
-          <Image image={image} alt="Imagen de la publicacion" />
+          <Image image={imageURL} alt="Imagen de la publicacion" />
         </>
       )}
     </FormControl>
