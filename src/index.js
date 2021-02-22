@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {FirebaseAppProvider} from 'reactfire';
 import 'fontsource-roboto';
 import 'fontsource-roboto/500.css';
+import 'react-virtualized/styles.css';
 
 import './index.css';
 import App from './App';

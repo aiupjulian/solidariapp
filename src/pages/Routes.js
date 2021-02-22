@@ -14,6 +14,16 @@ import Paper from '@material-ui/core/Paper';
 import pages from '.';
 import {Header} from '../components';
 
+const AppContainer = styled.div`
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+`;
+
+const StyledContainer = styled(Container)`
+  flex: 1;
+`;
+
 const StyledPaper = styled(Paper)`
   margin-top: ${({theme}) => theme.spacing(5)}px;
   padding: ${({theme}) => theme.spacing(3)}px;
@@ -53,18 +63,20 @@ const AuthorizedRoute = ({redirect, requiredClaims, ...rest}) => (
 
 const Routes = () => (
   <Router>
-    <Header />
-    <Container fixed>
-      <Switch>
-        {Object.values(pages).map((props) =>
-          props.redirect ? (
-            <AuthorizedRoute key={props.path} {...props} />
-          ) : (
-            <NormalRoute key={props.path} {...props} />
-          ),
-        )}
-      </Switch>
-    </Container>
+    <AppContainer>
+      <Header />
+      <StyledContainer fixed>
+        <Switch>
+          {Object.values(pages).map((props) =>
+            props.redirect ? (
+              <AuthorizedRoute key={props.path} {...props} />
+            ) : (
+              <NormalRoute key={props.path} {...props} />
+            ),
+          )}
+        </Switch>
+      </StyledContainer>
+    </AppContainer>
   </Router>
 );
 

@@ -70,32 +70,35 @@ const Header = () => {
   }, [location, headerPages]);
 
   return (
-    <AppBar position="static">
-      <Toolbar variant="dense">
-        <Hidden smUp>
-          <MenuButton edge="start" color="inherit" aria-label="menu">
-            <MenuIcon />
-          </MenuButton>
-        </Hidden>
-        <StyledLink component={RouterLink} to="/">
-          <Logo />
-          <Title variant="h6">Solidariapp</Title>
-        </StyledLink>
-        <Hidden smDown>
-          <Tabs value={tabsValue} aria-label="nav tabs">
-            {headerPages.map((headerPage) => (
-              <LinkTab
-                key={headerPage.path}
-                value={headerPage.path}
-                page={headerPage}
-              />
-            ))}
-          </Tabs>
-        </Hidden>
-        <Separator />
-        <Auth />
-      </Toolbar>
-    </AppBar>
+    <>
+      <AppBar position="fixed">
+        <Toolbar variant="dense">
+          <Hidden smUp>
+            <MenuButton edge="start" color="inherit" aria-label="menu">
+              <MenuIcon />
+            </MenuButton>
+          </Hidden>
+          <StyledLink component={RouterLink} to="/">
+            <Logo />
+            <Title variant="h6">Solidariapp</Title>
+          </StyledLink>
+          <Hidden smDown>
+            <Tabs value={tabsValue} aria-label="nav tabs">
+              {headerPages.map((headerPage) => (
+                <LinkTab
+                  key={headerPage.path}
+                  value={headerPage.path}
+                  page={headerPage}
+                />
+              ))}
+            </Tabs>
+          </Hidden>
+          <Separator />
+          <Auth />
+        </Toolbar>
+      </AppBar>
+      <Toolbar variant="dense" />
+    </>
   );
 };
 

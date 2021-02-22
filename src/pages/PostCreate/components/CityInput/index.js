@@ -71,7 +71,7 @@ const CityInput = () => {
       name={CITY_INPUT_NAME}
       render={({onChange, onBlur, value}, {invalid}) => (
         <Autocomplete
-          id="google-map-demo"
+          id="places"
           getOptionLabel={(option) => {
             return typeof option === 'string'
               ? option

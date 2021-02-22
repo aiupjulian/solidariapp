@@ -10,6 +10,9 @@ import {useFirestore, useFirestoreDocDataOnce, StorageImage} from 'reactfire';
 import useQuery from '../../hooks/useQuery';
 import {FILTERS} from '../../utils/filters';
 
+// TODO: implement
+// - si es de otro: sumarse o reportar
+// - si es mia: agradecer sobre lista de usuarios sumados
 const Post = () => {
   const query = useQuery();
   const postRef = useFirestore().collection('posts').doc(query.get(FILTERS.ID));
