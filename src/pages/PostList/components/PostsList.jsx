@@ -97,7 +97,7 @@ const PostsList = ({hasNextPage, isNextPageLoading, list, loadNextPage}) => {
                   onRowsRendered={onRowsRendered}
                   rowRenderer={rowRenderer}
                   rowCount={rowCount}
-                  rowHeight={2000}
+                  rowHeight={400}
                   width={width}
                   overscanRowCount={2}
                 />

@@ -26,6 +26,9 @@ const StyledLink = styled(Link)`
   align-items: center;
   color: ${({theme}) => theme.palette.primary.contrastText};
   margin-right: ${({theme}) => theme.spacing(2)}px;
+  :hover {
+    text-decoration: none;
+  }
 `;
 
 const Logo = styled(LogoSimple)`

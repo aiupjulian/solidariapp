@@ -2,6 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 
+import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -16,11 +17,24 @@ const CategoriesList = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
+  margin-bottom: ${({theme}) => theme.spacing(5)}px;
+`;
+
+const CardContainer = styled.div`
+  flex-basis: 24%;
+  margin-bottom: ${({theme}) => theme.spacing(3)}px;
+  ${({theme}) => theme.breakpoints.down('md')} {
+    flex-basis: 49%;
+  }
+  ${({theme}) => theme.breakpoints.down('sm')} {
+    flex-basis: 100%;
+  }
 `;
 
 const StyledCard = styled(Card)`
-  min-width: 260px;
+  margin: 0 auto;
+  max-width: 290px;
 `;
 
 const StyledCardContent = styled(CardContent)`
@@ -35,36 +49,51 @@ const StyledCardActions = styled(CardActions)`
   justify-content: flex-end;
 `;
 
+const SeeAllCategories = styled(Button)`
+  margin-left: ${({theme}) => theme.spacing(7)}px;
+`;
+
 const Category = ({name, path, Icon, className}) => (
-  <StyledCard className={className} variant="outlined">
-    <StyledCardContent>
-      <CardHeader title={name} />
-      <Icon width={100} height={100} />
-    </StyledCardContent>
-    <StyledCardActions>
-      <Button
-        component={Link}
-        to={{
-          pathname: pages.PostList.path,
-          search: createSearch({[FILTERS.CATEGORY]: path}),
-        }}
-        color="primary"
-      >
-        Ver publicaciones
-      </Button>
-    </StyledCardActions>
-  </StyledCard>
+  <CardContainer>
+    <StyledCard className={className} variant="outlined">
+      <StyledCardContent>
+        <CardHeader title={name} />
+        <Icon width={100} height={100} />
+      </StyledCardContent>
+      <StyledCardActions>
+        <Button
+          component={Link}
+          to={{
+            pathname: pages.PostList.path,
+            search: createSearch({[FILTERS.CATEGORY]: path}),
+          }}
+          color="primary"
+        >
+          Ver {name}
+        </Button>
+      </StyledCardActions>
+    </StyledCard>
+  </CardContainer>
 );
 
 const Home = () => (
   <>
-    <h2>Categorías</h2>
+    <OurMision />
+    <Typography variant="h4" gutterBottom>
+      Categorías
+      <SeeAllCategories
+        color="primary"
+        component={Link}
+        to={pages.PostList.path}
+      >
+        Ver todas
+      </SeeAllCategories>
+    </Typography>
     <CategoriesList>
       {Object.values(categories).map(({name, path, Icon}) => (
         <Category key={path} name={name} path={path} Icon={Icon} />
       ))}
     </CategoriesList>
-    <OurMision />
   </>
 );
 

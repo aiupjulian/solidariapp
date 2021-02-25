@@ -3,11 +3,19 @@ import {useHistory} from 'react-router-dom';
 import 'firebase/firestore';
 import * as firebase from 'firebase/app';
 import {useFirestore, useUser, useStorage} from 'reactfire';
+import styled from 'styled-components';
+
+import Paper from '@material-ui/core/Paper';
 
 import {FormProvider} from './PostContext';
 import PostCreate from './components/index';
 import {createSearch, FILTERS} from '../../utils/filters';
 import pages from '../';
+
+const StyledPaper = styled(Paper)`
+  margin-top: ${({theme}) => theme.spacing(5)}px;
+  padding: ${({theme}) => theme.spacing(3)}px;
+`;
 
 const PostCreateContainer = () => {
   const history = useHistory();
@@ -61,9 +69,11 @@ const PostCreateContainer = () => {
   };
 
   return (
-    <FormProvider>
-      <PostCreate onSubmit={createPost} />
-    </FormProvider>
+    <StyledPaper elevation={2}>
+      <FormProvider>
+        <PostCreate onSubmit={createPost} />
+      </FormProvider>
+    </StyledPaper>
   );
 };
 

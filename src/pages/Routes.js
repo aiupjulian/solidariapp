@@ -9,10 +9,9 @@ import {AuthCheck} from 'reactfire';
 import styled from 'styled-components';
 
 import Container from '@material-ui/core/Container';
-import Paper from '@material-ui/core/Paper';
 
 import pages from '.';
-import {Header} from '../components';
+import {Footer, Header} from '../components';
 
 const AppContainer = styled.div`
   min-height: 100vh;
@@ -24,24 +23,13 @@ const StyledContainer = styled(Container)`
   flex: 1;
 `;
 
-const StyledPaper = styled(Paper)`
-  margin-top: ${({theme}) => theme.spacing(5)}px;
-  padding: ${({theme}) => theme.spacing(3)}px;
-`;
-
-const PageWrapper = ({Component, hasPaperWrapper, ...rest}) => {
-  const Page = <Component {...rest} />;
-  if (hasPaperWrapper) return <StyledPaper elevation={2}>{Page}</StyledPaper>;
-  return Page;
-};
-
-const NormalRoute = (props) => (
+const NormalRoute = ({Component, ...rest}) => (
   <Route>
-    <PageWrapper {...props} />
+    <Component {...rest} />
   </Route>
 );
 
-const AuthorizedRoute = ({redirect, requiredClaims, ...rest}) => (
+const AuthorizedRoute = ({Component, redirect, requiredClaims, ...rest}) => (
   <Route
     render={({location}) => (
       <AuthCheck
@@ -55,7 +43,7 @@ const AuthorizedRoute = ({redirect, requiredClaims, ...rest}) => (
           />
         }
       >
-        <PageWrapper {...rest} />
+        <Component {...rest} />
       </AuthCheck>
     )}
   />
@@ -76,6 +64,7 @@ const Routes = () => (
           )}
         </Switch>
       </StyledContainer>
+      <Footer />
     </AppContainer>
   </Router>
 );

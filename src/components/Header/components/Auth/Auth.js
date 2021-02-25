@@ -1,16 +1,17 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
-import {AuthCheck, useUser, useAuth} from 'reactfire';
+import {AuthCheck, useAuth} from 'reactfire';
 import styled from 'styled-components';
 
-import Avatar from '@material-ui/core/Avatar';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 
 import JoinModal from '../JoinModal';
+import Avatar from '../../../Avatar';
 import routes from '../../../../pages';
+import {FACEBOOK_AUTH_TOKEN} from '../../../../constants/facebook';
 
 const StyledIconButton = styled(IconButton)`
   padding-top: 0;
@@ -22,34 +23,11 @@ const StyledAvatar = styled(Avatar)`
   height: ${({theme}) => theme.spacing(4)}px;
 `;
 
-const FACEBOOK_AUTH_TOKEN = 'FBAT';
-
 const Auth = () => {
-  const user = useUser();
   const auth = useAuth();
   const [anchorEl, setAnchorEl] = useState(null);
-  const [userPhoto, setUserPhoto] = useState('');
   const open = Boolean(anchorEl);
   const [joinModalOpen, setJoinModalOpen] = useState(false);
-
-  useEffect(() => {
-    const fetchUserPhotoURL = (photoURL, accessToken) =>
-      fetch(`${photoURL}?access_token=${accessToken}`).then(({url}) =>
-        setUserPhoto(url),
-      );
-    auth.getRedirectResult().then(function (result) {
-      if (result.credential) {
-        localStorage.setItem(
-          FACEBOOK_AUTH_TOKEN,
-          result.credential.accessToken,
-        );
-        fetchUserPhotoURL(result.user.photoURL, result.credential.accessToken);
-      } else {
-        const accessToken = localStorage.getItem(FACEBOOK_AUTH_TOKEN);
-        if (accessToken) fetchUserPhotoURL(user.photoURL, accessToken);
-      }
-    });
-  }, [auth, user]);
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -92,7 +70,7 @@ const Auth = () => {
           onClick={handleMenu}
           color="inherit"
         >
-          <StyledAvatar src={userPhoto} />
+          <StyledAvatar />
         </StyledIconButton>
         <Menu
           id="menu-appbar"
