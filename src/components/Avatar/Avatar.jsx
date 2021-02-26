@@ -3,7 +3,6 @@ import {useUser, useAuth} from 'reactfire';
 
 import MUIAvatar from '@material-ui/core/Avatar';
 
-import userIcon from '../../assets/icons/user.svg';
 import {FACEBOOK_AUTH_TOKEN} from '../../constants/facebook';
 
 const Avatar = ({className}) => {
@@ -30,7 +29,7 @@ const Avatar = ({className}) => {
     });
   }, [auth, user]);
 
-  return <MUIAvatar className={className} src={userPhoto || userIcon} />;
+  return <MUIAvatar className={className} src={userPhoto} />;
 };
 
 export default Avatar;

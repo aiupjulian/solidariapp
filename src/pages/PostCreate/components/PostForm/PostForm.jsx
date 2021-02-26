@@ -11,7 +11,7 @@ import styled from 'styled-components';
 
 import Typography from '@material-ui/core/Typography';
 import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
+import MaterialStep from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Box from '@material-ui/core/Box';
 
@@ -19,12 +19,12 @@ import {
   firstStepSchema,
   secondStepSchema,
   thirdStepSchema,
-} from '../utils/validation';
-import StepContainer from './Steps/StepContainer';
-import FirstStep from './Steps/FirstStep';
-import SecondStep from './Steps/SecondStep';
-import ThirdStep from './Steps/ThirdStep';
-import {useFormContext} from '../PostContext';
+} from '../../utils/validation';
+import Step from '../Steps/Step';
+import FirstStep from '../Steps/FirstStep';
+import SecondStep from '../Steps/SecondStep';
+import ThirdStep from '../Steps/ThirdStep';
+import {useFormContext} from '../../utils/PostContext';
 
 const StyledStepper = styled(Stepper)`
   ${({theme}) => theme.breakpoints.down('sm')} {
@@ -49,7 +49,7 @@ const stepsContent = [
   {StepContent: () => <div>Creando publicacion...</div>, schema: {}},
 ];
 
-const PostCreate = ({onSubmit}) => {
+const PostForm = ({onSubmit}) => {
   const [activeStep, setActiveStep] = React.useState(0);
   const [formValues] = useFormContext();
 
@@ -70,16 +70,16 @@ const PostCreate = ({onSubmit}) => {
       <StyledStepper activeStep={activeStep} alternativeLabel>
         {steps.map((label) => {
           return (
-            <Step key={label}>
+            <MaterialStep key={label}>
               <StepLabel>{label}</StepLabel>
-            </Step>
+            </MaterialStep>
           );
         })}
       </StyledStepper>
       <StyledBox>
         {stepsContent.map(({StepContent, schema}, index) => (
           <div key={index} hidden={activeStep !== index}>
-            <StepContainer
+            <Step
               activeStep={activeStep}
               handleNext={handleNext}
               handleBack={handleBack}
@@ -88,7 +88,7 @@ const PostCreate = ({onSubmit}) => {
               schema={schema}
             >
               <StepContent />
-            </StepContainer>
+            </Step>
           </div>
         ))}
       </StyledBox>
@@ -96,4 +96,4 @@ const PostCreate = ({onSubmit}) => {
   );
 };
 
-export default PostCreate;
+export default PostForm;

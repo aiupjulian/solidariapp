@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import Button from '@material-ui/core/Button';
 
-import {useFormContext} from '../../PostContext';
+import {useFormContext} from '../../utils/PostContext';
 
 const ButtonsContainer = styled.div`
   display: flex;
@@ -13,7 +13,7 @@ const ButtonsContainer = styled.div`
   margin-top: ${({theme}) => theme.spacing(3)}px;
 `;
 
-const StepContainer = (props) => {
+const Step = (props) => {
   const {
     schema,
     children,
@@ -56,4 +56,4 @@ const StepContainer = (props) => {
   );
 };
 
-export default StepContainer;
+export default Step;

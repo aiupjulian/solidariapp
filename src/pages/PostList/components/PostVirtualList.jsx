@@ -18,7 +18,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 import {createSearch, FILTERS} from '../../../utils/filters';
-import pages from '../../';
+import pages from '../..';
 
 const StyledList = styled(List)`
   outline: 0;
@@ -28,7 +28,12 @@ const StyledCard = styled(Card)`
   margin-bottom: ${({theme}) => theme.spacing(6)}px;
 `;
 
-const PostsList = ({hasNextPage, isNextPageLoading, list, loadNextPage}) => {
+const PostVirtualList = ({
+  hasNextPage,
+  isNextPageLoading,
+  list,
+  loadNextPage,
+}) => {
   const history = useHistory();
   const rowCount = hasNextPage ? list.length + 1 : list.length;
   const loadMoreRows = isNextPageLoading ? () => {} : loadNextPage;
@@ -110,4 +115,4 @@ const PostsList = ({hasNextPage, isNextPageLoading, list, loadNextPage}) => {
   );
 };
 
-export default PostsList;
+export default PostVirtualList;
