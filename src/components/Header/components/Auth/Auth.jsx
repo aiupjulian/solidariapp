@@ -12,6 +12,10 @@ import JoinModal from '../JoinModal';
 import Avatar from '../../../Avatar';
 import routes from '../../../../pages';
 import {FACEBOOK_AUTH_TOKEN} from '../../../../constants/facebook';
+import {
+  useJoinModalSet,
+  useJoinModalState,
+} from '../../../../contexts/JoinModalContext';
 
 const StyledIconButton = styled(IconButton)`
   padding-top: 0;
@@ -27,7 +31,8 @@ const Auth = () => {
   const auth = useAuth();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const [joinModalOpen, setJoinModalOpen] = useState(false);
+  const showJoinModal = useJoinModalState();
+  const setShowJoinModal = useJoinModalSet();
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -44,11 +49,11 @@ const Auth = () => {
   };
 
   const handleJoinModalOpen = () => {
-    setJoinModalOpen(true);
+    setShowJoinModal(true);
   };
 
   const handleJoinModalClose = () => {
-    setJoinModalOpen(false);
+    setShowJoinModal(false);
   };
 
   return (
@@ -58,7 +63,7 @@ const Auth = () => {
           <Button variant="contained" onClick={handleJoinModalOpen}>
             Ingresar
           </Button>
-          <JoinModal open={joinModalOpen} handleClose={handleJoinModalClose} />
+          <JoinModal open={showJoinModal} handleClose={handleJoinModalClose} />
         </>
       }
     >
