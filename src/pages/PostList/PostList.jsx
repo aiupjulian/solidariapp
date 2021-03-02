@@ -8,18 +8,34 @@ import {useFirestore} from 'reactfire';
 
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import Typography from '@material-ui/core/Typography';
 
 import {FILTERS} from '../../utils/filters';
 import useQuery from '../../hooks/useQuery';
 import pages from '../';
 import PostVirtualList from './components/PostVirtualList';
+import Filters from './components/Filters';
 
 const PAGE_SIZE = 2;
 
+const PageTitle = styled(Typography)`
+  margin-top: ${({theme}) => theme.spacing(4)}px;
+  margin-bottom: ${({theme}) => theme.spacing(2)}px;
+`;
+
+const Container = styled.div`
+  display: flex;
+`;
+
+const FabContainer = styled.div`
+  width: 56px;
+  margin-left: auto;
+`;
+
 const StyledFab = styled(Fab)`
-  position: fixed;
-  bottom: ${({theme}) => theme.spacing(7)}px;
-  right: ${({theme}) => theme.spacing(7)}px;
+  position: sticky;
+  top: 85vh;
+  margin-bottom: ${({theme}) => theme.spacing(2)}px;
 `;
 
 // TODO: implement filters (categoria/ciudad) and order (fecha/sumados)
@@ -77,21 +93,27 @@ const PostList = () => {
 
   return (
     <>
-      <h1>Postlist</h1>
-      <p>Category: {selectedCategory}</p>
-      <PostVirtualList
-        hasNextPage={hasNextPage}
-        isNextPageLoading={isNextPageLoading}
-        list={allPosts}
-        loadNextPage={loadNextPage}
-      />
-      <StyledFab
-        color="primary"
-        aria-label="add"
-        onClick={() => history.push(pages.PostCreate.path)}
-      >
-        <AddIcon />
-      </StyledFab>
+      <PageTitle variant="h4" component="h2">
+        Listado de publicaciones
+      </PageTitle>
+      <Container>
+        <Filters />
+        <PostVirtualList
+          hasNextPage={hasNextPage}
+          isNextPageLoading={isNextPageLoading}
+          list={allPosts}
+          loadNextPage={loadNextPage}
+        />
+        <FabContainer>
+          <StyledFab
+            color="primary"
+            aria-label="add"
+            onClick={() => history.push(pages.PostCreate.path)}
+          >
+            <AddIcon />
+          </StyledFab>
+        </FabContainer>
+      </Container>
     </>
   );
 };

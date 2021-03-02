@@ -34,3 +34,8 @@ export const categories = {
     Icon: PetHouse,
   },
 };
+
+export const getCategoryByPath = (categoryPath) =>
+  Object.values(categories).find(
+    (filterValue) => categoryPath === filterValue.path,
+  );
