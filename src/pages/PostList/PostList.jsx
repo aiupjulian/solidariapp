@@ -24,6 +24,7 @@ const PageTitle = styled(Typography)`
 `;
 
 const Container = styled.div`
+  flex: 1;
   display: flex;
 `;
 
@@ -49,6 +50,14 @@ const PostList = () => {
   const [allPosts, setAllPosts] = useState([]);
   const [hasNextPage, setHasNextPage] = useState(true);
   const nextStartAtPostSnapshotRef = useRef();
+
+  useEffect(() => {
+    setStartAtPostSnapshot();
+    nextStartAtPostSnapshotRef.current = undefined;
+    setIsNextPageLoading(false);
+    setAllPosts([]);
+    setHasNextPage(true);
+  }, [selectedCategory]);
 
   useEffect(() => {
     if (

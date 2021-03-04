@@ -1,4 +1,4 @@
-import React, {Suspense} from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import {FirebaseAppProvider} from 'reactfire';
 import 'fontsource-roboto';
@@ -19,9 +19,7 @@ const firebaseConfig = {
 };
 
 ReactDOM.unstable_createRoot(document.getElementById('root')).render(
-  <Suspense fallback={<></>}>
-    <FirebaseAppProvider firebaseConfig={firebaseConfig}>
-      <App />
-    </FirebaseAppProvider>
-  </Suspense>,
+  <FirebaseAppProvider firebaseConfig={firebaseConfig}>
+    <App />
+  </FirebaseAppProvider>,
 );

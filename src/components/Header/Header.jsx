@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {useMemo, Suspense} from 'react';
 import styled from 'styled-components';
 import {AuthCheck} from 'reactfire';
 import {Link as RouterLink, useLocation} from 'react-router-dom';
@@ -97,7 +97,9 @@ const Header = () => {
             </Tabs>
           </Hidden>
           <Separator />
-          <Auth />
+          <Suspense fallback={<></>}>
+            <Auth />
+          </Suspense>
         </Toolbar>
       </AppBar>
       <Toolbar variant="dense" />

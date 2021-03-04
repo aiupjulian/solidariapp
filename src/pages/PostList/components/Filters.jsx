@@ -33,6 +33,7 @@ const Filters = () => {
         <CategoriesList>
           {Object.values(categories).map((category) => (
             <Link
+              key={category.path}
               component={NavLink}
               isActive={() => selectedCategory === category.path}
               to={{

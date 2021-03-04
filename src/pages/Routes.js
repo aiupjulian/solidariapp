@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Suspense} from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -21,6 +21,8 @@ const AppContainer = styled.div`
 
 const StyledContainer = styled(Container)`
   flex: 1;
+  display: flex;
+  flex-direction: column;
 `;
 
 const NormalRoute = ({Component, ...rest}) => (
@@ -54,15 +56,17 @@ const Routes = () => (
     <AppContainer>
       <Header />
       <StyledContainer fixed>
-        <Switch>
-          {Object.values(pages).map((props) =>
-            props.redirect ? (
-              <AuthorizedRoute key={props.path} {...props} />
-            ) : (
-              <NormalRoute key={props.path} {...props} />
-            ),
-          )}
-        </Switch>
+        <Suspense fallback={<></>}>
+          <Switch>
+            {Object.values(pages).map((props) =>
+              props.redirect ? (
+                <AuthorizedRoute key={props.path} {...props} />
+              ) : (
+                <NormalRoute key={props.path} {...props} />
+              ),
+            )}
+          </Switch>
+        </Suspense>
       </StyledContainer>
       <Footer />
     </AppContainer>
