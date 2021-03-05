@@ -43,10 +43,19 @@ const Step = (props) => {
         {children}
         {!finishedSteps && (
           <ButtonsContainer>
-            <Button disabled={activeStep === 0} onClick={handleBack}>
+            <Button
+              disabled={activeStep === 0}
+              onClick={handleBack}
+              disableRipple
+            >
               Anterior
             </Button>
-            <Button variant="contained" color="primary" type="submit">
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              disableRipple
+            >
               {isLastStep ? 'Crear' : 'Siguiente'}
             </Button>
           </ButtonsContainer>

@@ -93,6 +93,7 @@ const OurMision = () => {
               color="primary"
               component={Link}
               to={pages.PostList.path}
+              disableRipple
             >
               Ver publicaciones
             </Button>
@@ -109,6 +110,7 @@ const OurMision = () => {
               variant="contained"
               size="large"
               color="primary"
+              disableRipple
               {...createPostProps}
             >
               Crear publicación

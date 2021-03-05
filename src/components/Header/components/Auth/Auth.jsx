@@ -60,7 +60,11 @@ const Auth = () => {
     <AuthCheck
       fallback={
         <>
-          <Button variant="contained" onClick={handleJoinModalOpen}>
+          <Button
+            variant="contained"
+            onClick={handleJoinModalOpen}
+            disableRipple
+          >
             Ingresar
           </Button>
           <JoinModal open={showJoinModal} handleClose={handleJoinModalClose} />

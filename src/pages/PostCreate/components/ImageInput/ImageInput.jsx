@@ -40,7 +40,12 @@ const ImageInput = () => {
         ref={register}
       />
       <label htmlFor="contained-button-file">
-        <Button variant="contained" color="primary" component="span">
+        <Button
+          variant="contained"
+          color="primary"
+          component="span"
+          disableRipple
+        >
           Cargar imagen
         </Button>
       </label>
@@ -53,6 +58,7 @@ const ImageInput = () => {
             variant="contained"
             color="primary"
             onClick={() => setValue('image', null)}
+            disableRipple
           >
             Eliminar imagen
           </Button>

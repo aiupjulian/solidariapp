@@ -43,7 +43,7 @@ const JoinModal = ({open, handleClose}) => {
         </FacebookButtonWrapper>
       </DialogContent>
       <DialogActions>
-        <Button autoFocus onClick={handleClose} color="primary">
+        <Button autoFocus onClick={handleClose} color="primary" disableRipple>
           Cerrar
         </Button>
       </DialogActions>

@@ -101,6 +101,7 @@ const PostVirtualList = ({
                   pages.Post.path.concat(createSearch({[FILTERS.ID]: id})),
                 )
               }
+              disableRipple
             >
               Ver mas
             </Button>

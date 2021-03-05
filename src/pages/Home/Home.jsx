@@ -68,6 +68,7 @@ const Category = ({name, path, Icon, className}) => (
             search: createSearch({[FILTERS.CATEGORY]: path}),
           }}
           color="primary"
+          disableRipple
         >
           Ver {name}
         </Button>
@@ -85,6 +86,7 @@ const Home = () => (
         color="primary"
         component={Link}
         to={pages.PostList.path}
+        disableRipple
       >
         Ver todas
       </SeeAllCategories>
