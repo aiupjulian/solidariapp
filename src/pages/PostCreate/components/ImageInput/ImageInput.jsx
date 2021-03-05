@@ -8,7 +8,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 
 const IMAGE_INPUT_NAME = 'image';
-const IMAGE_MAX_SIZE = 5 * 1000000; // 5 MB
+// const IMAGE_MAX_SIZE = 5 * 1000000; // 5 MB
 
 const Image = styled.div`
   width: 200px;

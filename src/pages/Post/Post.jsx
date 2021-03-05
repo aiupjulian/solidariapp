@@ -16,7 +16,12 @@ import {FILTERS} from '../../utils/filters';
 const Post = () => {
   const query = useQuery();
   const postRef = useFirestore().collection('posts').doc(query.get(FILTERS.ID));
-  const {post, user, storageUri, timestamp} = useFirestoreDocDataOnce(postRef);
+  const {
+    post,
+    storageUri,
+    // user,
+    // timestamp,
+  } = useFirestoreDocDataOnce(postRef);
 
   return (
     <>
