@@ -86,15 +86,17 @@ const Header = () => {
             <Title variant="h6">Solidariapp</Title>
           </StyledLink>
           <Hidden smDown>
-            <Tabs value={tabsValue} aria-label="nav tabs">
-              {headerPages.map((headerPage) => (
-                <LinkTab
-                  key={headerPage.path}
-                  value={headerPage.path}
-                  page={headerPage}
-                />
-              ))}
-            </Tabs>
+            <Suspense fallback={<></>}>
+              <Tabs value={tabsValue} aria-label="nav tabs">
+                {headerPages.map((headerPage) => (
+                  <LinkTab
+                    key={headerPage.path}
+                    value={headerPage.path}
+                    page={headerPage}
+                  />
+                ))}
+              </Tabs>
+            </Suspense>
           </Hidden>
           <Separator />
           <Suspense fallback={<></>}>
