@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 import {useUser} from 'reactfire';
@@ -15,7 +15,6 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {Love} from '../../../assets/icons';
 import pages from '../../';
 import {useJoinModalSet} from '../../../contexts/JoinModalContext';
-import {useMemo} from 'react';
 
 const Section = styled.div`
   display: flex;

@@ -22,6 +22,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import {createSearch, FILTERS, getCategoryByPath} from '../../../utils/filters';
 import pages from '../..';
 
+const IMAGE_HEIGHT = 240;
+
 const ListWrapper = styled.div`
   flex: 1 1 auto;
   max-width: 620px;
@@ -38,16 +40,32 @@ const CardContainer = styled.div`
 `;
 
 const StyledCard = styled(Card)`
+  position: relative;
   max-width: 550px;
   width: 100%;
 `;
 
+const Category = styled(Typography)`
+  position: absolute;
+  top: ${IMAGE_HEIGHT - 36}px;
+  right: 0;
+  margin-right: ${({theme}) => theme.spacing(1)}px;
+  color: ${({theme}) => theme.palette.primary.contrastText};
+  background-color: ${({theme}) => theme.palette.primary.main};
+  padding: 3px 4px;
+  border-radius: 4px;
+  z-index: 1;
+`;
+
 const StyledCardMedia = styled(CardMedia)`
-  height: 240px;
-  background-color: grey;
+  width: 100%;
+  height: ${IMAGE_HEIGHT}px;
+  background-color: ${({theme}) => theme.palette.grey['600']};
   opacity: 0.6;
-  > g {
-    transform: translate(250px, 0);
+  ${({theme}) => theme.breakpoints.up('sm')} {
+    > g {
+      transform: translate(250px, 0);
+    }
   }
 `;
 
@@ -76,11 +94,11 @@ const PostVirtualList = ({
     return (
       <CardContainer key={key} style={style}>
         <StyledCard variant="outlined">
+          <Category color="textSecondary" gutterBottom>
+            {post.category.toUpperCase()}
+          </Category>
           <StyledCardMedia title={post.title} {...cardMediaProps} />
           <CardContent>
-            <Typography color="textSecondary" gutterBottom>
-              {post.category}
-            </Typography>
             <Typography variant="h5">{post.title}</Typography>
             <Typography color="textSecondary">
               {post.city.locale_names[0]}, {post.city.administrative[0]}

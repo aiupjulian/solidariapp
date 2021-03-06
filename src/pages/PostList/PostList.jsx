@@ -1,10 +1,10 @@
 // filtros: categoria, ciudad
 // order by: fecha, cantidad sumados
 // listado: ciudad, imagen, cantidad sumados, sumarse, creador, denunciar
-import React, {useEffect, useState, useRef} from 'react';
-import {useHistory} from 'react-router-dom';
+import React, {useEffect, useState, useRef, useMemo} from 'react';
 import styled from 'styled-components';
-import {useFirestore} from 'reactfire';
+import {useFirestore, useUser} from 'reactfire';
+import {Link} from 'react-router-dom';
 
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
@@ -15,6 +15,7 @@ import useQuery from '../../hooks/useQuery';
 import pages from '../';
 import PostVirtualList from './components/PostVirtualList';
 import Filters from './components/Filters';
+import {useJoinModalSet} from '../../contexts/JoinModalContext';
 
 const PAGE_SIZE = 2;
 
@@ -26,11 +27,27 @@ const PageTitle = styled(Typography)`
 const Container = styled.div`
   flex: 1;
   display: flex;
+  position: relative;
+  ${({theme}) => theme.breakpoints.down('sm')} {
+    flex-direction: column;
+  }
 `;
 
 const FabContainer = styled.div`
   width: 56px;
   margin-left: auto;
+  ${({theme}) => theme.breakpoints.down('sm')} {
+    position: absolute;
+    margin-right: -80px;
+    height: 100%;
+    right: 0;
+  }
+  @media (max-width: 725px) {
+    margin-right: 0;
+  }
+  ${({theme}) => theme.breakpoints.down('xs')} {
+    margin-right: 0;
+  }
 `;
 
 const StyledFab = styled(Fab)`
@@ -42,7 +59,6 @@ const StyledFab = styled(Fab)`
 // TODO: implement filters (categoria/ciudad) and order (fecha/sumados)
 const PostList = () => {
   const query = useQuery();
-  const history = useHistory();
   const selectedCategory = query.get(FILTERS.CATEGORY);
   const [startAtPostSnapshot, setStartAtPostSnapshot] = useState();
   const [isNextPageLoading, setIsNextPageLoading] = useState(false);
@@ -50,6 +66,8 @@ const PostList = () => {
   const [allPosts, setAllPosts] = useState([]);
   const [hasNextPage, setHasNextPage] = useState(true);
   const nextStartAtPostSnapshotRef = useRef();
+  const setShowJoinModal = useJoinModalSet();
+  const user = useUser();
 
   useEffect(() => {
     setStartAtPostSnapshot();
@@ -95,6 +113,14 @@ const PostList = () => {
     }
   }, [allPosts, startAtPostSnapshot, postsRef, hasNextPage, selectedCategory]);
 
+  const createPostProps = useMemo(
+    () =>
+      user
+        ? {component: Link, to: pages.PostCreate.path}
+        : {onClick: () => setShowJoinModal(true)},
+    [user, setShowJoinModal],
+  );
+
   const loadNextPage = () => {
     setIsNextPageLoading(true);
     setStartAtPostSnapshot(nextStartAtPostSnapshotRef.current);
@@ -114,11 +140,7 @@ const PostList = () => {
           loadNextPage={loadNextPage}
         />
         <FabContainer>
-          <StyledFab
-            color="primary"
-            aria-label="add"
-            onClick={() => history.push(pages.PostCreate.path)}
-          >
+          <StyledFab color="primary" aria-label="add" {...createPostProps}>
             <AddIcon />
           </StyledFab>
         </FabContainer>
