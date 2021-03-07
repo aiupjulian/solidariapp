@@ -33,7 +33,12 @@ const PostCreateContainer = () => {
     posts
       .add({
         post: {...postData},
-        user: {...user.providerData[0]},
+        user: {
+          displayName: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+          id: user.uid,
+        },
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       })
       .then((postRef) => {
