@@ -11,15 +11,25 @@ import styled, {css} from 'styled-components';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
+import Avatar from '@material-ui/core/Avatar';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
+import EventIcon from '@material-ui/icons/Event';
 
 import useQuery from '../../hooks/useQuery';
 import {FILTERS, getCategoryByPath} from '../../utils/filters';
 
 const IMAGE_HEIGHT = 300;
 
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
 const StyledPaper = styled(Paper)`
   position: relative;
   overflow: hidden;
+  width: 100%;
+  max-width: 800px;
 `;
 
 const PostImageContainer = styled.div`
@@ -53,6 +63,32 @@ const Category = styled(Chip)`
   z-index: 1;
 `;
 
+const PostContent = styled.div`
+  padding: ${({theme}) => theme.spacing(1)}px ${({theme}) => theme.spacing(2)}px;
+  ${({theme}) => theme.breakpoints.up('sm')} {
+    padding: ${({theme}) => theme.spacing(2)}px
+      ${({theme}) => theme.spacing(5)}px;
+  }
+`;
+
+const StyledAvatar = styled(Avatar)`
+  margin-right: ${({theme}) => theme.spacing(1)}px;
+`;
+
+const PostInfoLine = styled(Typography)`
+  display: flex;
+  align-items: center;
+  padding: ${({theme}) => theme.spacing(1)}px 0;
+  > svg {
+    margin-right: ${({theme}) => theme.spacing(1)}px;
+  }
+`;
+
+const Description = styled(Typography)`
+  margin: ${({theme}) => theme.spacing(3)}px 0
+    ${({theme}) => theme.spacing(3)}px;
+`;
+
 const PostImage = ({post, imageUrl}) => {
   const Icon = getCategoryByPath(post.category).Icon;
 
@@ -69,29 +105,46 @@ const PostImage = ({post, imageUrl}) => {
 const Post = () => {
   const query = useQuery();
   const postRef = useFirestore().collection('posts').doc(query.get(FILTERS.ID));
-  const {
-    post,
-    imageUrl,
-    // user,
-    // timestamp,
-  } = useFirestoreDocDataOnce(postRef);
+  const {post, imageUrl, user, timestamp} = useFirestoreDocDataOnce(postRef);
 
   return (
-    <StyledPaper>
-      {post ? (
-        <>
-          <Category gutterBottom label={post.category.toUpperCase()} />
-          <PostImage post={post} imageUrl={imageUrl} />
-          <Typography variant="h2" gutterBottom>
-            {post.title}
+    <Container>
+      <StyledPaper>
+        {post ? (
+          <>
+            <Category gutterBottom label={post.category.toUpperCase()} />
+            <PostImage post={post} imageUrl={imageUrl} />
+            <PostContent>
+              <Typography variant="h3" gutterBottom>
+                {post.title}
+              </Typography>
+              <PostInfoLine variant="subtitle1">
+                <StyledAvatar src={user.photoURL} />
+                {user.displayName}
+              </PostInfoLine>
+              <PostInfoLine color="textSecondary">
+                <LocationOnIcon />
+                {post.city.locale_names[0]}, {post.city.administrative[0]}
+              </PostInfoLine>
+              <PostInfoLine color="textSecondary">
+                <EventIcon />
+                {timestamp.toDate().toLocaleDateString(undefined, {
+                  weekday: 'long',
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </PostInfoLine>
+              <Description variant="body1">{post.description}</Description>
+            </PostContent>
+          </>
+        ) : (
+          <Typography variant="h3">
+            Ninguna publicacion encontrada con ese id.
           </Typography>
-        </>
-      ) : (
-        <Typography variant="h2">
-          Ninguna publicacion encontrada con ese id.
-        </Typography>
-      )}
-    </StyledPaper>
+        )}
+      </StyledPaper>
+    </Container>
   );
 };
 
