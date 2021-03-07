@@ -1,17 +1,16 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
-import {AuthCheck, useAuth} from 'reactfire';
+import {AuthCheck, useAuth, useUser} from 'reactfire';
 import styled from 'styled-components';
 
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
+import Avatar from '@material-ui/core/Avatar';
 
 import JoinModal from '../JoinModal';
-import Avatar from '../../../Avatar';
 import routes from '../../../../pages';
-import {FACEBOOK_AUTH_TOKEN} from '../../../../constants/facebook';
 import {
   useJoinModalSet,
   useJoinModalState,
@@ -29,10 +28,23 @@ const StyledAvatar = styled(Avatar)`
 
 const Auth = () => {
   const auth = useAuth();
+  const user = useUser();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const showJoinModal = useJoinModalState();
   const setShowJoinModal = useJoinModalSet();
+
+  useEffect(() => {
+    const fetchUserPhotoURL = (photoURL, accessToken) =>
+      fetch(`${photoURL}?access_token=${accessToken}`).then(({url}) => {
+        user.updateProfile({photoURL: url});
+      });
+    auth.getRedirectResult().then(function (result) {
+      if (result.credential) {
+        fetchUserPhotoURL(result.user.photoURL, result.credential.accessToken);
+      }
+    });
+  }, [auth, user]);
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -44,7 +56,6 @@ const Auth = () => {
 
   const handleLogout = () => {
     handleClose();
-    localStorage.removeItem(FACEBOOK_AUTH_TOKEN);
     auth.signOut();
   };
 
@@ -79,7 +90,7 @@ const Auth = () => {
           onClick={handleMenu}
           color="inherit"
         >
-          <StyledAvatar />
+          <StyledAvatar src={user?.photoURL} />
         </StyledIconButton>
         <Menu
           id="menu-appbar"

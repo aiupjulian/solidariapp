@@ -7,8 +7,7 @@ import {useUser} from 'reactfire';
 import styled from 'styled-components';
 
 import Paper from '@material-ui/core/Paper';
-
-import {Avatar} from '../../components';
+import Avatar from '@material-ui/core/Avatar';
 
 const UserData = styled(Paper)``;
 
@@ -25,7 +24,7 @@ const Profile = () => {
   return (
     <>
       <UserData>
-        <StyledAvatar />
+        <StyledAvatar src={user.photoURL} />
         <h3>Displayname: {user.displayName}</h3>
         <h3>Providers:</h3>
         <ul>

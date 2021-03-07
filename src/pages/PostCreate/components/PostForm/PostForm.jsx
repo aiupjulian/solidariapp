@@ -24,6 +24,7 @@ import Step from '../Steps/Step';
 import FirstStep from '../Steps/FirstStep';
 import SecondStep from '../Steps/SecondStep';
 import ThirdStep from '../Steps/ThirdStep';
+import LastStep from '../Steps/LastStep';
 import {useFormContext} from '../../utils/PostContext';
 
 const StyledStepper = styled(Stepper)`
@@ -46,7 +47,7 @@ const stepsContent = [
   {StepContent: FirstStep, schema: firstStepSchema},
   {StepContent: SecondStep, schema: secondStepSchema},
   {StepContent: ThirdStep, schema: thirdStepSchema},
-  {StepContent: () => <div>Creando publicacion...</div>, schema: {}},
+  {StepContent: LastStep, schema: {}},
 ];
 
 const PostForm = ({onSubmit}) => {

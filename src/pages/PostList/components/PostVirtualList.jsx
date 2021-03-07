@@ -21,10 +21,10 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import EventIcon from '@material-ui/icons/Event';
 import Chip from '@material-ui/core/Chip';
+import Avatar from '@material-ui/core/Avatar';
 
 import {createSearch, FILTERS, getCategoryByPath} from '../../../utils/filters';
 import pages from '../..';
-import {Avatar} from '../../../components';
 
 const IMAGE_HEIGHT = 240;
 
@@ -107,7 +107,7 @@ const PostVirtualList = ({
           <CardContent>
             <Typography variant="h5">{post.title}</Typography>
             <PostInfoLine variant="subtitle1">
-              <StyledAvatar />
+              <StyledAvatar src={user.photoURL} />
               {user.displayName}
             </PostInfoLine>
             <PostInfoLine color="textSecondary">
