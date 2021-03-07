@@ -13,7 +13,6 @@ import {createSearch, FILTERS} from '../../utils/filters';
 import pages from '../';
 
 const StyledPaper = styled(Paper)`
-  margin-top: ${({theme}) => theme.spacing(5)}px;
   padding: ${({theme}) => theme.spacing(3)}px;
 `;
 
@@ -69,7 +68,7 @@ const PostCreateContainer = () => {
   };
 
   return (
-    <StyledPaper elevation={2}>
+    <StyledPaper>
       <FormProvider>
         <PostForm onSubmit={createPost} />
       </FormProvider>

@@ -24,7 +24,7 @@ const Profile = () => {
 
   return (
     <>
-      <UserData elevation={2}>
+      <UserData>
         <StyledAvatar />
         <h3>Displayname: {user.displayName}</h3>
         <h3>Providers:</h3>
@@ -34,7 +34,7 @@ const Profile = () => {
           ))}
         </ul>
       </UserData>
-      <Paper elevation={2}>
+      <Paper>
         <h2>Publicaciones del usuario:</h2>
       </Paper>
     </>

@@ -18,9 +18,13 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
+import EventIcon from '@material-ui/icons/Event';
+import Chip from '@material-ui/core/Chip';
 
 import {createSearch, FILTERS, getCategoryByPath} from '../../../utils/filters';
 import pages from '../..';
+import {Avatar} from '../../../components';
 
 const IMAGE_HEIGHT = 240;
 
@@ -45,16 +49,16 @@ const StyledCard = styled(Card)`
   width: 100%;
 `;
 
-const Category = styled(Typography)`
+const Category = styled(Chip)`
   position: absolute;
   top: ${IMAGE_HEIGHT - 36}px;
   right: 0;
   margin-right: ${({theme}) => theme.spacing(1)}px;
-  color: ${({theme}) => theme.palette.primary.contrastText};
-  background-color: ${({theme}) => theme.palette.primary.main};
-  padding: 3px 4px;
-  border-radius: 4px;
   z-index: 1;
+`;
+
+const StyledAvatar = styled(Avatar)`
+  margin-right: ${({theme}) => theme.spacing(1)}px;
 `;
 
 const StyledCardMedia = styled(CardMedia)`
@@ -62,10 +66,14 @@ const StyledCardMedia = styled(CardMedia)`
   height: ${IMAGE_HEIGHT}px;
   background-color: ${({theme}) => theme.palette.grey['600']};
   opacity: 0.6;
-  ${({theme}) => theme.breakpoints.up('sm')} {
-    > g {
-      transform: translate(250px, 0);
-    }
+`;
+
+const PostInfoLine = styled(Typography)`
+  display: flex;
+  align-items: center;
+  padding: ${({theme}) => theme.spacing(1)}px 0;
+  > svg {
+    margin-right: ${({theme}) => theme.spacing(1)}px;
   }
 `;
 
@@ -94,22 +102,27 @@ const PostVirtualList = ({
     return (
       <CardContainer key={key} style={style}>
         <StyledCard variant="outlined">
-          <Category color="textSecondary" gutterBottom>
-            {post.category.toUpperCase()}
-          </Category>
+          <Category gutterBottom label={post.category.toUpperCase()} />
           <StyledCardMedia title={post.title} {...cardMediaProps} />
           <CardContent>
             <Typography variant="h5">{post.title}</Typography>
-            <Typography color="textSecondary">
-              {post.city.locale_names[0]}, {post.city.administrative[0]}
-            </Typography>
-            <Typography variant="body2" component="p">
-              {post.description}
-              <br />
+            <PostInfoLine variant="subtitle1">
+              <StyledAvatar />
               {user.displayName}
-              <br />
-              {timestamp.toDate().toDateString()}
-            </Typography>
+            </PostInfoLine>
+            <PostInfoLine color="textSecondary">
+              <LocationOnIcon />
+              {post.city.locale_names[0]}, {post.city.administrative[0]}
+            </PostInfoLine>
+            <PostInfoLine color="textSecondary">
+              <EventIcon />
+              {timestamp.toDate().toLocaleDateString(undefined, {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}
+            </PostInfoLine>
           </CardContent>
           <CardActions>
             <Button
@@ -153,7 +166,7 @@ const PostVirtualList = ({
                     onRowsRendered={onRowsRendered}
                     rowRenderer={rowRenderer}
                     rowCount={rowCount}
-                    rowHeight={480}
+                    rowHeight={510}
                     width={width}
                     overscanRowCount={2}
                     noRowsRenderer={() => <div>No hay publicaciones</div>}

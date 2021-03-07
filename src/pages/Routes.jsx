@@ -20,6 +20,8 @@ const AppContainer = styled.div`
 `;
 
 const StyledContainer = styled(Container)`
+  margin-top: ${({theme}) => theme.spacing(4)}px;
+  margin-bottom: ${({theme}) => theme.spacing(2)}px;
   flex: 1;
   display: flex;
   flex-direction: column;

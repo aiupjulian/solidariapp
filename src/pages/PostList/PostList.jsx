@@ -20,7 +20,6 @@ import {useJoinModalSet} from '../../contexts/JoinModalContext';
 const PAGE_SIZE = 2;
 
 const PageTitle = styled(Typography)`
-  margin-top: ${({theme}) => theme.spacing(4)}px;
   margin-bottom: ${({theme}) => theme.spacing(2)}px;
 `;
 

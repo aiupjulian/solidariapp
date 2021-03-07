@@ -20,7 +20,6 @@ const Section = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: ${({theme}) => theme.spacing(4)}px;
   margin-bottom: ${({theme}) => theme.spacing(4)}px;
   ${({theme}) => theme.breakpoints.down('sm')} {
     flex-direction: column;
@@ -81,7 +80,7 @@ const OurMision = () => {
           ayuda. Podes crear o buscar publicaciones dentro de las categorias que
           tenemos disponibles.
         </Typography>
-        <ActionsContainer elevation={1}>
+        <ActionsContainer>
           <ActionContainer>
             <Typography variant="h5" gutterBottom>
               ¿Querés ayudar?
