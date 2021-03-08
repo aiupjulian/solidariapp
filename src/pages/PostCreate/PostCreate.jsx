@@ -37,7 +37,7 @@ const PostCreateContainer = () => {
           displayName: user.displayName,
           email: user.email,
           photoURL: user.photoURL,
-          id: user.uid,
+          uid: user.uid,
         },
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       })

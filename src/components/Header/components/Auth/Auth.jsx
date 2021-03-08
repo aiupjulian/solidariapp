@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
-import {AuthCheck, useAuth, useUser} from 'reactfire';
+import {AuthCheck, useAuth, useUser, useStorage} from 'reactfire';
 import styled from 'styled-components';
 
 import MenuItem from '@material-ui/core/MenuItem';
@@ -33,18 +33,33 @@ const Auth = () => {
   const open = Boolean(anchorEl);
   const showJoinModal = useJoinModalState();
   const setShowJoinModal = useJoinModalSet();
+  const storage = useStorage();
 
   useEffect(() => {
     const fetchUserPhotoURL = (photoURL, accessToken) =>
-      fetch(`${photoURL}?access_token=${accessToken}`).then(({url}) => {
-        user.updateProfile({photoURL: url});
-      });
+      fetch(`${photoURL}?access_token=${accessToken}&height=200&width=200`)
+        .then((response) => {
+          if (!response.ok) return Promise.reject();
+          return response.blob();
+        })
+        .then((imageBlob) => {
+          const imageFile = new File([imageBlob], 'name');
+          const imagePath = `users/${user.uid}`;
+          return storage
+            .ref(imagePath)
+            .put(imageFile)
+            .then((imageSnapshot) =>
+              imageSnapshot.ref
+                .getDownloadURL()
+                .then((url) => user.updateProfile({photoURL: url})),
+            );
+        });
     auth.getRedirectResult().then(function (result) {
       if (result.credential) {
         fetchUserPhotoURL(result.user.photoURL, result.credential.accessToken);
       }
     });
-  }, [auth, user]);
+  }, [auth, user, storage]);
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);

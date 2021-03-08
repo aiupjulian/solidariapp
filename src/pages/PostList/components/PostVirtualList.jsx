@@ -102,7 +102,7 @@ const PostVirtualList = ({
     return (
       <CardContainer key={key} style={style}>
         <StyledCard variant="outlined">
-          <Category gutterBottom label={post.category.toUpperCase()} />
+          <Category label={post.category.toUpperCase()} />
           <StyledCardMedia title={post.title} {...cardMediaProps} />
           <CardContent>
             <Typography variant="h5">{post.title}</Typography>

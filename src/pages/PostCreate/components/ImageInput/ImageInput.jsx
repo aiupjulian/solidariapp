@@ -19,6 +19,7 @@ const Image = styled.div`
   background-position: center;
 `;
 
+// TODO: fix image input to display correctly
 const ImageInput = () => {
   const {errors, register, watch, setValue} = useFormContext();
   const watchImage = watch('image', false);
