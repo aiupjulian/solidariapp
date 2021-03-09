@@ -54,7 +54,7 @@ const LinkTab = ({page}) => {
     <StyledTab component={RouterLink} to={page.path} label={page.name} />
   );
   if (page.redirect) {
-    return <AuthCheck requiredClaims={page.claim}>{Tab}</AuthCheck>;
+    return <AuthCheck requiredClaims={page.requiredClaims}>{Tab}</AuthCheck>;
   }
   return Tab;
 };

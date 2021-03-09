@@ -4,8 +4,14 @@ const admin = require('firebase-admin');
 // Create and Deploy Your First Cloud Functions
 // https://firebase.google.com/docs/functions/write-firebase-functions
 
-// admin.initializeApp();
+// var serviceAccount = require('./solidariapp-93cdb-firebase-adminsdk-...json');
 
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+//   databaseURL: 'https://solidariapp-93cdb.firebaseio.com',
+// });
+
+// const uid = 'PbMoaSEfp7bTKlKS2Ok6F8Ulllp2';
 // admin
 //   .auth()
 //   .setCustomUserClaims(uid, {admin: true})
