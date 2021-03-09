@@ -96,7 +96,7 @@ const Post = ({id, post, user, imageUrl, timestamp}) => {
   return (
     <CardContainer>
       <StyledCard variant="outlined">
-        <Category gutterBottom label={post.category.toUpperCase()} />
+        <Category label={post.category.toUpperCase()} />
         <StyledCardMedia title={post.title} {...cardMediaProps} />
         <CardContent>
           <Typography variant="h5">{post.title}</Typography>
@@ -143,7 +143,7 @@ const Profile = () => {
     .collection('posts')
     .where('user.uid', '==', user.uid)
     .orderBy('timestamp', 'desc');
-  const posts = useFirestoreCollectionData(postsRef);
+  const posts = useFirestoreCollectionData(postsRef, {idField: 'id'});
 
   return (
     <Container>
@@ -153,7 +153,7 @@ const Profile = () => {
       </UserData>
       <Typography variant="h5">Publicaciones del usuario:</Typography>
       {posts.length ? (
-        posts.map((post) => <Post {...post} />)
+        posts.map((post) => <Post key={post.id} {...post} />)
       ) : (
         <Typography variant="h6">No tenes publicaciones.</Typography>
       )}

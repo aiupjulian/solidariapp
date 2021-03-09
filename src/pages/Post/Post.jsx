@@ -112,7 +112,7 @@ const Post = () => {
       <StyledPaper>
         {post ? (
           <>
-            <Category gutterBottom label={post.category.toUpperCase()} />
+            <Category label={post.category.toUpperCase()} />
             <PostImage post={post} imageUrl={imageUrl} />
             <PostContent>
               <Typography variant="h3" gutterBottom>
