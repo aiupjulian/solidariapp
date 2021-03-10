@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useReducer} from 'react';
 import {Link} from 'react-router-dom';
 import {AuthCheck, useAuth, useUser, useStorage} from 'reactfire';
 import styled from 'styled-components';
@@ -34,6 +34,7 @@ const Auth = () => {
   const showJoinModal = useJoinModalState();
   const setShowJoinModal = useJoinModalSet();
   const storage = useStorage();
+  const [, forceUpdate] = useReducer((x) => x + 1, 0);
 
   useEffect(() => {
     const fetchUserPhotoURL = (photoURL, accessToken) =>
@@ -51,7 +52,9 @@ const Auth = () => {
             .then((imageSnapshot) =>
               imageSnapshot.ref
                 .getDownloadURL()
-                .then((url) => user.updateProfile({photoURL: url})),
+                .then((url) =>
+                  user.updateProfile({photoURL: url}).then(forceUpdate),
+                ),
             );
         });
     auth.getRedirectResult().then(function (result) {
