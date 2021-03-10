@@ -77,6 +77,12 @@ const PostInfoLine = styled(Typography)`
   }
 `;
 
+const PostInfoLineText = styled.span`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
 const PostVirtualList = ({
   hasNextPage,
   isNextPageLoading,
@@ -105,23 +111,29 @@ const PostVirtualList = ({
           <Category label={post.category.toUpperCase()} />
           <StyledCardMedia title={post.title} {...cardMediaProps} />
           <CardContent>
-            <Typography variant="h5">{post.title}</Typography>
+            <Typography noWrap variant="h5">
+              {post.title}
+            </Typography>
             <PostInfoLine variant="subtitle1">
               <StyledAvatar src={user.photoURL} />
-              {user.displayName}
+              <PostInfoLineText>{user.displayName}</PostInfoLineText>
             </PostInfoLine>
             <PostInfoLine color="textSecondary">
               <LocationOnIcon />
-              {post.city.locale_names[0]}, {post.city.administrative[0]}
+              <PostInfoLineText>
+                {post.city.locale_names[0]}, {post.city.administrative[0]}
+              </PostInfoLineText>
             </PostInfoLine>
             <PostInfoLine color="textSecondary">
               <EventIcon />
-              {timestamp.toDate().toLocaleDateString(undefined, {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })}
+              <PostInfoLineText>
+                {timestamp.toDate().toLocaleDateString(undefined, {
+                  weekday: 'long',
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </PostInfoLineText>
             </PostInfoLine>
           </CardContent>
           <CardActions>
