@@ -48,6 +48,7 @@ const StyledAvatar = styled(Avatar)`
 `;
 
 const CardContainer = styled.div`
+  height: 510px;
   width: 100%;
   display: flex;
   justify-content: center;
