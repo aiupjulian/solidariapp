@@ -27,8 +27,8 @@ const firstStepSchema = yup.object().shape({
 });
 
 const secondStepSchema = yup.object().shape({
-  title: yup.string().required().min(5).max(50),
-  description: yup.string().required().min(5).max(200),
+  title: yup.string().required().min(5).max(60),
+  description: yup.string().required().min(5).max(600),
 });
 
 const thirdStepSchema = yup.object().shape({
