@@ -87,6 +87,7 @@ const PostInfoLine = styled(Typography)`
 const Description = styled(Typography)`
   margin: ${({theme}) => theme.spacing(3)}px 0
     ${({theme}) => theme.spacing(3)}px;
+  white-space: pre-wrap;
 `;
 
 const PostImage = ({post, imageUrl}) => {
