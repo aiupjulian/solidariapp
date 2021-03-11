@@ -1,9 +1,10 @@
-import React, {Suspense} from 'react';
+import React, {Suspense, useEffect} from 'react';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
+  useLocation,
 } from 'react-router-dom';
 import {AuthCheck} from 'reactfire';
 import styled from 'styled-components';
@@ -53,8 +54,19 @@ const AuthorizedRoute = ({Component, redirect, requiredClaims, ...rest}) => (
   />
 );
 
+const ScrollToTop = () => {
+  const {pathname} = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+};
+
 const Routes = () => (
   <Router>
+    <ScrollToTop />
     <AppContainer>
       <Header />
       <StyledContainer fixed>
