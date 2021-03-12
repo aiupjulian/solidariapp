@@ -15,7 +15,7 @@
     "fontsource-roboto": "^3.0.3",
     "moment": "^2.29.1",
     "places.js": "^1.19.0",
-    "react": "^0.0.0-experimental-4ead6b530",
+    "react": "^0.14.0",
     "react-dates": "^21.8.0",
     "react-dom": "^0.0.0-experimental-4ead6b530",
     "react-hook-form": "^6.10.0",
