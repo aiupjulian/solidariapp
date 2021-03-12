@@ -4,10 +4,9 @@
 // posibilidad para el usuario que publica que pueda agradecer a los que elija de los que se sumaron
 // reportar publicacion
 // compartir en facebook?
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {useFirestore, useFirestoreDocDataOnce} from 'reactfire';
 import styled, {css} from 'styled-components';
-import {Helmet} from 'react-helmet';
 
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -18,6 +17,7 @@ import EventIcon from '@material-ui/icons/Event';
 
 import useQuery from '../../hooks/useQuery';
 import {FILTERS, getCategoryByPath} from '../../utils/filters';
+import FacebookButton from '../../components/FacebookButton';
 
 const IMAGE_HEIGHT = 300;
 
@@ -91,6 +91,10 @@ const Description = styled(Typography)`
   white-space: pre-wrap;
 `;
 
+const FacebookLink = styled.a`
+  text-decoration: none;
+`;
+
 const PostImage = ({post, imageUrl}) => {
   const Icon = getCategoryByPath(post.category).Icon;
 
@@ -101,21 +105,6 @@ const PostImage = ({post, imageUrl}) => {
   );
 };
 
-const loadFacebookScript = (callback) => {
-  const existingScript = document.getElementById('facebook');
-  if (!existingScript) {
-    const script = document.createElement('script');
-    script.src =
-      'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0';
-    script.id = 'facebook';
-    document.body.appendChild(script);
-    script.onload = () => {
-      if (callback) callback();
-    };
-  }
-  if (existingScript && callback) callback();
-};
-
 // TODO: implement
 // - si es de otro: sumarse o reportar
 // - si es mia: agradecer sobre lista de usuarios sumados
@@ -123,31 +112,13 @@ const Post = () => {
   const query = useQuery();
   const postRef = useFirestore().collection('posts').doc(query.get(FILTERS.ID));
   const {post, imageUrl, user, timestamp} = useFirestoreDocDataOnce(postRef);
-  const [loaded, setLoaded] = useState(false);
 
-  useEffect(() => {
-    loadFacebookScript(() => {
-      setLoaded(true);
-    });
-  });
-
-  const shareUrl = window.location.href.replace(
-    'http://localhost:3000',
-    'https://solidariapp-93cdb.web.app',
-  );
+  const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+    window.location.href,
+  )}&display=page`;
 
   return (
     <Container>
-      <Helmet>
-        <meta name="og:url" content={shareUrl} />
-        <meta name="og:type" content="website" />
-        <meta name="og:title" content="Solidariappppppp" />
-        <meta name="og:description" content="Red social solidaria" />
-        <meta
-          name="og:image"
-          content={imageUrl || 'https://solidariapp-93cdb.web.app/logo512.png'}
-        />
-      </Helmet>
       <div id="fb-root"></div>
       <StyledPaper>
         {post ? (
@@ -176,25 +147,14 @@ const Post = () => {
                 })}
               </PostInfoLine>
               <Description variant="body1">{post.description}</Description>
-              {loaded && (
-                <div
-                  className="fb-share-button"
-                  data-href={shareUrl}
-                  data-layout="button"
-                  data-size="large"
-                >
-                  <a
-                    target="_blank"
-                    rel="noreferrer"
-                    href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                      shareUrl,
-                    )}%2F&amp;src=sdkpreparse`}
-                    className="fb-xfbml-parse-ignore"
-                  >
-                    Share
-                  </a>
-                </div>
-              )}
+              <FacebookLink
+                target="_blank"
+                rel="noreferrer"
+                href={facebookShareUrl}
+                className="fb-xfbml-parse-ignore"
+              >
+                <FacebookButton label="Compartir en Facebook" />
+              </FacebookLink>
             </PostContent>
           </>
         ) : (

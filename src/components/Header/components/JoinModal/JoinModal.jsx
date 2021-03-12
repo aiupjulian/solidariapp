@@ -10,7 +10,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {useTheme} from '@material-ui/core/styles';
 
-import FacebookButton from '../FacebookButton';
+import FacebookLogin from '../FacebookLogin';
 
 const FacebookButtonWrapper = styled.div`
   display: flex;
@@ -39,7 +39,7 @@ const JoinModal = ({open, handleClose}) => {
           otros usuarios!
         </DialogContentText>
         <FacebookButtonWrapper>
-          <FacebookButton />
+          <FacebookLogin />
         </FacebookButtonWrapper>
       </DialogContent>
       <DialogActions>
