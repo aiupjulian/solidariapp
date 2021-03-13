@@ -23,7 +23,8 @@ const IMAGE_HEIGHT = 300;
 
 const Container = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const StyledPaper = styled(Paper)`
@@ -146,58 +147,58 @@ const Post = () => {
   )}&display=page`;
 
   return (
-    <>
-      <Container>
-        <StyledPaper>
-          {post ? (
-            <>
-              <Category label={post.category.toUpperCase()} />
-              <PostImage post={post} imageUrl={imageUrl} />
-              <PostContent>
-                <Typography variant="h3" gutterBottom>
-                  {post.title}
-                </Typography>
-                <PostInfoLine variant="subtitle1">
-                  <StyledAvatar src={user.photoURL} />
-                  {user.displayName}
-                </PostInfoLine>
-                <PostInfoLine color="textSecondary">
-                  <LocationOnIcon />
-                  {post.city.locale_names[0]}, {post.city.administrative[0]}
-                </PostInfoLine>
-                <PostInfoLine color="textSecondary">
-                  <EventIcon />
-                  {timestamp.toDate().toLocaleDateString(undefined, {
-                    weekday: 'long',
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                  })}
-                </PostInfoLine>
-                <Description variant="body1">{post.description}</Description>
-                <FacebookLink
-                  target="_blank"
-                  rel="noreferrer"
-                  href={facebookShareUrl}
-                  className="fb-xfbml-parse-ignore"
-                >
-                  <FacebookButton label="Compartir en Facebook" />
-                </FacebookLink>
-              </PostContent>
-            </>
-          ) : (
-            <Typography variant="h3">
-              Ninguna publicacion encontrada con ese id.
-            </Typography>
-          )}
-        </StyledPaper>
-      </Container>
-      <CommentsContainer
-        className="fb-comments"
-        data-width=""
-        data-numposts="5"
-      />
-    </>
+    <Container>
+      <StyledPaper>
+        {post ? (
+          <>
+            <Category label={post.category.toUpperCase()} />
+            <PostImage post={post} imageUrl={imageUrl} />
+            <PostContent>
+              <Typography variant="h3" gutterBottom>
+                {post.title}
+              </Typography>
+              <PostInfoLine variant="subtitle1">
+                <StyledAvatar src={user.photoURL} />
+                {user.displayName}
+              </PostInfoLine>
+              <PostInfoLine color="textSecondary">
+                <LocationOnIcon />
+                {post.city.locale_names[0]}, {post.city.administrative[0]}
+              </PostInfoLine>
+              <PostInfoLine color="textSecondary">
+                <EventIcon />
+                {timestamp.toDate().toLocaleDateString(undefined, {
+                  weekday: 'long',
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </PostInfoLine>
+              <Description variant="body1">{post.description}</Description>
+              <FacebookLink
+                target="_blank"
+                rel="noreferrer"
+                href={facebookShareUrl}
+                className="fb-xfbml-parse-ignore"
+              >
+                <FacebookButton label="Compartir en Facebook" />
+              </FacebookLink>
+            </PostContent>
+          </>
+        ) : (
+          <Typography variant="h3">
+            Ninguna publicacion encontrada con ese id.
+          </Typography>
+        )}
+      </StyledPaper>
+      {post && (
+        <CommentsContainer
+          className="fb-comments"
+          data-width=""
+          data-numposts="5"
+        />
+      )}
+    </Container>
   );
 };
 
