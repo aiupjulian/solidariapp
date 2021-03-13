@@ -1,7 +1,7 @@
 import React from 'react';
 import {useAuth} from 'reactfire';
 
-import FacebookButton from '../../../FacebookButton';
+import {FacebookButton} from '../../../';
 
 const FacebookLogin = ({className}) => {
   const FacebookAuthProvider = useAuth.FacebookAuthProvider;

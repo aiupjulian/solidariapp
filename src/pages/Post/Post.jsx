@@ -4,7 +4,7 @@
 // posibilidad para el usuario que publica que pueda agradecer a los que elija de los que se sumaron
 // reportar publicacion
 // compartir en facebook?
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useFirestore, useFirestoreDocDataOnce} from 'reactfire';
 import styled, {css} from 'styled-components';
 
@@ -17,7 +17,7 @@ import EventIcon from '@material-ui/icons/Event';
 
 import useQuery from '../../hooks/useQuery';
 import {FILTERS, getCategoryByPath} from '../../utils/filters';
-import FacebookButton from '../../components/FacebookButton';
+import {FacebookButton} from '../../components';
 
 const IMAGE_HEIGHT = 300;
 
@@ -105,6 +105,26 @@ const PostImage = ({post, imageUrl}) => {
   );
 };
 
+const CommentsContainer = styled.div`
+  margin: ${({theme}) => theme.spacing(4)}px auto
+    ${({theme}) => theme.spacing(3)}px;
+`;
+
+const loadFacebookScript = (callback) => {
+  const existingScript = document.getElementById('facebook');
+  if (!existingScript) {
+    const script = document.createElement('script');
+    script.src =
+      'https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v10.0&appId=1331253950398350';
+    script.id = 'facebook';
+    document.body.appendChild(script);
+    script.onload = () => {
+      if (callback) callback();
+    };
+  }
+  if (existingScript && callback) callback();
+};
+
 // TODO: implement
 // - si es de otro: sumarse o reportar
 // - si es mia: agradecer sobre lista de usuarios sumados
@@ -113,57 +133,71 @@ const Post = () => {
   const postRef = useFirestore().collection('posts').doc(query.get(FILTERS.ID));
   const {post, imageUrl, user, timestamp} = useFirestoreDocDataOnce(postRef);
 
+  useEffect(() => {
+    loadFacebookScript(() => {
+      if (window.FB) {
+        window.FB.XFBML.parse();
+      }
+    });
+  });
+
   const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
     window.location.href,
   )}&display=page`;
 
   return (
-    <Container>
-      <div id="fb-root"></div>
-      <StyledPaper>
-        {post ? (
-          <>
-            <Category label={post.category.toUpperCase()} />
-            <PostImage post={post} imageUrl={imageUrl} />
-            <PostContent>
-              <Typography variant="h3" gutterBottom>
-                {post.title}
-              </Typography>
-              <PostInfoLine variant="subtitle1">
-                <StyledAvatar src={user.photoURL} />
-                {user.displayName}
-              </PostInfoLine>
-              <PostInfoLine color="textSecondary">
-                <LocationOnIcon />
-                {post.city.locale_names[0]}, {post.city.administrative[0]}
-              </PostInfoLine>
-              <PostInfoLine color="textSecondary">
-                <EventIcon />
-                {timestamp.toDate().toLocaleDateString(undefined, {
-                  weekday: 'long',
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })}
-              </PostInfoLine>
-              <Description variant="body1">{post.description}</Description>
-              <FacebookLink
-                target="_blank"
-                rel="noreferrer"
-                href={facebookShareUrl}
-                className="fb-xfbml-parse-ignore"
-              >
-                <FacebookButton label="Compartir en Facebook" />
-              </FacebookLink>
-            </PostContent>
-          </>
-        ) : (
-          <Typography variant="h3">
-            Ninguna publicacion encontrada con ese id.
-          </Typography>
-        )}
-      </StyledPaper>
-    </Container>
+    <>
+      <Container>
+        <StyledPaper>
+          {post ? (
+            <>
+              <Category label={post.category.toUpperCase()} />
+              <PostImage post={post} imageUrl={imageUrl} />
+              <PostContent>
+                <Typography variant="h3" gutterBottom>
+                  {post.title}
+                </Typography>
+                <PostInfoLine variant="subtitle1">
+                  <StyledAvatar src={user.photoURL} />
+                  {user.displayName}
+                </PostInfoLine>
+                <PostInfoLine color="textSecondary">
+                  <LocationOnIcon />
+                  {post.city.locale_names[0]}, {post.city.administrative[0]}
+                </PostInfoLine>
+                <PostInfoLine color="textSecondary">
+                  <EventIcon />
+                  {timestamp.toDate().toLocaleDateString(undefined, {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </PostInfoLine>
+                <Description variant="body1">{post.description}</Description>
+                <FacebookLink
+                  target="_blank"
+                  rel="noreferrer"
+                  href={facebookShareUrl}
+                  className="fb-xfbml-parse-ignore"
+                >
+                  <FacebookButton label="Compartir en Facebook" />
+                </FacebookLink>
+              </PostContent>
+            </>
+          ) : (
+            <Typography variant="h3">
+              Ninguna publicacion encontrada con ese id.
+            </Typography>
+          )}
+        </StyledPaper>
+      </Container>
+      <CommentsContainer
+        className="fb-comments"
+        data-width=""
+        data-numposts="5"
+      />
+    </>
   );
 };
 
