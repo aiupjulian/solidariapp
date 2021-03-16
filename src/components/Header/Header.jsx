@@ -1,4 +1,4 @@
-import React, {useMemo, Suspense} from 'react';
+import React, {useMemo, Suspense, useState} from 'react';
 import styled from 'styled-components';
 import {AuthCheck} from 'reactfire';
 import {Link as RouterLink, useLocation} from 'react-router-dom';
@@ -14,6 +14,7 @@ import Link from '@material-ui/core/Link';
 import Hidden from '@material-ui/core/Hidden';
 
 import Auth from './components/Auth';
+import Drawer from './components/Drawer';
 import {LogoSimple} from '../../assets/icons';
 import pages from '../../pages';
 
@@ -60,6 +61,7 @@ const LinkTab = ({page}) => {
 };
 
 const Header = () => {
+  const [openDrawer, setOpenDrawer] = useState(false);
   const location = useLocation();
   const headerPages = useMemo(
     () => [pages.PostList, pages.TopUsers, pages.PostAuditList],
@@ -76,10 +78,20 @@ const Header = () => {
     <>
       <AppBar position="fixed">
         <Toolbar variant="dense">
-          <Hidden smUp>
-            <MenuButton edge="start" color="inherit" aria-label="menu">
+          <Hidden mdUp>
+            <MenuButton
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              onClick={() => setOpenDrawer(true)}
+            >
               <MenuIcon />
             </MenuButton>
+            <Drawer
+              open={openDrawer}
+              setOpen={setOpenDrawer}
+              headerPages={headerPages}
+            />
           </Hidden>
           <StyledLink component={RouterLink} to="/">
             <Logo />
