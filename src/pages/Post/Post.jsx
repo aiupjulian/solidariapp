@@ -15,13 +15,16 @@ import Avatar from '@material-ui/core/Avatar';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import EventIcon from '@material-ui/icons/Event';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import HelpIcon from '@material-ui/icons/Help';
 
 import useQuery from '../../hooks/useQuery';
 import {FILTERS, getCategoryByPath} from '../../utils/filters';
 import {FacebookButton} from '../../components';
 import UsersLikesModal from './components/UsersLikesModal';
+import LikeExplanationModal from './components/LikeExplanationModal';
 import {useJoinModalSet} from '../../contexts/JoinModalContext';
 
 const IMAGE_HEIGHT = 300;
@@ -157,6 +160,9 @@ const Post = () => {
   } = useFirestoreDocData(postRef);
   const loggedUser = useUser();
   const [showUsersLikesModal, setShowUsersLikesModal] = useState(false);
+  const [showLikeExplanationModal, setShowLikeExplanationModal] = useState(
+    false,
+  );
   const setShowJoinModal = useJoinModalSet();
 
   useEffect(() => {
@@ -173,6 +179,14 @@ const Post = () => {
 
   const handleUsersLikesModalClose = () => {
     setShowUsersLikesModal(false);
+  };
+
+  const handleLikeExplanationModalOpen = () => {
+    setShowLikeExplanationModal(true);
+  };
+
+  const handleLikeExplanationModalClose = () => {
+    setShowLikeExplanationModal(false);
   };
 
   const postBelongsToLoggedUser = loggedUser?.uid === postUser?.uid;
@@ -210,6 +224,10 @@ const Post = () => {
         handleClose={handleUsersLikesModalClose}
         likes={likes}
         postRef={postRef}
+      />
+      <LikeExplanationModal
+        open={showLikeExplanationModal}
+        handleClose={handleLikeExplanationModalClose}
       />
       <StyledPaper>
         {post ? (
@@ -250,21 +268,34 @@ const Post = () => {
                     Ver sumados {likes.count}
                   </Button>
                 ) : (
-                  <Button
-                    disableRipple
-                    variant={userLikesPost ? 'contained' : 'outlined'}
-                    color="primary"
-                    startIcon={
-                      userLikesPost ? <FavoriteIcon /> : <FavoriteBorderIcon />
-                    }
-                    onClick={
-                      loggedUser
-                        ? handleLikeClick
-                        : () => setShowJoinModal(true)
-                    }
-                  >
-                    {userLikesPost ? 'Sumado' : 'Sumate'} {likes.count}
-                  </Button>
+                  <div>
+                    <Button
+                      disableRipple
+                      variant={userLikesPost ? 'contained' : 'outlined'}
+                      color="primary"
+                      startIcon={
+                        userLikesPost ? (
+                          <FavoriteIcon />
+                        ) : (
+                          <FavoriteBorderIcon />
+                        )
+                      }
+                      onClick={
+                        loggedUser
+                          ? handleLikeClick
+                          : () => setShowJoinModal(true)
+                      }
+                    >
+                      {userLikesPost ? 'Sumado' : 'Sumate'} {likes.count}
+                    </Button>
+                    <IconButton
+                      aria-label="question"
+                      disableRipple
+                      onClick={handleLikeExplanationModalOpen}
+                    >
+                      <HelpIcon />
+                    </IconButton>
+                  </div>
                 )}
                 <FacebookLink
                   target="_blank"

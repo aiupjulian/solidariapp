@@ -75,6 +75,9 @@ const UsersLikesModal = ({open, handleClose, likes, postRef}) => {
     >
       <DialogTitle id="thank-users">Agradecer a usuarios</DialogTitle>
       <DialogContent>
+        <DialogContentText>
+          Podes agradecer a los usuarios que colaboraron con tu publicacion.
+        </DialogContentText>
         {likes.users.length ? (
           <List>
             {likes.users.map((user) => (
