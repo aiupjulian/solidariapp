@@ -4,8 +4,8 @@
 // posibilidad para el usuario que publica que pueda agradecer a los que elija de los que se sumaron
 // reportar publicacion
 // compartir en facebook?
-import React, {useEffect} from 'react';
-import {useFirestore, useFirestoreDocDataOnce} from 'reactfire';
+import React, {useEffect, useState} from 'react';
+import {useFirestore, useFirestoreDocData, useUser} from 'reactfire';
 import styled, {css} from 'styled-components';
 
 import Paper from '@material-ui/core/Paper';
@@ -14,10 +14,15 @@ import Chip from '@material-ui/core/Chip';
 import Avatar from '@material-ui/core/Avatar';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import EventIcon from '@material-ui/icons/Event';
+import Button from '@material-ui/core/Button';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 
 import useQuery from '../../hooks/useQuery';
 import {FILTERS, getCategoryByPath} from '../../utils/filters';
 import {FacebookButton} from '../../components';
+import UsersLikesModal from './components/UsersLikesModal';
+import {useJoinModalSet} from '../../contexts/JoinModalContext';
 
 const IMAGE_HEIGHT = 300;
 
@@ -94,6 +99,9 @@ const Description = styled(Typography)`
 
 const FacebookLink = styled.a`
   text-decoration: none;
+  ${({theme}) => theme.breakpoints.down('sm')} {
+    margin-top: ${({theme}) => theme.spacing(2)}px;
+  }
 `;
 
 const PostImage = ({post, imageUrl}) => {
@@ -109,6 +117,15 @@ const PostImage = ({post, imageUrl}) => {
 const CommentsContainer = styled.div`
   margin: ${({theme}) => theme.spacing(4)}px auto
     ${({theme}) => theme.spacing(3)}px;
+`;
+
+const PostActions = styled.div`
+  display: flex;
+  justify-content: space-around;
+  ${({theme}) => theme.breakpoints.down('sm')} {
+    align-items: center;
+    flex-direction: column;
+  }
 `;
 
 const loadFacebookScript = (callback) => {
@@ -132,7 +149,16 @@ const loadFacebookScript = (callback) => {
 const Post = () => {
   const query = useQuery();
   const postRef = useFirestore().collection('posts').doc(query.get(FILTERS.ID));
-  const {post, imageUrl, user, timestamp} = useFirestoreDocDataOnce(postRef);
+  const {
+    post,
+    imageUrl,
+    user: postUser,
+    timestamp,
+    likes,
+  } = useFirestoreDocData(postRef);
+  const loggedUser = useUser();
+  const [showUsersLikesModal, setShowUsersLikesModal] = useState(false);
+  const setShowJoinModal = useJoinModalSet();
 
   useEffect(() => {
     loadFacebookScript(() => {
@@ -140,7 +166,39 @@ const Post = () => {
         window.FB.XFBML.parse();
       }
     });
-  });
+  }, []);
+
+  const handleUsersLikesModalOpen = () => {
+    setShowUsersLikesModal(true);
+  };
+
+  const handleUsersLikesModalClose = () => {
+    setShowUsersLikesModal(false);
+  };
+
+  const postBelongsToLoggedUser = loggedUser?.uid === postUser?.uid;
+  const userLikesPost =
+    !postBelongsToLoggedUser &&
+    likes.users.find((user) => user?.uid === loggedUser?.uid);
+
+  const handleLikeClick = () => {
+    const newUsersLikes = userLikesPost
+      ? likes.users.filter((user) => user?.uid !== loggedUser?.uid)
+      : [
+          ...likes.users,
+          {
+            displayName: loggedUser.displayName,
+            email: loggedUser.email,
+            photoURL: loggedUser.photoURL,
+            uid: loggedUser.uid,
+          },
+        ];
+    const newCountLikes = userLikesPost ? likes.count - 1 : likes.count + 1;
+    postRef.update({
+      'likes.count': newCountLikes,
+      'likes.users': newUsersLikes,
+    });
+  };
 
   const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
     window.location.href,
@@ -148,6 +206,12 @@ const Post = () => {
 
   return (
     <Container>
+      <UsersLikesModal
+        open={showUsersLikesModal}
+        handleClose={handleUsersLikesModalClose}
+        likes={likes}
+        postRef={postRef}
+      />
       <StyledPaper>
         {post ? (
           <>
@@ -158,8 +222,8 @@ const Post = () => {
                 {post.title}
               </Typography>
               <PostInfoLine variant="subtitle1">
-                <StyledAvatar src={user.photoURL} />
-                {user.displayName}
+                <StyledAvatar src={postUser.photoURL} />
+                {postUser.displayName}
               </PostInfoLine>
               <PostInfoLine color="textSecondary">
                 <LocationOnIcon />
@@ -175,14 +239,43 @@ const Post = () => {
                 })}
               </PostInfoLine>
               <Description variant="body1">{post.description}</Description>
-              <FacebookLink
-                target="_blank"
-                rel="noreferrer"
-                href={facebookShareUrl}
-                className="fb-xfbml-parse-ignore"
-              >
-                <FacebookButton label="Compartir en Facebook" />
-              </FacebookLink>
+              <PostActions>
+                {postBelongsToLoggedUser ? (
+                  <Button
+                    disableRipple
+                    variant="contained"
+                    color="primary"
+                    startIcon={<FavoriteIcon />}
+                    onClick={handleUsersLikesModalOpen}
+                  >
+                    Ver sumados {likes.count}
+                  </Button>
+                ) : (
+                  <Button
+                    disableRipple
+                    variant={userLikesPost ? 'contained' : 'outlined'}
+                    color="primary"
+                    startIcon={
+                      userLikesPost ? <FavoriteIcon /> : <FavoriteBorderIcon />
+                    }
+                    onClick={
+                      loggedUser
+                        ? handleLikeClick
+                        : () => setShowJoinModal(true)
+                    }
+                  >
+                    {userLikesPost ? 'Sumado' : 'Sumate'} {likes.count}
+                  </Button>
+                )}
+                <FacebookLink
+                  target="_blank"
+                  rel="noreferrer"
+                  href={facebookShareUrl}
+                  className="fb-xfbml-parse-ignore"
+                >
+                  <FacebookButton label="Compartir en Facebook" />
+                </FacebookLink>
+              </PostActions>
             </PostContent>
           </>
         ) : (
