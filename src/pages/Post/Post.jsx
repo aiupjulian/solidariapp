@@ -65,12 +65,16 @@ const PostImageContainer = styled.div`
         `}
 `;
 
-const Category = styled(Chip)`
+const ChipsContainer = styled.div`
+  display: flex;
   position: absolute;
   top: ${IMAGE_HEIGHT - 36}px;
   right: 0;
-  margin-right: ${({theme}) => theme.spacing(1)}px;
   z-index: 1;
+`;
+
+const Category = styled(Chip)`
+  margin: 0 ${({theme}) => theme.spacing(1)}px;
 `;
 
 const PostContent = styled.div`
@@ -102,9 +106,6 @@ const Description = styled(Typography)`
 
 const FacebookLink = styled.a`
   text-decoration: none;
-  ${({theme}) => theme.breakpoints.down('sm')} {
-    margin-top: ${({theme}) => theme.spacing(2)}px;
-  }
 `;
 
 const PostImage = ({post, imageUrl}) => {
@@ -128,6 +129,9 @@ const PostActions = styled.div`
   ${({theme}) => theme.breakpoints.down('sm')} {
     align-items: center;
     flex-direction: column;
+    > * {
+      margin: ${({theme}) => theme.spacing(1)}px 0;
+    }
   }
 `;
 
@@ -213,6 +217,10 @@ const Post = () => {
     });
   };
 
+  const handleChangePostStateClick = () => {
+    postRef.update({'post.closed': !post.closed});
+  };
+
   const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
     window.location.href,
   )}&display=page`;
@@ -232,7 +240,10 @@ const Post = () => {
       <StyledPaper>
         {post ? (
           <>
-            <Category label={post.category.toUpperCase()} />
+            <ChipsContainer>
+              {post.closed && <Chip label="CERRADA" color="secondary" />}
+              <Category label={post.category.toUpperCase()} />
+            </ChipsContainer>
             <PostImage post={post} imageUrl={imageUrl} />
             <PostContent>
               <Typography variant="h3" gutterBottom>
@@ -258,15 +269,25 @@ const Post = () => {
               <Description variant="body1">{post.description}</Description>
               <PostActions>
                 {postBelongsToLoggedUser ? (
-                  <Button
-                    disableRipple
-                    variant="contained"
-                    color="primary"
-                    startIcon={<FavoriteIcon />}
-                    onClick={handleUsersLikesModalOpen}
-                  >
-                    Ver sumados {likes.count}
-                  </Button>
+                  <>
+                    <Button
+                      disableRipple
+                      variant="contained"
+                      color="primary"
+                      startIcon={<FavoriteIcon />}
+                      onClick={handleUsersLikesModalOpen}
+                    >
+                      Ver sumados {likes.count}
+                    </Button>
+                    <Button
+                      disableRipple
+                      variant="outlined"
+                      color={post.closed ? 'primary' : 'secondary'}
+                      onClick={handleChangePostStateClick}
+                    >
+                      {post.closed ? 'Reabrir' : 'Cerrar'} publicación
+                    </Button>
+                  </>
                 ) : (
                   <div>
                     <Button

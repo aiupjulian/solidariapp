@@ -3,7 +3,12 @@
 // listado de publicaciones creadas (para editar/borrar/cerrar)
 // listado de publicaciones a las que te sumaste (?)
 import React from 'react';
-import {useFirestore, useUser, useFirestoreCollectionData} from 'reactfire';
+import {
+  useFirestore,
+  useUser,
+  useFirestoreCollectionData,
+  useFirestoreDocDataOnce,
+} from 'reactfire';
 import styled from 'styled-components';
 
 import Paper from '@material-ui/core/Paper';
@@ -43,12 +48,23 @@ const Profile = () => {
     .where('user.uid', '==', user.uid)
     .orderBy('timestamp', 'desc');
   const posts = useFirestoreCollectionData(postsRef, {idField: 'id'});
+  const userAcknowledgementsRef = useFirestore()
+    .collection('acknowledgements')
+    .doc(user.uid);
+  const {acknowledgements = 0} = useFirestoreDocDataOnce(
+    userAcknowledgementsRef,
+  );
 
   return (
     <Container>
       <UserData>
         <StyledAvatar src={user.photoURL} />
-        <Typography variant="h4">{user.displayName}</Typography>
+        <Typography variant="h4" gutterBottom>
+          {user.displayName}
+        </Typography>
+        <Typography variant="h5">
+          Agradecimientos recibidos: {acknowledgements}
+        </Typography>
       </UserData>
       <Typography variant="h5">Publicaciones del usuario:</Typography>
       {posts.length ? (

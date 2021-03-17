@@ -32,12 +32,16 @@ const StyledCard = styled(Card)`
   width: 100%;
 `;
 
-const Category = styled(Chip)`
+const ChipsContainer = styled.div`
   position: absolute;
+  display: flex;
   top: ${IMAGE_HEIGHT - 36}px;
   right: 0;
-  margin-right: ${({theme}) => theme.spacing(1)}px;
   z-index: 1;
+`;
+
+const Category = styled(Chip)`
+  margin: 0 ${({theme}) => theme.spacing(1)}px;
 `;
 
 const StyledAvatar = styled(Avatar)`
@@ -74,7 +78,10 @@ const PostItem = ({id, post, user, imageUrl, timestamp, ...restProps}) => {
   return (
     <CardContainer {...restProps}>
       <StyledCard variant="outlined">
-        <Category label={post.category.toUpperCase()} />
+        <ChipsContainer>
+          {post.closed && <Chip label="CERRADA" color="secondary" />}
+          <Category label={post.category.toUpperCase()} />
+        </ChipsContainer>
         <StyledCardMedia title={post.title} {...cardMediaProps} />
         <CardContent>
           <Typography noWrap variant="h5">

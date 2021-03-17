@@ -87,6 +87,7 @@ const PostList = () => {
       const get = async () => {
         let posts = [];
         let postsSnapshot = postsRef;
+        postsSnapshot = postsSnapshot.where('post.closed', '==', false);
         if (selectedCategory)
           postsSnapshot = postsSnapshot.where(
             'post.category',

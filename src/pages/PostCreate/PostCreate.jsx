@@ -32,7 +32,7 @@ const PostCreateContainer = () => {
     // }
     posts
       .add({
-        post: {...postData},
+        post: {closed: false, ...postData},
         user: {
           displayName: user.displayName,
           email: user.email,
