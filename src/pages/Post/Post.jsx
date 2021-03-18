@@ -300,7 +300,7 @@ const Post = () => {
                       startIcon={<FavoriteIcon />}
                       onClick={handleUsersLikesModalOpen}
                     >
-                      Ver sumados {likes.count}
+                      Ver sumados {likes?.count}
                     </Button>
                     <Button
                       disableRipple
@@ -330,7 +330,7 @@ const Post = () => {
                           : () => setShowJoinModal(true)
                       }
                     >
-                      {userLikesPost ? 'Sumado' : 'Sumate'} {likes.count}
+                      {userLikesPost ? 'Sumado' : 'Sumate'} {likes?.count}
                     </Button>
                     <IconButton
                       aria-label="question"

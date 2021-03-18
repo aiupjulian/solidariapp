@@ -32,6 +32,7 @@ const PostCreateContainer = () => {
     // }
     posts
       .add({
+        likes: {count: 0, users: []},
         post: {closed: false, ...postData},
         user: {
           displayName: user.displayName,

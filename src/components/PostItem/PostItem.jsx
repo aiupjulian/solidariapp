@@ -143,7 +143,7 @@ const PostItem = ({
           </Button>
           <Likes variant="body1">
             <FavoriteBorderIcon fontSize="small" />
-            {likes.count} sumados
+            {likes?.count} sumados
           </Likes>
         </CardActions>
       </StyledCard>
