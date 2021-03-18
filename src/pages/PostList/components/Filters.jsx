@@ -1,6 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
-import {NavLink, useHistory} from 'react-router-dom';
+import styled, {css} from 'styled-components';
+import {useHistory} from 'react-router-dom';
 
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
@@ -23,6 +23,15 @@ const FilterContainer = styled.div`
 const CategoriesList = styled(Typography)`
   display: flex;
   flex-direction: column;
+`;
+
+const StyledLink = styled(({isActive, ...rest}) => <Link {...rest} />)`
+  width: fit-content;
+  ${(props) =>
+    props.isActive &&
+    css`
+      font-weight: bold;
+    `};
 `;
 
 const Filters = () => {
@@ -66,31 +75,31 @@ const Filters = () => {
         </Typography>
         <CategoriesList>
           {Object.values(categories).map((category) => (
-            <Link
+            <StyledLink
               key={category.path}
-              component={NavLink}
-              isActive={() => selectedCategory === category.path}
-              to={() => {
+              component="button"
+              variant="body1"
+              isActive={selectedCategory === category.path}
+              onClick={() => {
                 query.delete(FILTERS.CATEGORY);
                 query.append(FILTERS.CATEGORY, category.path);
-                return {
-                  pathname: pages.PostList.path,
-                  search: query.toString(),
-                };
+                history.push(pages.PostList.path.concat('?', query.toString()));
               }}
-              activeStyle={{fontWeight: 'bold'}}
             >
               {category.name}
-            </Link>
+            </StyledLink>
           ))}
-          <Link
-            component={NavLink}
-            isActive={() => !selectedCategory}
-            to={pages.PostList.path}
-            activeStyle={{fontWeight: 'bold'}}
+          <StyledLink
+            component="button"
+            variant="body1"
+            isActive={!selectedCategory}
+            onClick={() => {
+              query.delete(FILTERS.CATEGORY);
+              history.push(pages.PostList.path.concat('?', query.toString()));
+            }}
           >
             Ver todas
-          </Link>
+          </StyledLink>
         </CategoriesList>
       </FilterContainer>
       <FilterContainer>
