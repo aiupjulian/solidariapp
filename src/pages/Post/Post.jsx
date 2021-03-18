@@ -7,6 +7,7 @@
 import React, {useEffect, useState} from 'react';
 import {useFirestore, useFirestoreDocData, useUser} from 'reactfire';
 import styled, {css} from 'styled-components';
+import {useHistory} from 'react-router-dom';
 
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -19,6 +20,7 @@ import IconButton from '@material-ui/core/IconButton';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import HelpIcon from '@material-ui/icons/Help';
+import ArrowBackIcon from '@material-ui/icons/ArrowBackIos';
 
 import useQuery from '../../hooks/useQuery';
 import {FILTERS, getCategoryByPath} from '../../utils/filters';
@@ -30,9 +32,19 @@ import {useJoinModalSet} from '../../contexts/JoinModalContext';
 const IMAGE_HEIGHT = 300;
 
 const Container = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+const GoBackLink = styled(Button)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  ${({theme}) => theme.breakpoints.down('sm')} {
+    top: -15px;
+  }
 `;
 
 const StyledPaper = styled(Paper)`
@@ -40,6 +52,9 @@ const StyledPaper = styled(Paper)`
   overflow: hidden;
   width: 100%;
   max-width: 800px;
+  ${({theme}) => theme.breakpoints.down('sm')} {
+    margin-top: ${({theme}) => theme.spacing(3)}px;
+  }
 `;
 
 const PostImageContainer = styled.div`
@@ -126,8 +141,8 @@ const CommentsContainer = styled.div`
 const PostActions = styled.div`
   display: flex;
   justify-content: space-around;
+  align-items: center;
   ${({theme}) => theme.breakpoints.down('sm')} {
-    align-items: center;
     flex-direction: column;
     > * {
       margin: ${({theme}) => theme.spacing(1)}px 0;
@@ -153,6 +168,7 @@ const loadFacebookScript = (callback) => {
 // TODO: implement
 // - si es de otro: reportar
 const Post = () => {
+  const history = useHistory();
   const query = useQuery();
   const postRef = useFirestore().collection('posts').doc(query.get(FILTERS.ID));
   const {
@@ -227,6 +243,13 @@ const Post = () => {
 
   return (
     <Container>
+      <GoBackLink
+        onClick={() => history.goBack()}
+        color="primary"
+        startIcon={<ArrowBackIcon />}
+      >
+        Regresar
+      </GoBackLink>
       <UsersLikesModal
         open={showUsersLikesModal}
         handleClose={handleUsersLikesModalClose}

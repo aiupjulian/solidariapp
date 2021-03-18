@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useMemo} from 'react';
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 import algoliasearch from 'algoliasearch/src/browser/builds/algoliasearchLite';
 import debounce from 'lodash/debounce';
 import {useHistory} from 'react-router-dom';
@@ -24,6 +24,16 @@ const getPlacePredictions = (query, callback) =>
     .search({query, type: 'city', language: 'es', countries: ['ar']})
     .then((content) => callback(content.hits))
     .catch((e) => console.log(e));
+
+const StyledAutocomplete = styled(Autocomplete)`
+  ${(props) =>
+    props.value &&
+    css`
+      .MuiAutocomplete-clearIndicator {
+        visibility: visible;
+      }
+    `}
+`;
 
 const StyledLocationOnIcon = styled(LocationOnIcon)`
   color: ${({theme}) => theme.palette.text.secondary};
@@ -78,7 +88,7 @@ const CityInput = () => {
   }, [value, inputValue, fetch]);
 
   return (
-    <Autocomplete
+    <StyledAutocomplete
       id="places"
       getOptionLabel={(option) => {
         return typeof option === 'string'
@@ -92,6 +102,7 @@ const CityInput = () => {
       includeInputInList
       filterSelectedOptions
       fullWidth
+      blurOnSelect
       value={value}
       loading={isLoading}
       noOptionsText="No hay opciones"
