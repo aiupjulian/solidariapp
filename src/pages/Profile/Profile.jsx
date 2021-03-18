@@ -40,7 +40,7 @@ const StyledAvatar = styled(Avatar)`
   margin-bottom: ${({theme}) => theme.spacing(3)}px;
 `;
 
-// TODO: show user profile and posts to edit/close
+// TODO: show posts to edit
 const Profile = () => {
   const user = useUser();
   const postsRef = useFirestore()

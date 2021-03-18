@@ -92,10 +92,6 @@ const CityInput = () => {
           loadingText="Cargando..."
           onBlur={onBlur}
           onChange={(event, newValue) => {
-            // I have to store newValue.objectID
-            // client.getObject(newValue.objectID, (city) => {
-            //   console.log(city);
-            // });
             setOptions(newValue ? [newValue, ...options] : options);
             onChange(newValue);
           }}

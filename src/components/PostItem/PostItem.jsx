@@ -12,6 +12,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Chip from '@material-ui/core/Chip';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 
 import {createSearch, FILTERS, getCategoryByPath} from '../../utils/filters';
 import pages from '../../pages';
@@ -70,7 +71,25 @@ const PostInfoLineText = styled.span`
   text-overflow: ellipsis;
 `;
 
-const PostItem = ({id, post, user, imageUrl, timestamp, ...restProps}) => {
+const Likes = styled(Typography)`
+  display: flex;
+  > svg {
+    margin-right: ${({theme}) => theme.spacing(1)}px;
+  }
+  && {
+    margin-left: auto;
+  }
+`;
+
+const PostItem = ({
+  id,
+  post,
+  user,
+  imageUrl,
+  timestamp,
+  likes,
+  ...restProps
+}) => {
   const history = useHistory();
   const Icon = getCategoryByPath(post.category).Icon;
   const cardMediaProps = imageUrl ? {image: imageUrl} : {component: Icon};
@@ -117,10 +136,15 @@ const PostItem = ({id, post, user, imageUrl, timestamp, ...restProps}) => {
                 pages.Post.path.concat(createSearch({[FILTERS.ID]: id})),
               )
             }
+            color="primary"
             disableRipple
           >
             Ver mas
           </Button>
+          <Likes variant="body1">
+            <FavoriteBorderIcon fontSize="small" />
+            {likes.count} sumados
+          </Likes>
         </CardActions>
       </StyledCard>
     </CardContainer>

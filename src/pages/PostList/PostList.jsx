@@ -1,6 +1,3 @@
-// filtros: categoria, ciudad
-// order by: fecha, cantidad sumados
-// listado: ciudad, imagen, cantidad sumados, sumarse, creador, denunciar
 import React, {useEffect, useState, useRef, useMemo} from 'react';
 import styled from 'styled-components';
 import {useFirestore, useUser} from 'reactfire';
@@ -10,7 +7,7 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import Typography from '@material-ui/core/Typography';
 
-import {FILTERS} from '../../utils/filters';
+import {FILTERS, orderBy} from '../../utils/filters';
 import useQuery from '../../hooks/useQuery';
 import pages from '../';
 import PostVirtualList from './components/PostVirtualList';
@@ -55,10 +52,12 @@ const StyledFab = styled(Fab)`
   margin-bottom: ${({theme}) => theme.spacing(2)}px;
 `;
 
-// TODO: implement filters (categoria/ciudad) and order (fecha/sumados)
 const PostList = () => {
   const query = useQuery();
   const selectedCategory = query.get(FILTERS.CATEGORY);
+  const [by = orderBy[0].by, order = orderBy[0].order] =
+    query.get(FILTERS.ORDER_BY)?.split(',') || [];
+  const selectedCity = query.get(FILTERS.CITY);
   const [startAtPostSnapshot, setStartAtPostSnapshot] = useState();
   const [isNextPageLoading, setIsNextPageLoading] = useState(false);
   const postsRef = useFirestore().collection('posts');
@@ -74,7 +73,7 @@ const PostList = () => {
     setIsNextPageLoading(false);
     setAllPosts([]);
     setHasNextPage(true);
-  }, [selectedCategory]);
+  }, [selectedCategory, by, order, selectedCity]);
 
   useEffect(() => {
     if (
@@ -94,7 +93,13 @@ const PostList = () => {
             '==',
             selectedCategory,
           );
-        postsSnapshot = postsSnapshot.orderBy('timestamp', 'desc');
+        if (selectedCity)
+          postsSnapshot = postsSnapshot.where(
+            'post.city.objectID',
+            '==',
+            selectedCity,
+          );
+        postsSnapshot = postsSnapshot.orderBy(by, order);
         if (startAtPostSnapshot)
           postsSnapshot = postsSnapshot.startAt(startAtPostSnapshot);
         postsSnapshot = await postsSnapshot.limit(PAGE_SIZE).get();
@@ -111,7 +116,16 @@ const PostList = () => {
       };
       get();
     }
-  }, [allPosts, startAtPostSnapshot, postsRef, hasNextPage, selectedCategory]);
+  }, [
+    allPosts,
+    startAtPostSnapshot,
+    postsRef,
+    hasNextPage,
+    selectedCategory,
+    by,
+    order,
+    selectedCity,
+  ]);
 
   const createPostProps = useMemo(
     () =>

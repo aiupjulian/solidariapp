@@ -3,6 +3,8 @@ import {BloodDonation, Charity, PetHouse, Solidarity} from '../assets/icons';
 export const FILTERS = {
   CATEGORY: 'categoria',
   ID: 'id',
+  ORDER_BY: 'ordenar_por',
+  CITY: 'ciudad',
 };
 
 export const createSearch = (filters) =>
@@ -11,6 +13,13 @@ export const createSearch = (filters) =>
       ([filterKey, filterValue]) => `${filterKey}=${filterValue}`,
     ),
   );
+
+export const orderBy = [
+  {by: 'timestamp', order: 'desc', label: 'Mas nuevos'},
+  {by: 'timestamp', order: 'asc', label: 'Mas viejos'},
+  {by: 'likes.count', order: 'desc', label: 'Mas sumados'},
+  {by: 'likes.count', order: 'asc', label: 'Menos sumados'},
+];
 
 export const categories = {
   Health: {
