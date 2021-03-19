@@ -7,7 +7,7 @@ import {
   useFirestore,
   useUser,
   useFirestoreCollectionData,
-  useFirestoreDocDataOnce,
+  useFirestoreDocData,
 } from 'reactfire';
 import styled from 'styled-components';
 
@@ -51,9 +51,7 @@ const Profile = () => {
   const userAcknowledgementsRef = useFirestore()
     .collection('acknowledgements')
     .doc(user.uid);
-  const {acknowledgements = 0} = useFirestoreDocDataOnce(
-    userAcknowledgementsRef,
-  );
+  const {acknowledgements = 0} = useFirestoreDocData(userAcknowledgementsRef);
 
   return (
     <Container>
