@@ -81,6 +81,12 @@ const Likes = styled(Typography)`
   }
 `;
 
+const ActionsContainer = styled.div`
+  && {
+    margin-left: auto;
+  }
+`;
+
 const PostItem = ({
   id,
   post,
@@ -88,6 +94,7 @@ const PostItem = ({
   imageUrl,
   timestamp,
   likes,
+  actions,
   ...restProps
 }) => {
   const history = useHistory();
@@ -141,10 +148,14 @@ const PostItem = ({
           >
             Ver mas
           </Button>
-          <Likes variant="body1">
-            <FavoriteBorderIcon fontSize="small" />
-            {likes?.count} sumados
-          </Likes>
+          {actions ? (
+            <ActionsContainer>{actions}</ActionsContainer>
+          ) : (
+            <Likes variant="body1">
+              <FavoriteBorderIcon fontSize="small" />
+              {likes?.count} sumados
+            </Likes>
+          )}
         </CardActions>
       </StyledCard>
     </CardContainer>

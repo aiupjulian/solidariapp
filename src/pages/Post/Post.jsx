@@ -1,9 +1,3 @@
-// datos del usuario que publico
-// datos de la publicacion: imagenes/texto
-// personas que se "sumaron"
-// posibilidad para el usuario que publica que pueda agradecer a los que elija de los que se sumaron
-// reportar publicacion
-// compartir en facebook?
 import React, {useEffect, useState} from 'react';
 import {useFirestore, useFirestoreDocData, useUser} from 'reactfire';
 import styled, {css} from 'styled-components';
@@ -21,6 +15,9 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import HelpIcon from '@material-ui/icons/Help';
 import ArrowBackIcon from '@material-ui/icons/ArrowBackIos';
+import ClearIcon from '@material-ui/icons/Clear';
+import ReplayIcon from '@material-ui/icons/Replay';
+import ReportIcon from '@material-ui/icons/Report';
 
 import useQuery from '../../hooks/useQuery';
 import {FILTERS, getCategoryByPath} from '../../utils/filters';
@@ -28,6 +25,7 @@ import {FacebookButton} from '../../components';
 import UsersLikesModal from './components/UsersLikesModal';
 import LikeExplanationModal from './components/LikeExplanationModal';
 import {useJoinModalSet} from '../../contexts/JoinModalContext';
+import ConfirmReportModal from './components/ConfirmReportModal';
 
 const IMAGE_HEIGHT = 300;
 
@@ -165,8 +163,6 @@ const loadFacebookScript = (callback) => {
   if (existingScript && callback) callback();
 };
 
-// TODO: implement
-// - si es de otro: reportar
 const Post = () => {
   const history = useHistory();
   const query = useQuery();
@@ -183,6 +179,7 @@ const Post = () => {
   const [showLikeExplanationModal, setShowLikeExplanationModal] = useState(
     false,
   );
+  const [showConfirmReportModal, setShowConfirmReportModal] = useState(false);
   const setShowJoinModal = useJoinModalSet();
 
   useEffect(() => {
@@ -237,6 +234,19 @@ const Post = () => {
     postRef.update({'post.closed': !post.closed});
   };
 
+  const handleReportClick = () => {
+    setShowConfirmReportModal(true);
+  };
+
+  const handleConfirmReportModalClose = () => {
+    setShowConfirmReportModal(false);
+  };
+
+  const handleConfirmReportModalConfirm = () => {
+    postRef.update({'post.reported': true});
+    setShowConfirmReportModal(false);
+  };
+
   const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
     window.location.href,
   )}&display=page`;
@@ -259,6 +269,11 @@ const Post = () => {
       <LikeExplanationModal
         open={showLikeExplanationModal}
         handleClose={handleLikeExplanationModalClose}
+      />
+      <ConfirmReportModal
+        open={showConfirmReportModal}
+        handleClose={handleConfirmReportModalClose}
+        handleConfirm={handleConfirmReportModalConfirm}
       />
       <StyledPaper>
         {post ? (
@@ -307,39 +322,55 @@ const Post = () => {
                       variant="outlined"
                       color={post.closed ? 'primary' : 'secondary'}
                       onClick={handleChangePostStateClick}
+                      startIcon={post.closed ? <ReplayIcon /> : <ClearIcon />}
                     >
                       {post.closed ? 'Reabrir' : 'Cerrar'} publicación
                     </Button>
                   </>
                 ) : (
-                  <div>
+                  <>
+                    <div>
+                      <Button
+                        disableRipple
+                        variant={userLikesPost ? 'contained' : 'outlined'}
+                        color="primary"
+                        startIcon={
+                          userLikesPost ? (
+                            <FavoriteIcon />
+                          ) : (
+                            <FavoriteBorderIcon />
+                          )
+                        }
+                        onClick={
+                          loggedUser
+                            ? handleLikeClick
+                            : () => setShowJoinModal(true)
+                        }
+                      >
+                        {userLikesPost ? 'Sumado' : 'Sumate'} {likes?.count}
+                      </Button>
+                      <IconButton
+                        aria-label="question"
+                        disableRipple
+                        onClick={handleLikeExplanationModalOpen}
+                      >
+                        <HelpIcon />
+                      </IconButton>
+                    </div>
                     <Button
                       disableRipple
-                      variant={userLikesPost ? 'contained' : 'outlined'}
-                      color="primary"
-                      startIcon={
-                        userLikesPost ? (
-                          <FavoriteIcon />
-                        ) : (
-                          <FavoriteBorderIcon />
-                        )
-                      }
+                      variant="outlined"
+                      color="secondary"
+                      startIcon={<ReportIcon />}
                       onClick={
                         loggedUser
-                          ? handleLikeClick
+                          ? handleReportClick
                           : () => setShowJoinModal(true)
                       }
                     >
-                      {userLikesPost ? 'Sumado' : 'Sumate'} {likes?.count}
+                      Reportar publicacion
                     </Button>
-                    <IconButton
-                      aria-label="question"
-                      disableRipple
-                      onClick={handleLikeExplanationModalOpen}
-                    >
-                      <HelpIcon />
-                    </IconButton>
-                  </div>
+                  </>
                 )}
                 <FacebookLink
                   target="_blank"
