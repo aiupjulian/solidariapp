@@ -70,8 +70,15 @@ const Image = styled.div`
 const ImageInput = () => {
   const {errors, register, watch, setValue} = useFormContext();
   const watchImage = watch('image', false);
+  const watchDefaultImageUrl = watch('defaultImageUrl', false);
 
-  const imageURL = watchImage?.[0] && URL.createObjectURL(watchImage[0]);
+  register({name: 'defaultImageUrl', type: 'custom'});
+
+  const imageURL = watchImage?.[0]
+    ? URL.createObjectURL(watchImage[0])
+    : watchDefaultImageUrl;
+
+  console.log(imageURL);
 
   return (
     <StyledFormControl error={IMAGE_INPUT_NAME in errors} margin="normal">
@@ -99,7 +106,11 @@ const ImageInput = () => {
           <Button
             variant="outlined"
             color="secondary"
-            onClick={() => setValue('image', null)}
+            onClick={() => {
+              setValue('image', null);
+              setValue('defaultImageUrl', null);
+              console.log('seteo null');
+            }}
             disableRipple
             disabled={!imageURL}
           >

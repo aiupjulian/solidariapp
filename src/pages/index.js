@@ -2,8 +2,10 @@ import HomeComponent from './Home';
 import ProfileComponent from './Profile';
 import PostComponent from './Post';
 import PostAuditListComponent from './PostAuditList';
-import PostCreateComponent from './PostCreate';
-import PostEditComponent from './PostEdit';
+import {
+  PostCreate as PostCreateComponent,
+  PostEdit as PostEditComponent,
+} from './PostForm';
 import PostListComponent from './PostList';
 import TopUsersComponent from './TopUsers';
 

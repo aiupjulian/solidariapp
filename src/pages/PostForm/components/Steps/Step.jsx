@@ -6,6 +6,8 @@ import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 
 import {useFormContext} from '../../utils/PostContext';
+import {FILTERS} from '../../../../utils/filters';
+import useQuery from '../../../../hooks/useQuery';
 
 const ButtonsContainer = styled.div`
   display: flex;
@@ -14,6 +16,8 @@ const ButtonsContainer = styled.div`
 `;
 
 const Step = (props) => {
+  const query = useQuery();
+  const postId = query.get(FILTERS.ID);
   const {
     schema,
     children,
@@ -22,8 +26,12 @@ const Step = (props) => {
     handleNext,
     stepsLength,
     stepIndex,
+    postDefaultValues,
   } = props;
-  const methods = useForm({resolver: yupResolver(schema)});
+  const methods = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: postDefaultValues,
+  });
   const [formValues, setFormValues] = useFormContext();
   const isLastStep = stepIndex === stepsLength - 1;
   const finishedSteps = stepIndex === stepsLength;
@@ -56,7 +64,7 @@ const Step = (props) => {
               type="submit"
               disableRipple
             >
-              {isLastStep ? 'Crear' : 'Siguiente'}
+              {isLastStep ? (postId ? 'Editar' : 'Crear') : 'Siguiente'}
             </Button>
           </ButtonsContainer>
         )}

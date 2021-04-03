@@ -10,7 +10,7 @@ import Paper from '@material-ui/core/Paper';
 import {FormProvider} from './utils/PostContext';
 import PostForm from './components/PostForm';
 import {createSearch, FILTERS} from '../../utils/filters';
-import pages from '../';
+import pages from '..';
 
 const StyledPaper = styled(Paper)`
   padding: ${({theme}) => theme.spacing(3)}px;

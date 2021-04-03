@@ -9,6 +9,7 @@ import Chip from '@material-ui/core/Chip';
 import Avatar from '@material-ui/core/Avatar';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import EventIcon from '@material-ui/icons/Event';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
@@ -18,9 +19,11 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBackIos';
 import ClearIcon from '@material-ui/icons/Clear';
 import ReplayIcon from '@material-ui/icons/Replay';
 import ReportIcon from '@material-ui/icons/Report';
+import EditIcon from '@material-ui/icons/Edit';
 
 import useQuery from '../../hooks/useQuery';
-import {FILTERS, getCategoryByPath} from '../../utils/filters';
+import {FILTERS, getCategoryByPath, createSearch} from '../../utils/filters';
+import pages from '../';
 import {FacebookButton} from '../../components';
 import UsersLikesModal from './components/UsersLikesModal';
 import LikeExplanationModal from './components/LikeExplanationModal';
@@ -166,7 +169,8 @@ const loadFacebookScript = (callback) => {
 const Post = () => {
   const history = useHistory();
   const query = useQuery();
-  const postRef = useFirestore().collection('posts').doc(query.get(FILTERS.ID));
+  const postId = query.get(FILTERS.ID);
+  const postRef = useFirestore().collection('posts').doc(postId);
   const {
     post,
     imageUrl,
@@ -317,15 +321,31 @@ const Post = () => {
                     >
                       Ver sumados {likes?.count}
                     </Button>
-                    <Button
-                      disableRipple
-                      variant="outlined"
-                      color={post.closed ? 'primary' : 'secondary'}
-                      onClick={handleChangePostStateClick}
-                      startIcon={post.closed ? <ReplayIcon /> : <ClearIcon />}
+                    <ButtonGroup
+                      color="primary"
+                      aria-label="outlined primary button group"
                     >
-                      {post.closed ? 'Reabrir' : 'Cerrar'} publicación
-                    </Button>
+                      <Button
+                        disableRipple
+                        onClick={handleChangePostStateClick}
+                        startIcon={post.closed ? <ReplayIcon /> : <ClearIcon />}
+                      >
+                        {post.closed ? 'Reabrir' : 'Cerrar'}
+                      </Button>
+                      <Button
+                        disableRipple
+                        onClick={() =>
+                          history.push(
+                            pages.PostEdit.path.concat(
+                              createSearch({[FILTERS.ID]: postId}),
+                            ),
+                          )
+                        }
+                        startIcon={<EditIcon />}
+                      >
+                        Editar
+                      </Button>
+                    </ButtonGroup>
                   </>
                 ) : (
                   <>

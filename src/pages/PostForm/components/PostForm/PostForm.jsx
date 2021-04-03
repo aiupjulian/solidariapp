@@ -1,11 +1,3 @@
-/* fields:
-  - categoria: 'salud' | 'donaciones' | 'desaparecidos' | 'mascotas'
-  - titulo: string(20)
-  - descripcion: string(300)
-  - ciudad: string(100)
-  - imagen?: file
-  - fecha?: date (dia o rango - si no pone fecha, hay que poner una igual de aca a dos meses)
-*/
 import React, {useEffect} from 'react';
 import styled from 'styled-components';
 
@@ -26,6 +18,8 @@ import SecondStep from '../Steps/SecondStep';
 import ThirdStep from '../Steps/ThirdStep';
 import LastStep from '../Steps/LastStep';
 import {useFormContext} from '../../utils/PostContext';
+import {FILTERS} from '../../../../utils/filters';
+import useQuery from '../../../../hooks/useQuery';
 
 const StyledStepper = styled(Stepper)`
   ${({theme}) => theme.breakpoints.down('sm')} {
@@ -50,7 +44,9 @@ const stepsContent = [
   {StepContent: LastStep, schema: {}},
 ];
 
-const PostForm = ({onSubmit}) => {
+const PostForm = ({onSubmit, postDefaultValues}) => {
+  const query = useQuery();
+  const postId = query.get(FILTERS.ID);
   const [activeStep, setActiveStep] = React.useState(0);
   const [formValues] = useFormContext();
 
@@ -66,7 +62,7 @@ const PostForm = ({onSubmit}) => {
   return (
     <>
       <Typography variant="h4" align="center">
-        Crear publicación
+        {postId ? 'Editar' : 'Crear'} publicación
       </Typography>
       <StyledStepper activeStep={activeStep} alternativeLabel>
         {steps.map((label) => {
@@ -87,6 +83,7 @@ const PostForm = ({onSubmit}) => {
               stepsLength={steps.length}
               stepIndex={index}
               schema={schema}
+              postDefaultValues={postDefaultValues}
             >
               <StepContent />
             </Step>
