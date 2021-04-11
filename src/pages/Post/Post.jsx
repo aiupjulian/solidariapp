@@ -194,6 +194,11 @@ const Post = () => {
     });
   }, []);
 
+  if (!post) {
+    history.push(pages.PostList.path);
+    return null;
+  }
+
   const handleUsersLikesModalOpen = () => {
     setShowUsersLikesModal(true);
   };
