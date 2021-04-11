@@ -22,7 +22,7 @@ const PostCreateContainer = () => {
   const posts = useFirestore().collection('posts');
   const storage = useStorage();
 
-  const createPost = ({image, ...postData}) => {
+  const createPost = ({image, defaultImageUrl, ...postData}) => {
     // if (data.dateInputType === 'singleDate') {
     //   data.date = data.date.format('DD/MM/YYYY');
     // }
