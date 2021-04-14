@@ -11,6 +11,7 @@ import {categories, FILTERS, orderBy} from '../../../utils/filters';
 import useQuery from '../../../hooks/useQuery';
 import pages from '../../';
 import CityInput from './CityInput';
+import KeywordInput from './KeywordInput';
 
 const Container = styled.div`
   width: 300px;
@@ -49,11 +50,18 @@ const Filters = () => {
     <Container>
       <FilterContainer>
         <Typography variant="h6" component="h3" gutterBottom>
+          Palabras clave
+        </Typography>
+        <KeywordInput />
+      </FilterContainer>
+      <FilterContainer>
+        <Typography variant="h6" component="h3" gutterBottom>
           Ordenar por
         </Typography>
         <Select
           value={selectedOrderBy}
           variant="outlined"
+          fullWidth
           onChange={(event) => {
             const value = event.target.value;
             const orderBySearch = `${value.by},${value.order}`;

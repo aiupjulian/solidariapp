@@ -5,6 +5,7 @@ export const FILTERS = {
   ID: 'id',
   ORDER_BY: 'ordenar_por',
   CITY: 'ciudad',
+  KEYWORDS: 'palabras',
 };
 
 export const createSearch = (filters) =>

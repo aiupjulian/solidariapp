@@ -58,6 +58,7 @@ const PostList = () => {
   const [by = orderBy[0].by, order = orderBy[0].order] =
     query.get(FILTERS.ORDER_BY)?.split(',') || [];
   const selectedCity = query.get(FILTERS.CITY);
+  const keywords = query.get(FILTERS.KEYWORDS);
   const [startAtPostSnapshot, setStartAtPostSnapshot] = useState();
   const [isNextPageLoading, setIsNextPageLoading] = useState(false);
   const postsRef = useFirestore().collection('posts');
@@ -73,7 +74,7 @@ const PostList = () => {
     setIsNextPageLoading(false);
     setAllPosts([]);
     setHasNextPage(true);
-  }, [selectedCategory, by, order, selectedCity]);
+  }, [selectedCategory, by, order, selectedCity, keywords]);
 
   useEffect(() => {
     if (
@@ -87,18 +88,28 @@ const PostList = () => {
         let posts = [];
         let postsSnapshot = postsRef;
         postsSnapshot = postsSnapshot.where('post.closed', '==', false);
-        if (selectedCategory)
+        if (selectedCategory) {
           postsSnapshot = postsSnapshot.where(
             'post.category',
             '==',
             selectedCategory,
           );
-        if (selectedCity)
+        }
+        if (selectedCity) {
           postsSnapshot = postsSnapshot.where(
             'post.city.objectID',
             '==',
             selectedCity,
           );
+        }
+        if (keywords) {
+          const keywordsArray = keywords.toLowerCase().split(' ');
+          postsSnapshot = postsSnapshot.where(
+            'post.keywords',
+            'array-contains-any',
+            keywordsArray,
+          );
+        }
         postsSnapshot = postsSnapshot.orderBy(by, order);
         if (startAtPostSnapshot)
           postsSnapshot = postsSnapshot.startAt(startAtPostSnapshot);
@@ -125,6 +136,7 @@ const PostList = () => {
     by,
     order,
     selectedCity,
+    keywords,
   ]);
 
   const createPostProps = useMemo(
